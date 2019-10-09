@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const chatMessageSchema = new Schema({
+const ChatMessageSchema = new Schema({
   content: {
     type: String,
     required: true,
@@ -12,4 +12,4 @@ const chatMessageSchema = new Schema({
   isMasked: Boolean
 });
 
-module.exports = mongoose.model("ChatMessage", chatMessageSchema);
+module.exports = mongoose.model("ChatMessage", ChatMessageSchema);

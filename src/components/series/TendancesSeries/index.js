@@ -39,10 +39,9 @@ function TendancesSeries() {
   async function loadTendancesSeries() {
     try {
       const dataTendancesSeries = await axios.get(tendancesSeriesUrl);
-      console.log("data ", dataTendancesSeries);
+      console.log("tendancesFilms ", dataTendancesSeries);
       setTendancesSeries(dataTendancesSeries.data.results);
       setTotalPages(dataTendancesSeries.data.total_pages);
-      console.log("tendancesFilms ", dataTendancesSeries);
       setPending(false);
       forceUpdate();
     } catch (error) {

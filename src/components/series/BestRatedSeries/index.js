@@ -41,10 +41,9 @@ function BestRatedSeries() {
   async function loadBestRatedSeries() {
     try {
       const dataBestRatedSeries = await axios.get(bestRatedSeriesUrl);
-      console.log("data ", dataBestRatedSeries);
+      console.log("bestRatedSeries ", dataBestRatedSeries);
       setBestRatedSeries(dataBestRatedSeries.data.results);
       setTotalPages(dataBestRatedSeries.data.total_pages);
-      console.log("bestRatedSeries ", bestRatedSeries);
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -55,9 +54,8 @@ function BestRatedSeries() {
   async function loadAllGenres() {
     try {
       const dataAllGenres = await axios.get(allGenresUrl);
-      console.log("data ", dataAllGenres);
+      console.log("allgenres ", dataAllGenres);
       setAllGenres(dataAllGenres.data.genres);
-      console.log("allgenres ", allGenres);
       setPending(false);
       forceUpdate();
     } catch (error) {

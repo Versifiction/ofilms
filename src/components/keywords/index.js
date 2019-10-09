@@ -87,8 +87,8 @@ function Keyword({ match }) {
             keyword &&
             keyword.map((film, index) => (
               <Link
-                href={`/movie/${film.id}`}
-                to={`/movie/${film.id}`}
+                href={`/film/${film.id}`}
+                to={`/dilm/${film.id}`}
                 key={film.id}
                 style={{
                   textDecoration: "none",

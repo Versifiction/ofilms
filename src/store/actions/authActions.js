@@ -9,16 +9,13 @@ export const registerUser = (userData, history) => dispatch => {
   axios
     .post("http://localhost:5000/api/users/register", userData)
     .then(res => history.push("/"))
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+    .catch(err => {
+      console.log("err ", err);
+    });
 };
 
 // Login - get user token
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData, history) => dispatch => {
   axios
     .post("http://localhost:5000/api/users/login", userData)
     .then(res => {
@@ -33,13 +30,11 @@ export const loginUser = userData => dispatch => {
       const decoded = jwt_decode(token);
       // Set current user
       dispatch(setCurrentUser(decoded));
+      history.push("/");
     })
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+    .catch(err => {
+      console.log("err ", err);
+    });
 };
 
 // Set logged in user

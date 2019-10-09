@@ -2,41 +2,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// const UserSchema = new Schema({
-//   email: {
-//     type: String,
-//     lowercase: true,
-//     trim: true,
-//     unique: true,
-//     required: true
-//   },
-//   password: {
-//     type: String,
-//     required: true,
-//     trim: true
-//   },
-//   username: {
-//     type: String,
-//     unique: true,
-//     required: true,
-//     trim: true
-//   },
-//   fistname: String,
-//   lastname: String,
-//   sexe: String,
-//   mobilePhone: Number,
-//   postalCode: Number,
-//   city: String,
-//   creationDate: {
-//     type: Date,
-//     default: Date.now
-//   },
-//   lastConnection: Date,
-//   isAdmin: Boolean,
-//   isModerator: Boolean,
-//   isConnected: Boolean
-// });
-
 const UserSchema = new Schema({
   username: {
     type: String,
@@ -57,6 +22,9 @@ const UserSchema = new Schema({
   mobilePhone: Number,
   departement: Number,
   city: String,
+  likes: Array,
+  dislikes: Array,
+  lists: Array,
   creationDate: {
     type: Date,
     default: Date.now

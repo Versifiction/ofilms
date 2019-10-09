@@ -11,7 +11,7 @@ const mongo = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
 const url = "mongodb://localhost:27017/";
 
-let User = require("../../models/user");
+let User = require("../../models/User");
 
 router.get("/getAll", function(req, res) {
   mongo.connect(
@@ -94,7 +94,13 @@ router.post("/register", (req, res) => {
           mobilePhone: req.body.mobilePhone,
           departement: req.body.departement,
           city: req.body.city,
-          password: req.body.password
+          password: req.body.password,
+          isAdmin: false,
+          isModerator: false,
+          isConnected: false,
+          isVerified: false,
+          creationDate: new Date(),
+          lastConnection: ""
         });
 
         // Hash password before saving in database

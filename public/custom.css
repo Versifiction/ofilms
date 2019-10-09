@@ -1,3 +1,9 @@
+body {
+  font-family: "Josefin Sans", sans-serif;
+  background-color: #232d32;
+  background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
+}
+
 .select-wrapper.disabled + label,
 .select-wrapper input.select-dropdown:disabled {
   color: #95878b;
@@ -63,4 +69,116 @@ input[type="submit"] {
 
 .switch label input[type="checkbox"]:checked + .lever:after {
   background-color: #0cd0fc;
+}
+
+.chat {
+  position: fixed;
+  background-color: #232d32;
+  right: 10px;
+  bottom: 10px;
+  width: 350px;
+  height: 500px;
+  z-index: 1;
+  font-size: 12px;
+  line-height: 22px;
+  font-family: "Roboto";
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  opacity: 1;
+  box-shadow: 1px 1px 100px 2px rgba(0, 0, 0, 0.22);
+  -webkit-transition: all 0.2s ease-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.chat-container {
+  padding: 20px 20px 0 20px;
+  height: 100%;
+}
+
+.chat input[type="text"]:not(.browser-default),
+.chat input[type="text"]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: none;
+}
+
+.chat-elements {
+  position: relative;
+  height: 100%;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chat-title {
+  padding-bottom: 10px;
+}
+
+.chat-content {
+  overflow-x: hidden;
+  height: 340px;
+  overflow-y: scroll;
+}
+
+.chat-content .messages {
+  margin: 10px 0;
+}
+
+.chat-input {
+  position: absolute;
+  bottom: 0;
+  width: 310px;
+  border-top: 1px solid white;
+  padding: 6px 0;
+}
+
+.chat-input form {
+  display: flex;
+  align-items: center;
+}
+
+.messages .message {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 0.5px solid #95878b;
+}
+
+.messages .message p {
+  color: white;
+}
+
+.messages .message span {
+  color: #95878b;
+}
+
+.accueil-intro {
+  background-color: #0cd0fc;
+  color: white;
+  text-align: center;
+  padding: 80px;
+}
+
+.accueil-intro h3,
+.accueil-actions h3 {
+  font-size: 60px;
+  margin-bottom: 50px !important;
+}
+
+.accueil-intro p,
+.accueil-actions p {
+  color: inherit;
+  font-size: 20px;
+}
+
+.parallax {
+  color: white;
+}
+
+.accueil-actions {
+  background-color: #232d32;
+  color: white;
+  text-align: center;
+  padding: 80px;
 }

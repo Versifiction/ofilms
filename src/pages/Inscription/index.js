@@ -55,7 +55,11 @@ function Inscription(props) {
 
   useEffect(() => {
     loadCities();
-  }, [fields.departement]);
+  }, []);
+
+  useEffect(() => {
+    loadDepartements();
+  }, []);
 
   useEffect(() => {
     if (props.errors) {
@@ -71,9 +75,8 @@ function Inscription(props) {
   async function loadCities() {
     try {
       const dataCities = await axios.get(citiesUrl);
-      console.log("data ", dataCities.data);
+      console.log("citiesList ", dataCities.data);
       setCitiesList(dataCities.data);
-      console.log("citiesList ", citiesList);
       forceUpdate();
     } catch (error) {
       console.error(error);
@@ -83,9 +86,8 @@ function Inscription(props) {
   async function loadDepartements() {
     try {
       const dataDepartements = await axios.get(departementsUrl);
-      console.log("data ", dataDepartements.data);
+      console.log("departementsList ", dataDepartements.data);
       setDepartementsList(dataDepartements.data);
-      console.log("departementsList ", departementsList);
       forceUpdate();
     } catch (error) {
       console.error(error);
@@ -137,7 +139,7 @@ function Inscription(props) {
         <div className="row">
           <form
             className="col s12"
-            autocomplete="off"
+            autoComplete="off"
             onSubmit={register}
             method="post"
           >

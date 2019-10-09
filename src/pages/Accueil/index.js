@@ -5,6 +5,9 @@ import "../../App.css";
 import Nav from "../../components/Nav";
 import HeaderBanner from "../../components/HeaderBanner";
 import FloatingChat from "../../components/FloatingChat";
+import AccueilIntro from "../../components/AccueilIntro";
+import AccueilParallax from "../../components/AccueilParallax";
+import AccueilActions from "../../components/AccueilActions";
 
 function Accueil() {
   useEffect(() => {
@@ -16,6 +19,9 @@ function Accueil() {
       <Nav />
       <HeaderBanner />
       <FloatingChat />
+      <AccueilIntro />
+      <AccueilParallax />
+      <AccueilActions />
     </div>
   );
 }

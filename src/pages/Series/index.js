@@ -20,6 +20,7 @@ function Series() {
 
   useEffect(() => {
     document.title = "O'Films | Séries";
+    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     loadTendancesSeries();
     loadBestRatedSeries();
   }, []);

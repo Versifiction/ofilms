@@ -43,9 +43,8 @@ function AfficheFilms() {
   async function loadAfficheFilms() {
     try {
       const dataAfficheFilms = await axios.get(afficheFilmsUrl);
-      console.log("data ", dataAfficheFilms);
+      console.log("afficheFilms ", dataAfficheFilms);
       setAfficheFilms(dataAfficheFilms.data.results);
-      console.log("afficheFilms ", afficheFilms);
       setTotalPages(dataAfficheFilms.data.total_pages);
       setPending(false);
       forceUpdate();
@@ -88,8 +87,8 @@ function AfficheFilms() {
             afficheFilms &&
             afficheFilms.map((film, index) => (
               <Link
-                href={`/movie/${film.id}`}
-                to={`/movie/${film.id}`}
+                href={`/film/${film.id}`}
+                to={`/film/${film.id}`}
                 key={film.id}
                 style={{
                   textDecoration: "none",

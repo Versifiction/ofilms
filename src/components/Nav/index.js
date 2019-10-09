@@ -22,7 +22,7 @@ function Nav(props) {
 
   useEffect(() => {
     const elementPosition = $(".navbar").offset();
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
+    // document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     M.AutoInit();
 
     //   $(window).scroll(function() {
@@ -107,7 +107,7 @@ function Nav(props) {
                       className="browser-default search-field"
                       name="q"
                       value={searchInputValue}
-                      autocomplete="off"
+                      autoComplete="off"
                       aria-label="Search box"
                       style={{
                         borderBottom: searchActive ? "2px solid #0cd0fc" : "",
@@ -269,7 +269,7 @@ function Nav(props) {
                       <a
                         className="waves-effect waves-light tooltipped"
                         data-position="bottom"
-                        data-tooltip="Se déconnecter"
+                        data-tooltip="Me déconnecter"
                         href="/"
                         onClick={logout}
                       >
@@ -447,6 +447,7 @@ const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors
 });
+
 export default connect(
   mapStateToProps,
   { logoutUser }

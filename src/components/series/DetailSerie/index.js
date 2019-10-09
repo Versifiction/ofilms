@@ -77,7 +77,7 @@ function DetailSerie({ match }) {
   async function loadSimilarSeries() {
     try {
       const dataSimilarSeries = await axios.get(similarSeriesUrl);
-      console.log("similarSeriess ", dataSimilarSeries);
+      console.log("similarSeries ", dataSimilarSeries);
       setSimilarSeries(dataSimilarSeries.data.results);
       setPending(false);
       document.getElementsByClassName("sc-bdVaJa")[0].style.width = "100%";

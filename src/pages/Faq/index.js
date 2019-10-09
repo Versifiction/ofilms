@@ -74,6 +74,27 @@ function Faq() {
               </span>
             </div>
           </li>
+          <li>
+            <div className="collapsible-header">
+              <i className="material-icons colored">question_answer</i>Pourquoi
+              un des messages que j'ai écrit dans le chat a été masqué ?
+            </div>
+            <div className="collapsible-body">
+              <span>
+                Tout message ne respectant pas les règles élémentaires de
+                savoir-vivre peut se voir masqué.
+              </span>
+            </div>
+          </li>
+          <li>
+            <div className="collapsible-header">
+              <i className="material-icons colored">question_answer</i>Comment
+              puis-je devenir modérateur ou administrateur ?
+            </div>
+            <div className="collapsible-body">
+              <span>Pour le moment, aucun recrutement n'est prévu.</span>
+            </div>
+          </li>
         </ul>
       </div>
     </>

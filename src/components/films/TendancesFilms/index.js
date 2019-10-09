@@ -44,10 +44,9 @@ function TendancesFilms() {
   async function loadTendancesFilms() {
     try {
       const dataTendancesFilms = await axios.get(tendancesFilmsUrl);
-      console.log("data ", dataTendancesFilms);
+      console.log("tendancesFilms ", dataTendancesFilms);
       setTendancesFilms(dataTendancesFilms.data.results);
       setTotalPages(dataTendancesFilms.data.total_pages);
-      console.log("tendancesFilms ", dataTendancesFilms);
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -58,9 +57,8 @@ function TendancesFilms() {
   async function loadAllGenres() {
     try {
       const dataAllGenres = await axios.get(allGenresUrl);
-      console.log("data ", dataAllGenres);
+      console.log("allgenres ", dataAllGenres);
       setAllGenres(dataAllGenres.data.genres);
-      console.log("allgenres ", allGenres);
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -91,8 +89,8 @@ function TendancesFilms() {
             tendancesFilms &&
             tendancesFilms.map((film, index) => (
               <Link
-                href={`/movie/${film.id}`}
-                to={`/movie/${film.id}`}
+                href={`/film/${film.id}`}
+                to={`/film/${film.id}`}
                 key={film.id}
                 style={{
                   textDecoration: "none",

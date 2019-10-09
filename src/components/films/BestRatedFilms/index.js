@@ -43,10 +43,9 @@ function BestRatedFilms() {
   async function loadBestRatedFilms() {
     try {
       const dataBestRatedFilms = await axios.get(bestRatedFilmsUrl);
-      console.log("data ", dataBestRatedFilms);
+      console.log("bestRatedFilms ", dataBestRatedFilms);
       setBestRatedFilms(dataBestRatedFilms.data.results);
       setTotalPages(dataBestRatedFilms.data.total_pages);
-      console.log("bestRatedFilms ", bestRatedFilms);
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -57,9 +56,8 @@ function BestRatedFilms() {
   async function loadAllGenres() {
     try {
       const dataAllGenres = await axios.get(allGenresUrl);
-      console.log("data ", dataAllGenres);
+      console.log("allGenres ", dataAllGenres);
       setAllGenres(dataAllGenres.data.genres);
-      console.log("allgenres ", allGenres);
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -90,8 +88,8 @@ function BestRatedFilms() {
             bestRatedFilms &&
             bestRatedFilms.map((film, index) => (
               <Link
-                href={`/movie/${film.id}`}
-                to={`/movie/${film.id}`}
+                href={`/film/${film.id}`}
+                to={`/film/${film.id}`}
                 key={film.id}
                 style={{
                   textDecoration: "none",

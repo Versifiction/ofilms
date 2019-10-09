@@ -268,8 +268,8 @@ function DetailPerson({ match }) {
                               castCreditsPerson.map(credit => (
                                 <div key={credit.id} className="card">
                                   <Link
-                                    href={`/movie/${credit.id}`}
-                                    to={`/movie/${credit.id}`}
+                                    href={`/film/${credit.id}`}
+                                    to={`/film/${credit.id}`}
                                   >
                                     <img
                                       src={
@@ -303,8 +303,8 @@ function DetailPerson({ match }) {
                               crewCreditsPerson.map(crew => (
                                 <div key={crew.id} className="card">
                                   <Link
-                                    href={`/movie/${crew.id}`}
-                                    to={`/movie/${crew.id}`}
+                                    href={`/film/${crew.id}`}
+                                    to={`/film/${crew.id}`}
                                   >
                                     <img
                                       src={

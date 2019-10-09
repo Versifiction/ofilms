@@ -21,6 +21,7 @@ function Films() {
 
   useEffect(() => {
     document.title = "O'Films | Films";
+    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     loadAfficheFilms();
     loadTendancesFilms();
     loadBestRatedFilms();
@@ -88,8 +89,8 @@ function Films() {
                 {afficheFilms &&
                   afficheFilms.map((film, index) => (
                     <Link
-                      href={`/movie/${film.id}`}
-                      to={`/movie/${film.id}`}
+                      href={`/film/${film.id}`}
+                      to={`/film/${film.id}`}
                       key={film.id}
                       className={`text-decoration-none card ${
                         index !== 0 ? "film-types-container" : ""
@@ -129,8 +130,8 @@ function Films() {
                 {tendancesFilms &&
                   tendancesFilms.map((film, index) => (
                     <Link
-                      href={`/movie/${film.id}`}
-                      to={`/movie/${film.id}`}
+                      href={`/film/${film.id}`}
+                      to={`/film/${film.id}`}
                       key={film.id}
                       className={`text-decoration-none card ${
                         index !== 0 ? "film-types-container" : ""
@@ -172,8 +173,8 @@ function Films() {
                 {bestRatedFilms &&
                   bestRatedFilms.map((film, index) => (
                     <Link
-                      href={`/movie/${film.id}`}
-                      to={`/movie/${film.id}`}
+                      href={`/film/${film.id}`}
+                      to={`/film/${film.id}`}
                       key={film.id}
                       className={`text-decoration-none card ${
                         index !== 0 ? "film-types-container" : ""

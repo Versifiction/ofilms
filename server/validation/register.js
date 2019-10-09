@@ -15,6 +15,7 @@ module.exports = function validateRegisterInput(data) {
   data.departement = !isEmpty(data.departement) ? data.departement : "";
   data.isAdmin = !isEmpty(data.isAdmin) ? data.isAdmin : "";
   data.isModerator = !isEmpty(data.isModerator) ? data.isModerator : "";
+  data.isVerified = !isEmpty(data.isVerified) ? data.isVerified : "";
   data.isConnected = !isEmpty(data.isConnected) ? data.isConnected : "";
   data.creationDate = !isEmpty(data.creationDate) ? data.creationDate : "";
   data.lastConnection = !isEmpty(data.lastConnection)

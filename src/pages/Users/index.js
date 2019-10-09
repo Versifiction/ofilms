@@ -15,6 +15,7 @@ function Users() {
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
+    document.title = "O'Films | Utilisateurs";
     loadAllUsers();
     M.AutoInit();
   }, []);
