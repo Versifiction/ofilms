@@ -15,6 +15,10 @@ Seules quelques pages concernant les films et les séries sont intégrées.
 Liste des URLS terminées :
 
 - /
+- /connexion
+- /inscription
+- /mon-compte
+- /users
 - /films
 - /film/:id
 - /film/affiche
@@ -27,10 +31,10 @@ Liste des URLS terminées :
 - /person/:id
 - /keyword/:id
 - /company/:id
-
-Commencées :
-
-- /connexion
-- /inscription
+- /mentions-legales
+- /faq
+- /chat
+- /a-propos
+- /contact
 
 Bonne navigation !
