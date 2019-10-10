@@ -3,14 +3,11 @@ import useForceUpdate from "use-force-update";
 import axios from "axios";
 import classnames from "classnames";
 import M from "materialize-css";
-import { connect } from "react-redux";
-import { logoutUser } from "../../store/actions/authActions";
 
 import "../../App.css";
 import Nav from "../../components/Nav";
-import MustBeConnected from "../../components/Molecules/MustBeConnected";
 
-function MonCompte(props) {
+function User({ match }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [pending, setPending] = useState(false);
   const [editable, setEditable] = useState(false);
@@ -29,11 +26,14 @@ function MonCompte(props) {
     departement: "",
     city: "",
     creationDate: null,
+    lastConnection: "",
+    isVerified: "",
+    isModerator: "",
+    isAdmin: "",
     errors: {}
   });
 
   useEffect(() => {
-    document.title = "O'Films | Mon compte";
     M.AutoInit();
     loadUser();
   }, []);
@@ -41,7 +41,7 @@ function MonCompte(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+        `http://localhost:5000/api/users/user/${match.params.username}`
       );
       console.log("data ", dataUser);
       setUser(dataUser.data);
@@ -56,6 +56,7 @@ function MonCompte(props) {
       fields.departement = user.departement;
       fields.creationDate = user.creationDate;
       fields.lastConnection = user.lastConnection;
+      document.title = `O'Films | ${dataUser.data[0].username}`;
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -65,26 +66,17 @@ function MonCompte(props) {
 
   function handleChange(e) {}
 
-  function validateChanges() {
-    setEditable(false);
-    M.toast({ html: "Vos changements ont bien été effectués" });
-  }
-
-  function cancelChanges() {
-    setEditable(false);
-  }
-
   function update() {}
 
   return (
     <>
       <Nav />
       <div className="container">
-        <h2 className="media-type">Mon compte</h2>
-        <h4 style={{ color: "white" }}>Informations du profil</h4>
         {user &&
           user.map(data => (
             <>
+              <h2 className="media-type">{data.username}</h2>
+              <h4 style={{ color: "white" }}>Informations du profil</h4>
               <div className="row">
                 <form
                   className="col s12"
@@ -137,37 +129,6 @@ function MonCompte(props) {
                         {fields.errors.username}
                       </span>
                     </div>
-                  </div>
-                  <div className="row center" style={{ marginTop: "40px" }}>
-                    {!editable ? (
-                      <button
-                        className="btn-large waves-effect waves-light"
-                        onClick={() => {
-                          setEditable(true);
-                        }}
-                      >
-                        Modifier mes informations
-                        <i className="material-icons right">edit</i>
-                      </button>
-                    ) : (
-                      <>
-                        <input
-                          type="submit"
-                          value="Valider"
-                          onClick={validateChanges}
-                          style={{ zIndex: "-1", cursor: "pointer" }}
-                        />
-                        <input
-                          type="submit"
-                          value="Annuler"
-                          style={{
-                            zIndex: "-1",
-                            cursor: "pointer",
-                            marginLeft: "10px"
-                          }}
-                        />
-                      </>
-                    )}
                   </div>
                 </form>
               </div>
@@ -226,37 +187,6 @@ function MonCompte(props) {
                 </span>
               </div>
             </div>
-            <div className="row center" style={{ marginTop: "40px" }}>
-              {!editable ? (
-                <button
-                  className="btn-large waves-effect waves-light"
-                  onClick={() => {
-                    setEditable(true);
-                  }}
-                >
-                  Modifier mes informations
-                  <i className="material-icons right">edit</i>
-                </button>
-              ) : (
-                <>
-                  <input
-                    type="submit"
-                    value="Valider"
-                    onClick={validateChanges}
-                    style={{ zIndex: "-1", cursor: "pointer" }}
-                  />
-                  <input
-                    type="submit"
-                    value="Annuler"
-                    style={{
-                      zIndex: "-1",
-                      cursor: "pointer",
-                      marginLeft: "10px"
-                    }}
-                  />
-                </>
-              )}
-            </div>
           </form>
         </div>
       </div>
@@ -264,10 +194,4 @@ function MonCompte(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth
-});
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(MonCompte);
+export default User;

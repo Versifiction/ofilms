@@ -35,7 +35,7 @@ router.get("/getAll", function(req, res) {
   );
 });
 
-router.get("/user/:id", function(req, res) {
+router.get("/my-account/:id", function(req, res) {
   mongo.connect(
     url,
     {
@@ -52,6 +52,29 @@ router.get("/user/:id", function(req, res) {
       const id = req.params.id;
       const o_id = new ObjectId(id);
       collection.find({ _id: o_id }).toArray((err, items) => {
+        res.json(items);
+      });
+      client.close();
+    }
+  );
+});
+
+router.get("/user/:username", function(req, res) {
+  mongo.connect(
+    url,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    (err, client) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const db = client.db("ofilms-demo");
+      const collection = db.collection("users");
+      const username = req.params.username;
+      collection.find({ username: username }).toArray((err, items) => {
         res.json(items);
       });
       client.close();
@@ -147,22 +170,18 @@ router.post("/login", (req, res) => {
       errors.email = "L'adresse email existe déjà";
     }
 
-    // Check password
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        // User matched
-        // Create JWT Payload
         const payload = {
           id: user.id,
           name: user.name
         };
 
-        // Sign token
         jwt.sign(
           payload,
           keys.secretOrKey,
           {
-            expiresIn: 31556926 // 1 year in seconds
+            expiresIn: 7200
           },
           (err, token) => {
             res.json({

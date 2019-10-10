@@ -4,10 +4,11 @@ import "../../App.css";
 
 import Nav from "../../components/Nav";
 import HeaderBanner from "../../components/HeaderBanner";
-import FloatingChat from "../../components/FloatingChat";
 import AccueilIntro from "../../components/AccueilIntro";
 import AccueilParallax from "../../components/AccueilParallax";
 import AccueilActions from "../../components/AccueilActions";
+import FloatingChat from "../../components/FloatingChat";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function Accueil() {
   useEffect(() => {
@@ -18,10 +19,11 @@ function Accueil() {
     <div className="App">
       <Nav />
       <HeaderBanner />
-      <FloatingChat />
       <AccueilIntro />
       <AccueilParallax />
       <AccueilActions />
+      <FloatingChat />
+      <BandeauCookie />
     </div>
   );
 }

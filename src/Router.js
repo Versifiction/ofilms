@@ -27,26 +27,21 @@ import Apropos from "./pages/Apropos";
 import Faq from "./pages/Faq";
 import Contact from "./pages/Contact";
 import MentionsLegales from "./pages/MentionsLegales";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Users from "./pages/Users";
+import User from "./pages/User";
 import MonCompte from "./pages/MonCompte";
 import PrivateRoute from "./components/PrivateRoute";
 import Erreur from "./pages/Erreur";
 
-// Check for token to keep user logged in
 if (localStorage.jwtToken) {
-  // Set auth token header auth
   const token = localStorage.jwtToken;
   setAuthToken(token);
-  // Decode token and get user info and exp
   const decoded = jwt_decode(token);
-  // Set user and isAuthenticated
   store.dispatch(setCurrentUser(decoded));
-  // Check for expired token
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
-    // Logout user
     store.dispatch(logoutUser());
-    // Redirect to login
     window.location.href = "./login";
   }
 }
@@ -75,7 +70,13 @@ function Router() {
       <Route path="/faq" exact component={Faq} />
       <Route path="/contact" exact component={Contact} />
       <Route path="/mentions-legales" exact component={MentionsLegales} />
+      <Route
+        path="/politique-confidentialite"
+        exact
+        component={PolitiqueConfidentialite}
+      />
       <Route path="/users" exact component={Users} />
+      <Route path="/user/:username" exact component={User} />
       <PrivateRoute path="/mon-compte" exact component={MonCompte} />
       <Route component={Erreur} />
     </Switch>

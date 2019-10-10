@@ -36,7 +36,7 @@ function FloatingChat(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/user/${props.auth.user.id}`
+        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
       );
       console.log("user ", dataUser);
       setUsername(dataUser.data[0].username);
@@ -85,16 +85,15 @@ function FloatingChat(props) {
   async function sendMessage(e) {
     e.preventDefault();
     console.log("le message a été envoyé");
-    const userData = {
-      writer: username,
-      content: inputValue
-    };
 
     socket.emit("chat message", {
       writer: username,
       content: inputValue,
       date: new Date(),
-      isMasked: false
+      isMasked: false,
+      isVerified: isVerified,
+      isModerator: isModerator,
+      isAdmin: isAdmin
     });
 
     setInputValue("");
@@ -152,9 +151,9 @@ function FloatingChat(props) {
                       >
                         <p style={{ paddingRight: "30px" }}>
                           <IconsUserChat
-                            isVerified={isVerified}
-                            isModerator={isModerator}
-                            isAdmin={isAdmin}
+                            isVerified={message.isVerified}
+                            isModerator={message.isModerator}
+                            isAdmin={message.isAdmin}
                           />
                           <span>{message.writer}</span>: {message.content}
                         </p>
