@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "../../App.css";
 
 import Nav from "../../components/Nav";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function Faq() {
   useEffect(() => {
@@ -97,6 +98,7 @@ function Faq() {
           </li>
         </ul>
       </div>
+      <BandeauCookie />
     </>
   );
 }

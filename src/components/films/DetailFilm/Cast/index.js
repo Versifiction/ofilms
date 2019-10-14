@@ -21,6 +21,7 @@ function Cast({ castFilm }) {
                     }
                     className="card-img-top"
                     alt={cast.name}
+                    style={{ width: "100%" }}
                   />
                 </Link>
                 <br />

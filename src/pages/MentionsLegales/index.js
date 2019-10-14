@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import "../../App.css";
 
 import Nav from "../../components/Nav";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function MentionsLegales() {
   useEffect(() => {
     document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
+    document.title = "O'Films | Mentions légales";
   }, []);
   return (
     <>
@@ -224,6 +226,7 @@ function MentionsLegales() {
           relative à la protection juridique des bases de données.
         </p>
       </div>
+      <BandeauCookie />
     </>
   );
 }

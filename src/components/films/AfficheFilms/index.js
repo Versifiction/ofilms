@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import StarRatingComponent from "react-star-rating-component";
 import moment from "moment";
 import useForceUpdate from "use-force-update";
+import ReactPaginate from "react-paginate";
+import $ from "jquery";
 
-//import { genres } from '../../utils/genres';
 import Nav from "../../Nav";
 import Spinner from "../../Molecules/Spinner";
-import Pagination from "../../Molecules/Pagination";
 
 function AfficheFilms() {
   const [afficheFilms, setAfficheFilms] = useState(false);
@@ -21,14 +21,6 @@ function AfficheFilms() {
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
 
-  const goToPage = val => setActivePage(val);
-  const getFirst = () => setActivePage(1);
-  const getPrevious = () =>
-    activePage > 1 ? setActivePage(activePage - 1) : "";
-  const getNext = () =>
-    activePage < totalPages ? setActivePage(activePage + 1) : "";
-  const getLast = () => setActivePage(totalPages);
-
   useEffect(() => {
     document.title = `O'Films | Les films à l'affiche`;
     loadAfficheFilms();
@@ -40,10 +32,15 @@ function AfficheFilms() {
     };
   }, [activePage]);
 
+  useEffect(() => {
+    console.log("allGenres ", allGenres);
+  }, [allGenres]);
+
   async function loadAfficheFilms() {
     try {
       const dataAfficheFilms = await axios.get(afficheFilmsUrl);
-      console.log("afficheFilms ", dataAfficheFilms);
+      // console.log("afficheFilms ", dataAfficheFilms);
+      console.log("afficheFilmsUrl ", afficheFilmsUrl);
       setAfficheFilms(dataAfficheFilms.data.results);
       setTotalPages(dataAfficheFilms.data.total_pages);
       setPending(false);
@@ -56,14 +53,20 @@ function AfficheFilms() {
   async function loadAllGenres() {
     try {
       const dataAllGenres = await axios.get(allGenresUrl);
-      console.log("data ", dataAllGenres);
+      console.log("allGenres ", dataAllGenres.data.genres);
       setAllGenres(dataAllGenres.data.genres);
-      console.log("allgenres ", allGenres);
       setPending(false);
       forceUpdate();
     } catch (error) {
       console.error(error);
     }
+  }
+
+  function handlePageChange() {
+    setInterval(() => {
+      setActivePage($("li.active").text());
+      forceUpdate();
+    }, 100);
   }
 
   return (
@@ -184,16 +187,22 @@ function AfficheFilms() {
           )}
         </div>
       </div>
-      <div className="container">
-        <Pagination
-          getFirst={getFirst}
-          getPrevious={getPrevious}
-          getNext={getNext}
-          getLast={getLast}
-          goToPage={goToPage}
-          activePage={activePage}
-          setActivePage={setActivePage}
-          total={totalPages}
+      <div
+        className="container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <ReactPaginate
+          previousLabel={<i className="material-icons">chevron_left</i>}
+          nextLabel={<i className="material-icons">chevron_right</i>}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
         />
       </div>
     </>

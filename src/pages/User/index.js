@@ -6,6 +6,7 @@ import M from "materialize-css";
 
 import "../../App.css";
 import Nav from "../../components/Nav";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function User({ match }) {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -190,6 +191,7 @@ function User({ match }) {
           </form>
         </div>
       </div>
+      <BandeauCookie />
     </>
   );
 }

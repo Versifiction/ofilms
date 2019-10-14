@@ -15,8 +15,10 @@ function Keyword({ match }) {
   const [keywordName, setKeywordName] = useState(false);
   const [pending, setPending] = useState(true);
   const [activePage, setActivePage] = useState(1);
+  const [allGenres, setAllGenres] = useState(false);
   const keywordUrl = `https://api.themoviedb.org/3/keyword/${match.params.id}/movies?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=${activePage}`;
   const keywordNameUrl = `https://api.themoviedb.org/3/keyword/${match.params.id}?api_key=${process.env.REACT_APP_API_KEY}`;
+  const allGenresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const forceUpdate = useForceUpdate();
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
@@ -32,6 +34,7 @@ function Keyword({ match }) {
   useEffect(() => {
     loadKeyword();
     loadKeywordName();
+    loadAllGenres();
 
     return () => {
       document.body.style.backgroundImage = `url("https://www.transparenttextures.com/patterns/black-linen.png")`;
@@ -44,6 +47,19 @@ function Keyword({ match }) {
       console.log("keyword ", dataKeyword);
       setKeyword(dataKeyword.data.results);
       setTotalPages(dataKeyword.data.total_pages);
+      setPending(false);
+      forceUpdate();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadAllGenres() {
+    try {
+      const dataAllGenres = await axios.get(allGenresUrl);
+      console.log("data ", dataAllGenres);
+      setAllGenres(dataAllGenres.data.genres);
+      console.log("allgenres ", allGenres);
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -88,13 +104,13 @@ function Keyword({ match }) {
             keyword.map((film, index) => (
               <Link
                 href={`/film/${film.id}`}
-                to={`/dilm/${film.id}`}
+                to={`/film/${film.id}`}
                 key={film.id}
                 style={{
                   textDecoration: "none",
                   width: "50%",
                   padding: "10px",
-                  height: "375px"
+                  height: "300px"
                 }}
               >
                 <div
@@ -147,7 +163,19 @@ function Keyword({ match }) {
                         <span
                           style={{ color: "#95878b", fontWeight: "initial" }}
                         >
-                          &nbsp;{film && film.genre_ids}
+                          &nbsp;
+                          {film &&
+                            film.genre_ids.map(genre => (
+                              <p
+                                style={{
+                                  display: "inline-block",
+                                  marginRight: "4px"
+                                }}
+                              >
+                                {allGenres &&
+                                  allGenres.find(g => g.id === genre).name}
+                              </p>
+                            ))}
                         </span>
                       </span>
                       <p className="card-text">

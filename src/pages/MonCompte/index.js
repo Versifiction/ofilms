@@ -8,7 +8,7 @@ import { logoutUser } from "../../store/actions/authActions";
 
 import "../../App.css";
 import Nav from "../../components/Nav";
-import MustBeConnected from "../../components/Molecules/MustBeConnected";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function MonCompte(props) {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -260,6 +260,7 @@ function MonCompte(props) {
           </form>
         </div>
       </div>
+      <BandeauCookie />
     </>
   );
 }

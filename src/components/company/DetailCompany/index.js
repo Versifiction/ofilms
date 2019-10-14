@@ -84,7 +84,7 @@ function DetailCompany({ match }) {
   return (
     <>
       <Nav />
-      <div className="container content">
+      <div className="container">
         {pending ? (
           <Spinner />
         ) : (
@@ -93,13 +93,15 @@ function DetailCompany({ match }) {
             key={companyDetail && companyDetail.id}
           >
             <div className="col s12 detail-film-poster">
-              <img
-                src={`http://image.tmdb.org/t/p/w500${companyDetail &&
-                  companyDetail.logo_path}`}
-                style={{ padding: "10px" }}
-                className="card-img-top"
-                alt={`Poster de ${companyDetail && companyDetail.name}`}
-              />
+              {companyDetail && companyDetail.logo_path && (
+                <img
+                  src={`http://image.tmdb.org/t/p/w500${companyDetail &&
+                    companyDetail.logo_path}`}
+                  style={{ padding: "10px" }}
+                  className="card-img-top"
+                  alt={`Poster de ${companyDetail && companyDetail.name}`}
+                />
+              )}
               <h2>{companyDetail && companyDetail.name}</h2>
               {companyDetail && companyDetail.origin_country && (
                 <p className="film-detail film-detail-duree">

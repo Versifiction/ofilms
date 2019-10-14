@@ -8,7 +8,10 @@ import Router from "./Router";
 
 function App() {
   useEffect(() => {
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
+    const sidenav = document.getElementsByClassName("sidenav-overlay")[0];
+    if (sidenav) {
+      document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
+    }
   }, []);
   return (
     <Provider store={store}>

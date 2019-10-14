@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import useForceUpdate from "use-force-update";
 import StarRatingComponent from "react-star-rating-component";
 import Flag from "react-world-flags";
+import M from "materialize-css";
 import $ from "jquery";
 import moment from "moment";
 
@@ -15,7 +16,7 @@ import Crew from "./Crew";
 import BandesAnnonces from "./BandesAnnonces";
 import Photos from "./Photos";
 import SimilarFilms from "./SimilarFilms";
-//import placeholder from '../../../images/placeholder.png';
+import placeholder from "../../../images/placeholder.png";
 
 function DetailFilm({ match }) {
   const [filmDetail, setFilmDetail] = useState(false);
@@ -51,6 +52,10 @@ function DetailFilm({ match }) {
     };
   }, []);
 
+  useEffect(() => {
+    M.AutoInit();
+  });
+
   function convertRuntime(runtime) {
     let hours = Math.trunc(runtime / 60);
     let minutes = runtime % 60;
@@ -68,6 +73,7 @@ function DetailFilm({ match }) {
       convertRuntime(dataFilmDetail.data.runtime);
       forceUpdate();
     } catch (error) {
+      setPending(false);
       console.error(error);
     }
   }
@@ -159,8 +165,12 @@ function DetailFilm({ match }) {
                 </div>
                 <div className="col s12 m4">
                   <img
-                    src={`http://image.tmdb.org/t/p/w500${filmDetail &&
-                      filmDetail.poster_path}`}
+                    src={
+                      filmDetail && filmDetail.poster_path !== null
+                        ? `http://image.tmdb.org/t/p/w500${filmDetail &&
+                            filmDetail.poster_path}`
+                        : "https://via.placeholder.com/300x400/2C2F33/FFFFFF/png?text=Image+non+disponible"
+                    }
                     style={{ width: "100%" }}
                     className="card-img-top"
                     alt={`Poster du film ${filmDetail && filmDetail.title}`}
@@ -170,6 +180,50 @@ function DetailFilm({ match }) {
                     starCount={10}
                     value={filmDetail && filmDetail.vote_average}
                   />
+                  <div
+                    className="row"
+                    style={{ margin: "20px 0", padding: "20px" }}
+                  >
+                    <div
+                      className="col s12 m4"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <i
+                        className="material-icons tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Ajouter ce film à mes likes"
+                        style={{ cursor: "pointer", color: "#95878B" }}
+                      >
+                        thumb_up
+                      </i>
+                    </div>
+                    <div
+                      className="col s12 m4"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <i
+                        className="material-icons tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Ajouter ce film à mes dislikes"
+                        style={{ cursor: "pointer", color: "#95878B" }}
+                      >
+                        thumb_down
+                      </i>
+                    </div>
+                    <div
+                      className="col s12 m4"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <i
+                        className="material-icons tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Ajouter ce film à une liste"
+                        style={{ cursor: "pointer", color: "#95878B" }}
+                      >
+                        playlist_add
+                      </i>
+                    </div>
+                  </div>
                   <p className="film-detail" style={{ marginTop: "20px" }}>
                     Titre original
                     <span>{filmDetail && filmDetail.original_title}</span>
@@ -257,12 +311,12 @@ function DetailFilm({ match }) {
                       {filmDetail && filmDetail.revenue.toLocaleString()} $
                     </span>
                   </p>
-                  <p className="film-detail">
-                    Mots-clés
-                    <span>
-                      <div className="film-detail-keywords">
-                        {keywordsFilm &&
-                          keywordsFilm.map(keyword => (
+                  {keywordsFilm && keywordsFilm.length > 0 && (
+                    <p className="film-detail">
+                      Mots-clés
+                      <span>
+                        <div className="film-detail-keywords">
+                          {keywordsFilm.map(keyword => (
                             <p>
                               <Link
                                 href={`/keyword/${keyword.id}`}
@@ -272,9 +326,10 @@ function DetailFilm({ match }) {
                               </Link>
                             </p>
                           ))}
-                      </div>
-                    </span>
-                  </p>
+                        </div>
+                      </span>
+                    </p>
+                  )}
                 </div>
                 <div className="col s12 m8">
                   <div id="test1" className="col s12">

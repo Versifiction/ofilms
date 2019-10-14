@@ -11,7 +11,7 @@ function AccueilActions() {
           <div className="col s12 m4">
             <div>
               <i
-                class="material-icons medium"
+                className="material-icons medium"
                 style={{ color: "#0CD0FC", marginBottom: "20px" }}
               >
                 visibility
@@ -30,7 +30,7 @@ function AccueilActions() {
           <div className="col s12 m4">
             <div>
               <i
-                class="material-icons medium"
+                className="material-icons medium"
                 style={{ color: "#0CD0FC", marginBottom: "20px" }}
               >
                 edit
@@ -49,7 +49,7 @@ function AccueilActions() {
           <div className="col s12 m4">
             <div>
               <i
-                class="material-icons medium"
+                className="material-icons medium"
                 style={{ color: "#0CD0FC", marginBottom: "20px" }}
               >
                 chat

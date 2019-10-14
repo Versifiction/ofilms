@@ -4,42 +4,42 @@ import { Link } from "react-router-dom";
 import StarRatingComponent from "react-star-rating-component";
 import moment from "moment";
 import useForceUpdate from "use-force-update";
+import ReactPaginate from "react-paginate";
+import $ from "jquery";
 
-//import { genres } from '../../utils/genres';
 import Nav from "../../Nav";
 import Spinner from "../../Molecules/Spinner";
-import Pagination from "../../Molecules/Pagination";
 
 function TendancesSeries() {
   const [tendancesSeries, setTendancesSeries] = useState(false);
+  const [allGenres, setAllGenres] = useState(false);
   const [pending, setPending] = useState(true);
   const [activePage, setActivePage] = useState(1);
   const tendancesSeriesUrl = `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=${activePage}`;
+  const allGenresUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const forceUpdate = useForceUpdate();
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
 
-  const goToPage = val => setActivePage(val);
-  const getFirst = () => setActivePage(1);
-  const getPrevious = () =>
-    activePage > 1 ? setActivePage(activePage - 1) : "";
-  const getNext = () =>
-    activePage < totalPages ? setActivePage(activePage + 1) : "";
-  const getLast = () => setActivePage(totalPages);
-
   useEffect(() => {
     document.title = `O'Films | Les séries en tendances`;
     loadTendancesSeries();
+    loadAllGenres();
+    window.scroll(0, 0);
 
     return () => {
       document.body.style.backgroundImage = `url("https://www.transparenttextures.com/patterns/black-linen.png")`;
     };
-  }, []);
+  }, [activePage]);
+
+  useEffect(() => {
+    console.log("allGenres ", allGenres);
+  }, [allGenres]);
 
   async function loadTendancesSeries() {
     try {
       const dataTendancesSeries = await axios.get(tendancesSeriesUrl);
-      console.log("tendancesFilms ", dataTendancesSeries);
+      console.log("tendancesSeries ", dataTendancesSeries);
       setTendancesSeries(dataTendancesSeries.data.results);
       setTotalPages(dataTendancesSeries.data.total_pages);
       setPending(false);
@@ -47,6 +47,25 @@ function TendancesSeries() {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  async function loadAllGenres() {
+    try {
+      const dataAllGenres = await axios.get(allGenresUrl);
+      console.log("allGenres ", dataAllGenres.data.genres);
+      setAllGenres(dataAllGenres.data.genres);
+      setPending(false);
+      forceUpdate();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  function handlePageChange() {
+    setInterval(() => {
+      setActivePage($("li.active").text());
+      forceUpdate();
+    }, 100);
   }
 
   return (
@@ -69,7 +88,7 @@ function TendancesSeries() {
             <Spinner />
           ) : (
             tendancesSeries &&
-            tendancesSeries.map((serie, index) => (
+            tendancesSeries.map(serie => (
               <Link
                 href={`/serie/${serie.id}`}
                 to={`/serie/${serie.id}`}
@@ -78,7 +97,7 @@ function TendancesSeries() {
                   textDecoration: "none",
                   width: "50%",
                   padding: "10px",
-                  height: "375px"
+                  height: "300px"
                 }}
               >
                 <div
@@ -92,7 +111,11 @@ function TendancesSeries() {
                 >
                   <div className="col s12 m4" style={{ padding: "20px" }}>
                     <img
-                      src={`http://image.tmdb.org/t/p/w500${serie.poster_path}`}
+                      src={
+                        serie.poster_path == null
+                          ? "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
+                          : `http://image.tmdb.org/t/p/w500${serie.poster_path}`
+                      }
                       className="card-img-top"
                       alt={`Poster de la série ${serie.original_name}`}
                       style={{ width: "100%" }}
@@ -132,6 +155,18 @@ function TendancesSeries() {
                           style={{ color: "#95878b", fontWeight: "initial" }}
                         >
                           &nbsp;{serie && serie.genre_ids}
+                          {/* {serie &&
+                            serie.genre_ids.map(genre => (
+                              <p
+                                style={{
+                                  display: "inline-block",
+                                  marginRight: "4px"
+                                }}
+                              >
+                                {allGenres &&
+                                  allGenres.find(g => g.id === genre).name}
+                              </p>
+                            ))} */}
                         </span>
                       </span>
                       <p className="card-text">
@@ -155,16 +190,22 @@ function TendancesSeries() {
           )}
         </div>
       </div>
-      <div className="container">
-        <Pagination
-          getFirst={getFirst}
-          getPrevious={getPrevious}
-          getNext={getNext}
-          getLast={getLast}
-          goToPage={goToPage}
-          activePage={activePage}
-          setActivePage={setActivePage}
-          total={totalPages}
+      <div
+        className="container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <ReactPaginate
+          previousLabel={<i className="material-icons">chevron_left</i>}
+          nextLabel={<i className="material-icons">chevron_right</i>}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
         />
       </div>
     </>

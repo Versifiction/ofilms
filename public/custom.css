@@ -71,14 +71,14 @@ input[type="submit"] {
   background-color: #0cd0fc;
 }
 
-.chat {
+.floating-chat {
   position: fixed;
   background-color: #232d32;
   right: 10px;
   bottom: 10px;
   width: 350px;
   height: 500px;
-  z-index: 1;
+  z-index: 999;
   font-size: 12px;
   line-height: 22px;
   font-family: "Roboto";
@@ -92,41 +92,47 @@ input[type="submit"] {
   transition: all 0.2s ease-in-out;
 }
 
-.chat-container {
+.floating-chat-container {
   padding: 20px 20px 0 20px;
   height: 100%;
 }
 
-.chat input[type="text"]:not(.browser-default),
-.chat input[type="text"]:not(.browser-default):focus:not([readonly]) {
+.floating-chat input[type="text"]:not(.browser-default),
+.floating-chat input[type="text"]:not(.browser-default):focus:not([readonly]) {
   border-bottom: none;
 }
 
-.chat-elements {
+.floating-chat-elements {
   position: relative;
   height: 100%;
 }
 
-.chat-header {
+.floating-chat-header {
   display: flex;
   justify-content: flex-end;
 }
 
-.chat-title {
+.floating-chat-title {
   padding-bottom: 10px;
 }
 
-.chat-content {
+.floating-chat-content {
   overflow-x: hidden;
-  height: 340px;
+  height: 300px;
   overflow-y: scroll;
 }
 
-.chat-content .messages {
+.chat-messages-container {
+  overflow-x: hidden;
+  height: 600px;
+  overflow-y: scroll;
+}
+
+.floating-chat-content .messages {
   margin: 10px 0;
 }
 
-.chat-input {
+.floating-chat-input {
   position: absolute;
   bottom: 0;
   width: 310px;
@@ -134,7 +140,7 @@ input[type="submit"] {
   padding: 6px 0;
 }
 
-.chat-input form {
+.floating-chat-input form {
   display: flex;
   align-items: center;
 }
@@ -188,4 +194,40 @@ input[type="submit"] {
   bottom: 0px;
   margin-bottom: 0;
   z-index: 996;
+}
+
+.floating-chat ul.tabs {
+  margin-bottom: 10px;
+}
+
+.tabs .indicator {
+  background-color: #0cd0fc;
+}
+
+.tabs .tab a:hover,
+.tabs .tab a.active {
+  color: #0cd0fc;
+  border-bottom: none !important;
+}
+
+.tabs .tab a {
+  color: #0cd0fc !important;
+}
+
+.tabs .tab a:focus,
+.tabs .tab a:focus.active {
+  background-color: rgba(12, 208, 252, 0.2);
+  outline: none;
+}
+
+.select-wrapper input.select-dropdown {
+  z-index: inherit;
+}
+
+.chat-messages-trash {
+  display: none;
+}
+
+.message:hover .chat-messages-trash {
+  display: block;
 }

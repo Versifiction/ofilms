@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import "../../App.css";
 import AccueilBanner from "../../images/404.jpg";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function Erreur() {
   const style = {
@@ -18,20 +19,23 @@ function Erreur() {
   });
 
   return (
-    <div className="erreur-banniere" style={style}>
-      <div className="container">
-        <div className="erreur-content">
-          <p className="erreur-title">
-            <span>Oops...</span>
-            <br />
-            On dirait que vous vous êtes trompé de salle !
-          </p>
-          <Link href="/" to="/">
-            Retourner à l'accueil
-          </Link>
+    <>
+      <div className="erreur-banniere" style={style}>
+        <div className="container">
+          <div className="erreur-content">
+            <p className="erreur-title">
+              <span>Oops...</span>
+              <br />
+              On dirait que vous vous êtes trompé de salle !
+            </p>
+            <Link href="/" to="/">
+              Retourner à l'accueil
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+      <BandeauCookie />
+    </>
   );
 }
 

@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import StarRatingComponent from "react-star-rating-component";
 import moment from "moment";
 import useForceUpdate from "use-force-update";
+import ReactPaginate from "react-paginate";
+import $ from "jquery";
 
-//import { genres } from '../../utils/genres';
 import Nav from "../../Nav";
 import Spinner from "../../Molecules/Spinner";
-import Pagination from "../../Molecules/Pagination";
 
 function BestRatedFilms() {
   const [bestRatedFilms, setBestRatedFilms] = useState(false);
@@ -20,14 +20,6 @@ function BestRatedFilms() {
   const forceUpdate = useForceUpdate();
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
-
-  const goToPage = val => setActivePage(val);
-  const getFirst = () => setActivePage(1);
-  const getPrevious = () =>
-    activePage > 1 ? setActivePage(activePage - 1) : "";
-  const getNext = () =>
-    activePage < totalPages ? setActivePage(activePage + 1) : "";
-  const getLast = () => setActivePage(totalPages);
 
   useEffect(() => {
     document.title = `O'Films | Les films les mieux notés`;
@@ -63,6 +55,13 @@ function BestRatedFilms() {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  function handlePageChange() {
+    setInterval(() => {
+      setActivePage($("li.active").text());
+      forceUpdate();
+    }, 100);
   }
 
   return (
@@ -109,7 +108,11 @@ function BestRatedFilms() {
                 >
                   <div className="col s12 m4" style={{ padding: "20px" }}>
                     <img
-                      src={`http://image.tmdb.org/t/p/w500${film.poster_path}`}
+                      src={
+                        film.poster_path == null
+                          ? "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
+                          : `http://image.tmdb.org/t/p/w500${film.poster_path}`
+                      }
                       className="card-img-top"
                       alt={`Poster du film ${film.title}`}
                       style={{ width: "100px" }}
@@ -198,16 +201,22 @@ function BestRatedFilms() {
           )}
         </div>
       </div>
-      <div className="container">
-        <Pagination
-          getFirst={getFirst}
-          getPrevious={getPrevious}
-          getNext={getNext}
-          getLast={getLast}
-          goToPage={goToPage}
-          activePage={activePage}
-          setActivePage={setActivePage}
-          total={totalPages}
+      <div
+        className="container"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <ReactPaginate
+          previousLabel={<i className="material-icons">chevron_left</i>}
+          nextLabel={<i className="material-icons">chevron_right</i>}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
         />
       </div>
     </>

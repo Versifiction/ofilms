@@ -43,6 +43,7 @@ function SimilarFilms({ similarFilms }) {
                       />
                       <br />
                       <p>{film.title}</p>
+                      <p>({film.release_date.slice(0, 4)})</p>
                       <div className="col s12 similar-film-detail-rating">
                         <StarRatingComponent
                           name="rate1"

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "../../App.css";
 
 import Nav from "../../components/Nav";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function Contact() {
   useEffect(() => {
@@ -11,6 +12,7 @@ function Contact() {
     <>
       <Nav />
       <h2>Contact</h2>
+      <BandeauCookie />
     </>
   );
 }

@@ -5,7 +5,7 @@ import "../../App.css";
 function AccueilParallax() {
   return (
     <div className="accueil-parallax">
-      <div class="parallax-container">
+      <div className="parallax-container">
         <div className="container" style={{ padding: "80px" }}>
           <p
             style={{
@@ -102,7 +102,7 @@ function AccueilParallax() {
         >
           source : https://www.themoviedb.org/about (au 7 octobre 2019)
         </p>
-        <div class="parallax" style={{ opacity: "0.5" }}>
+        <div className="parallax" style={{ opacity: "0.5" }}>
           <img src={imageParallax} alt="Mosaïque de films" />
         </div>
       </div>

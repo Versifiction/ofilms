@@ -21,6 +21,7 @@ function Crew({ crewFilm }) {
                     }
                     className="card-img-top"
                     alt={crew.name}
+                    style={{ width: "100%" }}
                   />
                 </Link>
                 <br />

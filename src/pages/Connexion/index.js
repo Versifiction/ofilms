@@ -7,6 +7,7 @@ import { loginUser } from "../../store/actions/authActions";
 
 import "../../App.css";
 import Nav from "../../components/Nav";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function Connexion(props) {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -148,6 +149,7 @@ function Connexion(props) {
           </div>
         </div>
       </div>
+      <BandeauCookie />
     </>
   );
 }

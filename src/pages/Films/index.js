@@ -6,6 +6,7 @@ import useForceUpdate from "use-force-update";
 import "../../App.css";
 import Nav from "../../components/Nav";
 import Spinner from "../../components/Molecules/Spinner";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function Films() {
   const [afficheFilms, setAfficheFilms] = useState([]);
@@ -201,6 +202,7 @@ function Films() {
           )}
         </div>
       </div>
+      <BandeauCookie />
     </>
   );
 }

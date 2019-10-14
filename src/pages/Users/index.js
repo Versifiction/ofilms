@@ -8,6 +8,7 @@ import M from "materialize-css";
 import "../../App.css";
 import Spinner from "../../components/Molecules/Spinner";
 import Nav from "../../components/Nav";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function Users() {
   const [usersList, setUsersList] = useState(false);
@@ -90,12 +91,12 @@ function Users() {
                       <td>
                         {user.sexe === "H" ? (
                           <i
-                            class="fas fa-male"
+                            className="fas fa-male"
                             style={{ fontSize: "30px", color: "#95878B" }}
                           ></i>
                         ) : (
                           <i
-                            class="fa fa-female"
+                            className="fa fa-female"
                             style={{ fontSize: "30px", color: "#0CD0FC" }}
                           ></i>
                         )}
@@ -105,41 +106,53 @@ function Users() {
                       <td>{user.departement}</td>
                       <td>
                         {user.isAdmin ? (
-                          <div class="switch">
+                          <div className="switch">
                             <label>
                               N
                               <input type="checkbox" />
-                              <span class="lever"></span>O
+                              <span className="lever"></span>O
                             </label>
                           </div>
                         ) : (
-                          <div class="switch">
+                          <div className="switch">
                             <label>
                               N
                               <input type="checkbox" />
-                              <span class="lever"></span>O
+                              <span className="lever"></span>O
                             </label>
                           </div>
                         )}
                       </td>
                       <td>
                         {user.isModerator ? (
-                          <i class="material-icons" style={{ color: "green" }}>
+                          <i
+                            className="material-icons"
+                            style={{ color: "green" }}
+                          >
                             check
                           </i>
                         ) : (
-                          <i class="material-icons" style={{ color: "red" }}>
+                          <i
+                            className="material-icons"
+                            style={{ color: "red" }}
+                          >
                             close
                           </i>
                         )}
                       </td>
                       <td>
                         {user.isConnected ? (
-                          <i class="material-icons" style={{ color: "green" }}>
+                          <i
+                            className="material-icons"
+                            style={{ color: "green" }}
+                          >
                             check
                           </i>
                         ) : (
-                          <i class="material-icons" style={{ color: "red" }}>
+                          <i
+                            className="material-icons"
+                            style={{ color: "red" }}
+                          >
                             close
                           </i>
                         )}
@@ -170,8 +183,8 @@ function Users() {
                         </button>
                       </td>
                     </tr>
-                    {/* <div id="modal1" class="modal">
-                      <div class="modal-content">
+                    {/* <div id="modal1" className="modal">
+                      <div className="modal-content">
                         <h4 style={{ color: "black" }}>
                           Suppression d'utilisateur
                         </h4>
@@ -180,9 +193,9 @@ function Users() {
                           {user._id}. Voulez-vous le supprimer ?
                         </p>
                       </div>
-                      <div class="modal-footer" style={{ textAlign: "center" }}>
+                      <div className="modal-footer" style={{ textAlign: "center" }}>
                         <div
-                          class="modal-close waves-effect waves-light btn"
+                          className="modal-close waves-effect waves-light btn"
                           style={{ backgroundColor: "green" }}
                           onClick={() => {
                             deleteUser(user._id);
@@ -191,7 +204,7 @@ function Users() {
                           Oui
                         </div>
                         <div
-                          class="modal-close waves-effect waves-green btn-flat"
+                          className="modal-close waves-effect waves-green btn-flat"
                           style={{
                             backgroundColor: "red",
                             color: "white",
@@ -208,6 +221,7 @@ function Users() {
           </table>
         </>
       )}
+      <BandeauCookie />
     </>
   );
 }

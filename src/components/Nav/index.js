@@ -39,7 +39,10 @@ function Nav(props) {
   useEffect(() => {
     console.log("searchActive ", searchActive);
     console.log("searchInputValue ", searchInputValue);
-  }, [searchActive, searchInputValue]);
+    console.log("sideNavActive ", sideNavActive);
+    console.log("searchResult ", searchResult);
+    console.log("pending ", pending);
+  }, [searchActive, searchInputValue, sideNavActive, searchResult, pending]);
 
   function logout(e) {
     e.preventDefault();
@@ -100,9 +103,11 @@ function Nav(props) {
                   <form action="" className="browser-default right">
                     <input
                       id="search-input"
-                      // placeholder={
-                      //   "Rechercher un film, une série, un acteur..."
-                      // }
+                      placeholder={
+                        searchActive
+                          ? "Rechercher un film, une série, un acteur..."
+                          : ""
+                      }
                       type="text"
                       className="browser-default search-field"
                       name="q"
@@ -117,9 +122,9 @@ function Nav(props) {
                         setSearchActive(true);
                       }}
                       onBlur={() => {
-                        setSearchActive(false);
-                        setSearchInputValue("");
-                        setSearchResult();
+                        // setSearchActive(false);
+                        // setSearchInputValue("");
+                        // setSearchResult();
                       }}
                       onChange={e => handleChange(e)}
                     />
@@ -331,11 +336,11 @@ function Nav(props) {
           <NavLink
             className="waves-effect waves-light"
             activeClassName="active"
-            href="/categories"
-            to="/categories"
+            href="/bibliotheque"
+            to="/bibliotheque"
           >
             <i className="material-icons colored">view_list</i>
-            <span id="txt1">Catégories</span>
+            <span id="txt1">Bibliothèque</span>
           </NavLink>
         </li>
         <div className="divider"></div>

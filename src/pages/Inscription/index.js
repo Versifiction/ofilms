@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 
 import "../../App.css";
 import Nav from "../../components/Nav";
+import BandeauCookie from "../../components/BandeauCookie";
 
 function Inscription(props) {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -37,13 +38,21 @@ function Inscription(props) {
 
   useEffect(() => {
     document.title = "O'Films | Inscription";
-    M.AutoInit();
+
     if (props.auth.isAuthenticated) {
       props.history.push("/");
     }
 
     loadDepartements();
   }, []);
+
+  useEffect(() => {
+    loadCities();
+  }, [fields.departement]);
+
+  useEffect(() => {
+    M.AutoInit();
+  });
 
   // useEffect(() => {
   //   document.getElementsByClassName("dropdown-content")[1].style.overflow =
@@ -52,14 +61,6 @@ function Inscription(props) {
   //   document.getElementsByClassName("dropdown-content")[2].style.overflow =
   //     "scroll";
   // });
-
-  useEffect(() => {
-    loadCities();
-  }, []);
-
-  useEffect(() => {
-    loadDepartements();
-  }, []);
 
   useEffect(() => {
     if (props.errors) {
@@ -463,6 +464,7 @@ function Inscription(props) {
           </form>
         </div>
       </div>
+      <BandeauCookie />
     </>
   );
 }

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import useForceUpdate from "use-force-update";
 import StarRatingComponent from "react-star-rating-component";
 import Flag from "react-world-flags";
+import M from "materialize-css";
 import ItemsCarousel from "react-items-carousel";
 import $ from "jquery";
 import moment from "moment";
@@ -26,13 +27,40 @@ function DetailSerie({ match }) {
   const [seeAllVideos, setSeeAllVideos] = useState(false);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [pending, setPending] = useState(true);
-  const serieDetailUrl = `https://api.themoviedb.org/3/serie/${match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const creditsSerieUrl = `https://api.themoviedb.org/3/serie/${match.params.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
-  const similarSeriesUrl = `https://api.themoviedb.org/3/serie/${match.params.id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=1`;
-  const videosSerieUrl = `https://api.themoviedb.org/3/serie/${match.params.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const photosSerieUrl = `https://api.themoviedb.org/3/serie/${match.params.id}/images?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const keywordsSerieUrl = `https://api.themoviedb.org/3/serie/${match.params.id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`;
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+  const serieDetailUrl = `https://api.themoviedb.org/3/tv/${match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const creditsSerieUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
+  const similarSeriesUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=1`;
+  const videosSerieUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const photosSerieUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/images?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const keywordsSerieUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`;
   const forceUpdate = useForceUpdate();
+
+  function toggleLike() {
+    if (disliked) {
+      alert(
+        "Vous ne pouvez pas liker un film que vous avez disliké. Merci de retirer le dislike d'abord"
+      );
+      return;
+    }
+    setLiked(!liked);
+  }
+
+  function toggleDislike() {
+    if (liked) {
+      alert(
+        "Vous ne pouvez pas disliker un film que vous avez liké. Merci de retirer le like d'abord"
+      );
+      return;
+    }
+    setDisliked(!disliked);
+  }
+
+  useEffect(() => {
+    console.log("liked ", liked);
+    console.log("disliked ", disliked);
+  }, [liked, disliked]);
 
   useEffect(() => {
     loadSerieDetail();
@@ -46,6 +74,10 @@ function DetailSerie({ match }) {
       document.body.style.backgroundImage = `url("https://www.transparenttextures.com/patterns/black-linen.png")`;
     };
   }, []);
+
+  useEffect(() => {
+    M.AutoInit();
+  });
 
   async function loadSerieDetail() {
     try {
@@ -178,7 +210,7 @@ function DetailSerie({ match }) {
               style={{ width: "100%" }}
             >
               <div className="col s12 detail-film-poster">
-                <h2>{serieDetail && serieDetail.title}</h2>
+                <h2>{serieDetail && serieDetail.original_name}</h2>
               </div>
               <div className="col s12 m4">
                 <img
@@ -193,6 +225,88 @@ function DetailSerie({ match }) {
                   starCount={10}
                   value={serieDetail && serieDetail.vote_average}
                 />
+                <div
+                  className="row"
+                  style={{ margin: "20px 0", padding: "20px" }}
+                >
+                  <div
+                    className="col s12 m4"
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    {!liked ? (
+                      <i
+                        className="material-icons tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Ajouter cette série à mes likes"
+                        data-micron="shake"
+                        style={{ cursor: "pointer", color: "#95878B" }}
+                        onClick={toggleLike}
+                      >
+                        thumb_up
+                      </i>
+                    ) : (
+                      <i
+                        className="material-icons tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Retirer cette série de mes likes"
+                        data-micron="shake"
+                        style={{
+                          cursor: "pointer",
+                          color: "#95878B",
+                          color: "green"
+                        }}
+                        onClick={toggleLike}
+                      >
+                        thumb_up
+                      </i>
+                    )}
+                  </div>
+                  <div
+                    className="col s12 m4"
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    {!disliked ? (
+                      <i
+                        className="material-icons tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Ajouter cette série à mes dislikes"
+                        data-micron="shake"
+                        style={{ cursor: "pointer", color: "#95878B" }}
+                        onClick={toggleDislike}
+                      >
+                        thumb_down
+                      </i>
+                    ) : (
+                      <i
+                        className="material-icons tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Retirer cette série de mes dislikes"
+                        data-micron="shake"
+                        style={{
+                          cursor: "pointer",
+                          color: "#95878B",
+                          color: "red"
+                        }}
+                        onClick={toggleDislike}
+                      >
+                        thumb_down
+                      </i>
+                    )}
+                  </div>
+                  <div
+                    className="col s12 m4"
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <i
+                      className="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Ajouter cette série à une liste"
+                      style={{ cursor: "pointer", color: "#95878B" }}
+                    >
+                      playlist_add
+                    </i>
+                  </div>
+                </div>
                 <p className="film-detail">
                   Titre original
                   <span>{serieDetail && serieDetail.original_name}</span>
@@ -289,12 +403,12 @@ function DetailSerie({ match }) {
                     )}
                   </span>
                 </p>
-                <p className="film-detail">
-                  Mots-clés
-                  <span>
-                    <div className="film-detail-keywords">
-                      {keywordsSerie &&
-                        keywordsSerie.map(keyword => (
+                {keywordsSerie && keywordsSerie.length > 0 && (
+                  <p className="film-detail">
+                    Mots-clés
+                    <span>
+                      <div className="film-detail-keywords">
+                        {keywordsSerie.map(keyword => (
                           <p>
                             <Link
                               href={`/keyword/${keyword.id}`}
@@ -304,9 +418,10 @@ function DetailSerie({ match }) {
                             </Link>
                           </p>
                         ))}
-                    </div>
-                  </span>
-                </p>
+                      </div>
+                    </span>
+                  </p>
+                )}
               </div>
               <div className="col s12 m8">
                 <div id="test1" className="col s12">

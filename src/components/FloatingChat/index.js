@@ -17,21 +17,31 @@ function FloatingChat(props) {
   const [isVerified, setIsVerified] = useState(false);
   const [isModerator, setIsModerator] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
   const socket = io("http://localhost:5000");
 
   useEffect(() => {
-    M.AutoInit();
-    loadUser();
-  }, []);
-
-  useEffect(() => {
-    loadMessages();
+    if (props.auth.isAuthenticated) {
+      loadUser();
+    }
     const chat = document.getElementsByClassName("chat-content")[0];
-    console.log("chat ", chat);
     if (chat) {
       chat.scrollTop = chat.scrollHeight;
     }
-  }, [messages]);
+  }, []);
+
+  useEffect(() => {
+    M.AutoInit();
+  });
+
+  useEffect(() => {
+    socket.open();
+    loadMessages();
+
+    return () => {
+      socket.close();
+    };
+  }, []);
 
   async function loadUser() {
     try {
@@ -84,7 +94,6 @@ function FloatingChat(props) {
 
   async function sendMessage(e) {
     e.preventDefault();
-    console.log("le message a été envoyé");
 
     socket.emit("chat message", {
       writer: username,
@@ -112,10 +121,13 @@ function FloatingChat(props) {
           </div>
         </div>
       ) : (
-        <div className="chat" style={{ fontFamily: "Josefin Sans" }}>
-          <div className="chat-elements" style={{ position: "relative" }}>
+        <div className="floating-chat" style={{ fontFamily: "Josefin Sans" }}>
+          <div
+            className="floating-chat-elements"
+            style={{ position: "relative" }}
+          >
             <i
-              class="material-icons"
+              className="material-icons"
               style={{
                 color: "red",
                 cursor: "pointer",
@@ -127,9 +139,9 @@ function FloatingChat(props) {
             >
               close
             </i>
-            <div className="chat-container">
-              <div className="chat-header"></div>
-              <div className="chat-title">
+            <div className="floating-chat-container">
+              <div className="floating-chat-header"></div>
+              <div className="floating-chat-title">
                 <h3
                   style={{
                     color: "white",
@@ -140,44 +152,94 @@ function FloatingChat(props) {
                   Chat
                 </h3>
               </div>
-              <div className="chat-content">
-                <ul className="messages">
-                  {messages &&
-                    messages.map(message => (
-                      <li
-                        className="message"
-                        key={message._id}
-                        style={{ position: "relative" }}
-                      >
-                        <p style={{ paddingRight: "30px" }}>
-                          <IconsUserChat
-                            isVerified={message.isVerified}
-                            isModerator={message.isModerator}
-                            isAdmin={message.isAdmin}
-                          />
-                          <span>{message.writer}</span>: {message.content}
-                        </p>
-                        {isModerator && (
-                          <i
-                            className="material-icons colored right"
-                            style={{
-                              cursor: "pointer",
-                              position: "absolute",
-                              top: "4px",
-                              right: "4px"
-                            }}
-                            onClick={() => {
-                              deleteMessage(message._id);
-                            }}
+              <div className="row">
+                <div className="col s12">
+                  <ul className="tabs">
+                    <li className="tab col s6">
+                      <a href="#messages">Messages</a>
+                    </li>
+                    <li className="tab col s6">
+                      <a className="active" href="#infos">
+                        Infos
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div id="messages" className="col s12">
+                  <div
+                    className="floating-chat-content"
+                    style={{ position: "relative" }}
+                  >
+                    <ul className="messages">
+                      {messages &&
+                        messages.map(message => (
+                          <li
+                            className="message"
+                            key={message._id}
+                            style={{ position: "relative" }}
                           >
-                            delete_forever
-                          </i>
-                        )}
-                      </li>
-                    ))}
-                </ul>
+                            <p style={{ paddingRight: "30px" }}>
+                              <IconsUserChat
+                                isVerified={message.isVerified}
+                                isModerator={message.isModerator}
+                                isAdmin={message.isAdmin}
+                              />
+                              <span>{message.writer}</span>: {message.content}
+                            </p>
+                            {isModerator && (
+                              <i
+                                className="material-icons colored right"
+                                style={{
+                                  cursor: "pointer",
+                                  position: "absolute",
+                                  top: "4px",
+                                  right: "4px"
+                                }}
+                                onClick={() => {
+                                  deleteMessage(message._id);
+                                }}
+                              >
+                                delete_forever
+                              </i>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                </div>
+                <div id="infos" className="col s12">
+                  <p>
+                    Pour avoir accès à toutes les fonctionnalités du chat, merci
+                    de vous rendre sur la page dédiée à celui-ci :&nbsp;
+                    <a href="/chat" style={{ textDecoration: "underline" }}>
+                      ici
+                    </a>
+                  </p>
+                  <p>Sont interdits dans le chat : </p>
+                  <ul style={{ color: "#95878b", fontSize: "16px" }}>
+                    <li>- Les insultes</li>
+                    <li>- Les propos obscènes</li>
+                    <li>- Les propos racistes</li>
+                    <li>- Le spam / flood</li>
+                    <li>- Les liens externes</li>
+                    <li>- L'usage abusif de majuscules</li>
+                    <li>- Les spoils</li>
+                  </ul>
+                  <br />
+                  <a
+                    href="#messages"
+                    style={{
+                      textDecoration: "underline",
+                      color: "#0CD0FC",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Basculer sur les messages
+                  </a>
+                </div>
               </div>
-              <div className="chat-input">
+
+              <div className="floating-chat-input">
                 {props.auth.isAuthenticated ? (
                   <form onSubmit={sendMessage}>
                     <input

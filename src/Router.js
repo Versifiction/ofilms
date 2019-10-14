@@ -7,6 +7,7 @@ import "./App.css";
 import store from "./store";
 
 import Accueil from "./pages/Accueil";
+import Bibliotheque from "./pages/Bibliotheque";
 import Films from "./pages/Films";
 import Series from "./pages/Series";
 import AfficheFilms from "./components/films/AfficheFilms";
@@ -33,6 +34,7 @@ import User from "./pages/User";
 import MonCompte from "./pages/MonCompte";
 import PrivateRoute from "./components/PrivateRoute";
 import Erreur from "./pages/Erreur";
+import BandeauCookie from "./components/BandeauCookie";
 
 if (localStorage.jwtToken) {
   const token = localStorage.jwtToken;
@@ -42,7 +44,7 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000; // to get in milliseconds
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
-    window.location.href = "./login";
+    window.location.href = "/";
   }
 }
 
@@ -50,6 +52,8 @@ function Router() {
   return (
     <Switch>
       <Route path="/" exact component={Accueil} />
+      <Route path="/" exact component={BandeauCookie} />
+      <Route path="/bibliotheque" exact component={Bibliotheque} />
       <Route path="/films" exact component={Films} />
       <Route path="/series" exact component={Series} />
       <Route path="/films/affiche" exact component={AfficheFilms} />

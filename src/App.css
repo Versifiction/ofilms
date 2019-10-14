@@ -720,10 +720,6 @@ ul.tabs {
   margin-bottom: 20px;
 }
 
-.tabs .tab a {
-  color: #95878b !important;
-}
-
 .tabs .tab a:hover {
   color: white !important;
 }
