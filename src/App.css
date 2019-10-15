@@ -774,7 +774,7 @@ input.search-field {
   border-radius: 2px;
   border: 0;
   height: 36px;
-  width: 200px;
+  width: 300px;
   background: #f7f7f7;
   /*transition: background 0.2s, width 0.2s;*/
 }
@@ -824,8 +824,7 @@ input.search-field ~ .search-popup {
   overflow: scroll;
   min-height: 50px;
   max-height: 700px;
-  width: 200px;
-  top: -450px;
+  width: 300px;
   position: absolute;
   z-index: 1;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),

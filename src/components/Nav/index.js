@@ -121,11 +121,11 @@ function Nav(props) {
                       onFocus={() => {
                         setSearchActive(true);
                       }}
-                      onBlur={() => {
-                        // setSearchActive(false);
-                        // setSearchInputValue("");
-                        // setSearchResult();
-                      }}
+                      // onBlur={() => {
+                      //   setSearchActive(false);
+                      //   setSearchInputValue("");
+                      //   setSearchResult();
+                      // }}
                       onChange={e => handleChange(e)}
                     />
                     <label
@@ -138,6 +138,11 @@ function Nav(props) {
                           data-position="bottom"
                           data-tooltip="Rechercher un film, une série, un acteur..."
                           style={{ cursor: "pointer" }}
+                          onClick={() => {
+                            setSearchActive(true);
+                            setSearchInputValue("");
+                            setSearchResult();
+                          }}
                         >
                           search
                         </i>
@@ -147,7 +152,9 @@ function Nav(props) {
                           data-position="bottom"
                           data-tooltip="Vider la valeur du champ"
                           style={{ cursor: "pointer" }}
-                          onClick={() => setSearchInputValue("")}
+                          onClick={() => {
+                            setSearchInputValue("");
+                          }}
                         >
                           close
                         </i>
@@ -174,6 +181,9 @@ function Nav(props) {
                                       height: "100px",
                                       display: "flex",
                                       alignItems: "center"
+                                    }}
+                                    onClick={() => {
+                                      setSearchActive(false);
                                     }}
                                   >
                                     {result.media_type === "person" ||
