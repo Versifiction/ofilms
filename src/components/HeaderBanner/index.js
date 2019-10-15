@@ -3,7 +3,7 @@ import React from "react";
 import "../../App.css";
 import AccueilBanner from "../../images/bg-header.jpg";
 
-function Nav() {
+function HeaderBanner() {
   const style = {
     backgroundImage: "url(" + AccueilBanner + ")",
     width: "100%",
@@ -33,4 +33,4 @@ function Nav() {
   );
 }
 
-export default Nav;
+export default HeaderBanner;
