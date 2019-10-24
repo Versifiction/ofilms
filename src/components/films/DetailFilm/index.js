@@ -31,6 +31,7 @@ function DetailFilm(props) {
   const [favorited, setFavorited] = useState(false);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const [pending, setPending] = useState(true);
   const filmDetailUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const creditsFilmUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
@@ -39,6 +40,13 @@ function DetailFilm(props) {
   const photosFilmUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}/images?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const keywordsFilmUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`;
   const forceUpdate = useForceUpdate();
+
+  useEffect(() => {
+    const tooltips = document.getElementsByClassName("material-tooltip");
+    for (let i = 0; i < tooltips.length; i++) {
+      tooltips[i].style.visibility = "hidden";
+    }
+  }, [liked, disliked, favorited]);
 
   useEffect(() => {
     loadFilmDetail();
@@ -91,27 +99,44 @@ function DetailFilm(props) {
 
   async function toggleFavorited() {
     setFavorited(!favorited);
+    setErrorMessage(false);
 
-    // try {
-    //   const dataUser = await axios.get(
-    //     `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`
-    //   );
-    //   console.log("user ", dataUser);
-    //   forceUpdate();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    if (favorited) {
+      console.log("je retire le film de mes favoris");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/moviesFavorites/${props.match.params.id}`
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("j'ajoute le film à mes favoris");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/moviesFavorites/${props.match.params.id}`,
+          { userId: props.auth.user.id, movieId: props.match.params.id }
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   async function toggleLike() {
     if (disliked) {
-      alert(
+      setErrorMessage(
         "Vous ne pouvez pas liker un film que vous avez disliké. Merci de retirer le dislike d'abord"
       );
       return;
     }
 
     setLiked(!liked);
+    setErrorMessage(false);
 
     if (liked) {
       console.log("je retire le film de mes likes");
@@ -141,12 +166,39 @@ function DetailFilm(props) {
 
   async function toggleDislike() {
     if (liked) {
-      alert(
+      setErrorMessage(
         "Vous ne pouvez pas disliker un film que vous avez liké. Merci de retirer le like d'abord"
       );
       return;
     }
+
     setDisliked(!disliked);
+    setErrorMessage(false);
+
+    if (disliked) {
+      console.log("je retire le film de mes dislikes");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/moviesDisliked/${props.match.params.id}`
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("j'ajoute le film à mes dislikes");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/moviesDisliked/${props.match.params.id}`,
+          { userId: props.auth.user.id, movieId: props.match.params.id }
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   async function loadFilmDetail() {
@@ -270,115 +322,156 @@ function DetailFilm(props) {
                   {props.auth.isAuthenticated && (
                     <div
                       className="row"
-                      style={{ margin: "20px 0", padding: "20px" }}
+                      style={{
+                        margin: "20px 0",
+                        padding: "20px",
+                        textAlign: "center"
+                      }}
                     >
-                      <div
-                        className="col s12 m3"
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
+                      <div className="col s12 m3">
                         {!favorited ? (
-                          <i
-                            className="material-icons tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Ajouter ce film à mes favoris"
-                            data-micron="bounce"
-                            style={{ cursor: "pointer", color: "#95878B" }}
-                            onClick={toggleFavorited}
-                          >
-                            star
-                          </i>
+                          <>
+                            <p>Favoriser</p>
+                            <i
+                              className="material-icons tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Ajouter ce film à mes favoris"
+                              data-micron="bounce"
+                              style={{
+                                cursor: "pointer",
+                                color: "#95878B",
+                                display: "flex",
+                                justifyContent: "center"
+                              }}
+                              onClick={toggleFavorited}
+                            >
+                              star
+                            </i>
+                          </>
                         ) : (
-                          <i
-                            className="material-icons tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Retirer ce film de mes favoris"
-                            data-micron="bounce"
-                            style={{
-                              cursor: "pointer",
-                              color: "yellow"
-                            }}
-                            onClick={toggleFavorited}
-                          >
-                            star
-                          </i>
+                          <div style={{ color: "yellow" }}>
+                            <p style={{ color: "inherit" }}>Favorisé</p>
+                            <i
+                              className="material-icons tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Retirer ce film de mes favoris"
+                              data-micron="bounce"
+                              style={{
+                                cursor: "pointer",
+                                display: "flex",
+                                justifyContent: "center"
+                              }}
+                              onClick={toggleFavorited}
+                            >
+                              star
+                            </i>
+                          </div>
                         )}
                       </div>
-                      <div
-                        className="col s12 m3"
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
+                      <div className="col s12 m3">
                         {!liked ? (
-                          <i
-                            className="material-icons tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Ajouter ce film à mes likes"
-                            data-micron="bounce"
-                            style={{ cursor: "pointer", color: "#95878B" }}
-                            onClick={toggleLike}
-                          >
-                            thumb_up
-                          </i>
+                          <>
+                            <p>Liker</p>
+                            <i
+                              className="material-icons tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Ajouter ce film à mes likes"
+                              data-micron="bounce"
+                              style={{
+                                cursor: "pointer",
+                                color: "#95878B",
+                                display: "flex",
+                                justifyContent: "center"
+                              }}
+                              onClick={toggleLike}
+                            >
+                              thumb_up
+                            </i>
+                          </>
                         ) : (
-                          <i
-                            className="material-icons tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Retirer ce film de mes likes"
-                            data-micron="bounce"
-                            style={{
-                              cursor: "pointer",
-                              color: "green"
-                            }}
-                            onClick={toggleLike}
-                          >
-                            thumb_up
-                          </i>
+                          <div style={{ color: "green" }}>
+                            <p style={{ color: "inherit" }}>Liké</p>
+                            <i
+                              className="material-icons tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Retirer ce film de mes likes"
+                              data-micron="bounce"
+                              style={{
+                                cursor: "pointer",
+                                color: "green",
+                                display: "flex",
+                                justifyContent: "center"
+                              }}
+                              onClick={toggleLike}
+                            >
+                              thumb_up
+                            </i>
+                          </div>
                         )}
                       </div>
-                      <div
-                        className="col s12 m3"
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
+                      <div className="col s12 m3">
                         {!disliked ? (
-                          <i
-                            className="material-icons tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Ajouter ce film à mes dislikes"
-                            data-micron="bounce"
-                            style={{ cursor: "pointer", color: "#95878B" }}
-                            onClick={toggleDislike}
-                          >
-                            thumb_down
-                          </i>
+                          <>
+                            <p>Disliker</p>
+                            <i
+                              className="material-icons tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Ajouter ce film à mes dislikes"
+                              data-micron="bounce"
+                              style={{
+                                cursor: "pointer",
+                                color: "#95878B",
+                                display: "flex",
+                                justifyContent: "center"
+                              }}
+                              onClick={toggleDislike}
+                            >
+                              thumb_down
+                            </i>
+                          </>
                         ) : (
-                          <i
-                            className="material-icons tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Retirer ce film de mes dislikes"
-                            data-micron="bounce"
-                            style={{
-                              cursor: "pointer",
-                              color: "red"
-                            }}
-                            onClick={toggleDislike}
-                          >
-                            thumb_down
-                          </i>
+                          <div style={{ color: "red" }}>
+                            <p style={{ color: "inherit" }}>Disliké</p>
+                            <i
+                              className="material-icons tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Retirer ce film de mes dislikes"
+                              data-micron="bounce"
+                              style={{
+                                cursor: "pointer",
+                                color: "red",
+                                display: "flex",
+                                justifyContent: "center"
+                              }}
+                              onClick={toggleDislike}
+                            >
+                              thumb_down
+                            </i>
+                          </div>
                         )}
                       </div>
-                      <div
-                        className="col s12 m3"
-                        style={{ display: "flex", justifyContent: "center" }}
-                      >
+                      <div className="col s12 m3">
+                        <p>Ajouter</p>
                         <i
                           className="material-icons tooltipped"
                           data-position="bottom"
                           data-tooltip="Ajouter ce film à une liste"
-                          style={{ cursor: "pointer", color: "#95878B" }}
+                          style={{
+                            cursor: "pointer",
+                            color: "#95878B",
+                            display: "flex",
+                            justifyContent: "center"
+                          }}
                         >
                           playlist_add
                         </i>
                       </div>
                     </div>
+                  )}
+                  {errorMessage && (
+                    <p style={{ color: "red", textAlign: "center" }}>
+                      {errorMessage}
+                    </p>
                   )}
                   <p className="film-detail" style={{ marginTop: "20px" }}>
                     Titre original

@@ -31,6 +31,7 @@ function DetailSerie(props) {
   const [favorited, setFavorited] = useState(false);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const serieDetailUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const creditsSerieUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
   const similarSeriesUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=1`;
@@ -40,9 +41,10 @@ function DetailSerie(props) {
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
-    console.log("liked ", liked);
-    console.log("disliked ", disliked);
-    console.log("favorited ", favorited);
+    const tooltips = document.getElementsByClassName("material-tooltip");
+    for (let i = 0; i < tooltips.length; i++) {
+      tooltips[i].style.visibility = "hidden";
+    }
   }, [liked, disliked, favorited]);
 
   useEffect(() => {
@@ -87,46 +89,106 @@ function DetailSerie(props) {
 
   async function toggleFavorited() {
     setFavorited(!favorited);
+    setErrorMessage(false);
 
-    // try {
-    //   const dataUser = await axios.get(
-    //     `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`
-    //   );
-    //   console.log("user ", dataUser);
-    //   forceUpdate();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    if (favorited) {
+      console.log("je retire le film de mes favoris");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/seriesFavorites/${props.match.params.id}`
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("j'ajoute le film à mes favoris");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesFavorites/${props.match.params.id}`,
+          { userId: props.auth.user.id, movieId: props.match.params.id }
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   async function toggleLike() {
     if (disliked) {
-      alert(
+      setErrorMessage(
         "Vous ne pouvez pas liker un film que vous avez disliké. Merci de retirer le dislike d'abord"
       );
       return;
     }
-    setLiked(!liked);
 
-    try {
-      const dataUser = await axios.get(
-        `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`
-      );
-      console.log("user ", dataUser);
-      forceUpdate();
-    } catch (error) {
-      console.log(error);
+    setLiked(!liked);
+    setErrorMessage(false);
+
+    if (liked) {
+      console.log("je retire le film de mes likes");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/seriesLiked/${props.match.params.id}`
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("j'ajoute le film à mes likes");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`,
+          { userId: props.auth.user.id, movieId: props.match.params.id }
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
   async function toggleDislike() {
     if (liked) {
-      alert(
+      setErrorMessage(
         "Vous ne pouvez pas disliker un film que vous avez liké. Merci de retirer le like d'abord"
       );
       return;
     }
+
     setDisliked(!disliked);
+    setErrorMessage(false);
+
+    if (disliked) {
+      console.log("je retire le film de mes dislikes");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/seriesDisliked/${props.match.params.id}`
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("j'ajoute le film à mes dislikes");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesDisliked/${props.match.params.id}`,
+          { userId: props.auth.user.id, movieId: props.match.params.id }
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   async function loadSerieDetail() {
@@ -261,7 +323,11 @@ function DetailSerie(props) {
                 {props.auth.isAuthenticated && (
                   <div
                     className="row"
-                    style={{ margin: "20px 0", padding: "20px" }}
+                    style={{
+                      margin: "20px 0",
+                      padding: "20px",
+                      textAlign: "center"
+                    }}
                   >
                     <div
                       className="col s12 m3"
@@ -360,6 +426,7 @@ function DetailSerie(props) {
                       className="col s12 m3"
                       style={{ display: "flex", justifyContent: "center" }}
                     >
+                      <p>Ajouter</p>
                       <i
                         className="material-icons tooltipped"
                         data-position="bottom"
@@ -370,6 +437,11 @@ function DetailSerie(props) {
                       </i>
                     </div>
                   </div>
+                )}
+                {errorMessage && (
+                  <p style={{ color: "red", textAlign: "center" }}>
+                    {errorMessage}
+                  </p>
                 )}
                 <p className="film-detail">
                   Titre original
