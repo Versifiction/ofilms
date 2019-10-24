@@ -22,6 +22,9 @@ import DetailCompany from "./components/company/DetailCompany";
 import DetailPerson from "./components/persons/DetailPerson";
 import Connexion from "./pages/Connexion";
 import Inscription from "./pages/Inscription";
+import Favoris from "./pages/Favoris";
+import LikesDislikes from "./pages/LikesDislikes";
+import Lists from "./pages/Lists";
 import Forum from "./pages/Forum";
 import Chat from "./pages/Chat";
 import Apropos from "./pages/Apropos";
@@ -68,6 +71,9 @@ function Router() {
       <Route path="/company/:id" exact component={DetailCompany} />
       <Route path="/connexion" exact component={Connexion} />
       <Route path="/inscription" exact component={Inscription} />
+      <Route path="/favoris" exact component={Favoris} />
+      <Route path="/likes-dislikes" exact component={LikesDislikes} />
+      <Route path="/lists" exact component={Lists} />
       <Route path="/forum" exact component={Forum} />
       <Route path="/chat" exact component={Chat} />
       <Route path="/a-propos" exact component={Apropos} />

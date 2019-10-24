@@ -19,7 +19,7 @@ const UserSchema = new Schema({
   firstname: String,
   lastname: String,
   sexe: String,
-  mobilePhone: Number,
+  mobilePhone: String,
   departement: Number,
   city: String,
   moviesLiked: Array,
@@ -34,6 +34,7 @@ const UserSchema = new Schema({
     default: Date.now
   },
   lastConnection: Date,
+  isVerified: Boolean,
   isAdmin: Boolean,
   isModerator: Boolean,
   isConnected: Boolean

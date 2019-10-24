@@ -9,7 +9,10 @@ const ChatMessageSchema = new Schema({
   },
   date: Date,
   writer: String,
-  isMasked: Boolean
+  isMasked: Boolean,
+  isVerified: Boolean,
+  isMModerator: Boolean,
+  isAdmin: Boolean
 });
 
 module.exports = mongoose.model("ChatMessage", ChatMessageSchema);

@@ -82,12 +82,142 @@ router.get("/user/:username", function(req, res) {
   );
 });
 
-router.post("/register", (req, res) => {
-  // Form validation
+router.get("/user/:user/seriesLiked/:serie", function(req, res) {
+  mongo.connect(
+    url,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    (err, client) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const db = client.db("ofilms-demo");
+      const collection = db.collection("users");
+      collection
+        .find({
+          _id: req.params.user,
+          seriesLiked: { $in: { seriesLiked: [req.params.serie] } }
+        })
+        .toArray((err, items) => {
+          res.json(items);
+        });
+      client.close();
+    }
+  );
+});
 
+router.post("/user/:user/add/seriesLiked/:movie", function(req, res) {
+  mongo.connect(
+    url,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    (err, client) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const db = client.db("ofilms-demo");
+      const collection = db.collection("users");
+      collection.updateOne(
+        { id: req.params.user },
+        { $push: { seriesLiked: req.params.movie } }
+      );
+      client.close();
+    }
+  );
+});
+
+router.get("/user/:user/moviesLiked/:serie", function(req, res) {
+  mongo.connect(
+    url,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    (err, client) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const db = client.db("ofilms-demo");
+      const collection = db.collection("users");
+      collection
+        .find({
+          _id: req.params.user,
+          moviesLiked: { $in: { moviesLiked: [req.params.movie] } }
+        })
+        .toArray((err, items) => {
+          res.json(items);
+        });
+      client.close();
+    }
+  );
+});
+
+router.post("/user/:id/add/moviesLiked/:movie", function(req, res) {
+  console.log("in api function add");
+  mongo.connect(
+    url,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    (err, client) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const db = client.db("ofilms-demo");
+      const collection = db.collection("users");
+      const id = req.params.id;
+      const o_id = new ObjectId(id);
+      collection.update(
+        { _id: o_id },
+        { $addToSet: { moviesLiked: req.params.movie } }
+      );
+      console.log("req params id ", o_id);
+      console.log("req params movie ", req.params.movie);
+      client.close();
+    }
+  );
+});
+
+router.post("/user/:id/remove/moviesLiked/:movie", function(req, res) {
+  console.log("in api function remove");
+  mongo.connect(
+    url,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    (err, client) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      const db = client.db("ofilms-demo");
+      const collection = db.collection("users");
+      const id = req.params.id;
+      const o_id = new ObjectId(id);
+      collection.update(
+        { _id: o_id },
+        { $pull: { moviesLiked: req.params.movie } }
+      );
+      console.log("req params id ", o_id);
+      console.log("req params movie ", req.params.movie);
+      client.close();
+    }
+  );
+});
+
+router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
-  // Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
@@ -126,7 +256,6 @@ router.post("/register", (req, res) => {
           lastConnection: ""
         });
 
-        // Hash password before saving in database
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
@@ -147,15 +276,9 @@ router.post("/register", (req, res) => {
   };
 });
 
-// @route POST api/users/login
-// @desc Login user and return JWT token
-// @access Public
 router.post("/login", (req, res) => {
-  // Form validation
-
   const { errors, isValid } = validateLoginInput(req.body);
 
-  // Check validation
   if (!isValid) {
     return res.status(400).json(errors);
   }
@@ -163,9 +286,7 @@ router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  // Find user by email
   User.findOne({ email }).then(user => {
-    // Check if user exists
     if (!user) {
       errors.email = "L'adresse email existe déjà";
     }
@@ -176,6 +297,8 @@ router.post("/login", (req, res) => {
           id: user.id,
           name: user.name
         };
+
+        user.lastConnection = new Date();
 
         jwt.sign(
           payload,
@@ -191,9 +314,10 @@ router.post("/login", (req, res) => {
           }
         );
       } else {
-        return res
-          .status(400)
-          .json({ passwordincorrect: "Password incorrect" });
+        errors.password = "Le mot de passe saisi n'est pas correct";
+        // return res
+        //   .status(400)
+        //   .json({ passwordincorrect: "Password incorrect" });
       }
     });
   });
@@ -205,7 +329,7 @@ router.post("/login", (req, res) => {
 });
 
 // Defined delete | remove | destroy route
-router.get("/delete/:id", function(req, res) {
+router.delete("/delete/:id", function(req, res) {
   User.findByIdAndRemove({ _id: req.params.id }, function(err, user) {
     if (err) res.json(err);
     else res.json("Enlevé avec succès");

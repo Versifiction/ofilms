@@ -13,6 +13,7 @@ const date = require("./routes/api/date");
 const root = require("./routes/api/root");
 const cors = require("cors");
 const mongo = require("mongodb").MongoClient;
+const ObjectId = require("mongodb").ObjectId;
 require("dotenv").config();
 
 // app.use(function(req, res, next) {
@@ -33,8 +34,6 @@ app.use(
   })
 );
 
-// io.set("origins", "http://localhost:3000");
-
 app.use(
   bodyParser.urlencoded({
     extended: false
@@ -50,8 +49,8 @@ app.use("/api/date", date);
 app.use("/", root);
 
 io.on("connection", function(socket) {
-  socket.on("chat message", function(message) {
-    io.emit("chat message", message);
+  socket.on("send message", function(message) {
+    io.emit("send message", message);
     mongo.connect(
       `mongodb://${process.env.PORT_DB}/${process.env.COLLECTION}`,
       {
@@ -72,12 +71,40 @@ io.on("connection", function(socket) {
       }
     );
   });
+
+  socket.on("delete message", function(message) {
+    io.emit("delete message", message);
+    mongo.connect(
+      `mongodb://${process.env.PORT_DB}/${process.env.COLLECTION}`,
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      },
+      (err, client) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        const db = client.db("ofilms-demo");
+        const collection = db.collection("chat-messages");
+        const id = message.id;
+        const o_id = new ObjectId(id);
+        collection.findOneAndDelete({ _id: o_id }, function(err, user) {
+          if (err) {
+            throw err;
+          }
+        });
+        client.close();
+      }
+    );
+  });
 });
 
 mongoose.set("useCreateIndex", true);
 mongoose
   .connect(`mongodb://${process.env.PORT_DB}/${process.env.COLLECTION}`, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
   })
   .then(() => {
     console.log(
@@ -87,7 +114,3 @@ mongoose
   .catch(e =>
     console.log("Erreur lors de la connexion à la base de données ", e)
   );
-
-// app.listen(port, function() {
-//   console.log("Le serveur tourne sur le port " + port);
-// });

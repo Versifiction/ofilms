@@ -8,6 +8,7 @@ import M from "materialize-css";
 import "../../App.css";
 import Spinner from "../../components/Molecules/Spinner";
 import Nav from "../../components/Nav";
+import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Users() {
@@ -170,7 +171,7 @@ function Users() {
                       <td>
                         <button
                           data-target="modal1"
-                          className="waves-effect waves-light btn modal-trigger"
+                          className="btn modal-trigger"
                           style={{
                             backgroundColor: "red",
                             marginTop: "inherit"
@@ -195,7 +196,7 @@ function Users() {
                       </div>
                       <div className="modal-footer" style={{ textAlign: "center" }}>
                         <div
-                          className="modal-close waves-effect waves-light btn"
+                          className="modal-closebtn"
                           style={{ backgroundColor: "green" }}
                           onClick={() => {
                             deleteUser(user._id);
@@ -204,7 +205,7 @@ function Users() {
                           Oui
                         </div>
                         <div
-                          className="modal-close waves-effect waves-green btn-flat"
+                          className="modal-close btn-flat"
                           style={{
                             backgroundColor: "red",
                             color: "white",
@@ -221,6 +222,7 @@ function Users() {
           </table>
         </>
       )}
+      <FloatingChat />
       <BandeauCookie />
     </>
   );

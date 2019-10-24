@@ -7,6 +7,7 @@ import { loginUser } from "../../store/actions/authActions";
 
 import "../../App.css";
 import Nav from "../../components/Nav";
+import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Connexion(props) {
@@ -31,7 +32,7 @@ function Connexion(props) {
     if (props.errors) {
       setFields({ ...fields, errors: props.errors });
     }
-  }, [fields, props.errors]);
+  }, [props.errors]);
 
   function togglePasswordVisibility() {
     setPasswordVisible(!passwordVisible);
@@ -129,10 +130,10 @@ function Connexion(props) {
               </div>
               <div className="row center" style={{ marginTop: "40px" }}>
                 <button
-                  // className={`btn waves-effect waves-light ${
+                  // className={`btn ${
                   //   !submittable ? "disabled" : ""
                   // }`}
-                  className="btn btn-large waves-effect waves-light"
+                  className="btn btn-large"
                 >
                   Me connecter
                   <i className="material-icons right">send</i>
@@ -149,6 +150,7 @@ function Connexion(props) {
           </div>
         </div>
       </div>
+      <FloatingChat />
       <BandeauCookie />
     </>
   );

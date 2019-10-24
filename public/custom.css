@@ -159,20 +159,20 @@ input[type="submit"] {
   color: #95878b;
 }
 
-.accueil-intro {
+#accueil-intro {
   background-color: #0cd0fc;
   color: white;
   text-align: center;
   padding: 80px;
 }
 
-.accueil-intro h3,
+#accueil-intro h3,
 .accueil-actions h3 {
   font-size: 60px;
   margin-bottom: 50px !important;
 }
 
-.accueil-intro p,
+#accueil-intro p,
 .accueil-actions p {
   color: inherit;
   font-size: 20px;
@@ -225,9 +225,14 @@ input[type="submit"] {
 }
 
 .chat-messages-trash {
-  display: none;
+  visibility: hidden;
 }
 
 .message:hover .chat-messages-trash {
-  display: block;
+  visibility: visible;
+}
+
+.btn-floating.disabled {
+  background-color: #95878b;
+  cursor: not-allowed;
 }

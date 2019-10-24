@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "../../App.css";
 
 import Nav from "../../components/Nav";
+import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Faq() {
@@ -98,6 +99,7 @@ function Faq() {
           </li>
         </ul>
       </div>
+      <FloatingChat />
       <BandeauCookie />
     </>
   );

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import useForceUpdate from "use-force-update";
 import StarRatingComponent from "react-star-rating-component";
 import Flag from "react-world-flags";
@@ -18,7 +19,7 @@ import Photos from "./Photos";
 import SimilarFilms from "./SimilarFilms";
 import placeholder from "../../../images/placeholder.png";
 
-function DetailFilm({ match }) {
+function DetailFilm(props) {
   const [filmDetail, setFilmDetail] = useState(false);
   const [castFilm, setCastFilm] = useState(false);
   const [crewFilm, setCrewFilm] = useState(false);
@@ -27,13 +28,16 @@ function DetailFilm({ match }) {
   const [photosFilm, setPhotosFilm] = useState(false);
   const [keywordsFilm, setKeywordsFilm] = useState(false);
   const [convertedRuntime, setConvertedRuntime] = useState();
+  const [favorited, setFavorited] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
   const [pending, setPending] = useState(true);
-  const filmDetailUrl = `https://api.themoviedb.org/3/movie/${match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const creditsFilmUrl = `https://api.themoviedb.org/3/movie/${match.params.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
-  const similarFilmsUrl = `https://api.themoviedb.org/3/movie/${match.params.id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=1`;
-  const videosFilmUrl = `https://api.themoviedb.org/3/movie/${match.params.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const photosFilmUrl = `https://api.themoviedb.org/3/movie/${match.params.id}/images?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const keywordsFilmUrl = `https://api.themoviedb.org/3/movie/${match.params.id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`;
+  const filmDetailUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const creditsFilmUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
+  const similarFilmsUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=1`;
+  const videosFilmUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const photosFilmUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}/images?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const keywordsFilmUrl = `https://api.themoviedb.org/3/movie/${props.match.params.id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`;
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
@@ -46,6 +50,9 @@ function DetailFilm({ match }) {
     $(".sc-bxivhb").hover(function() {
       $(this).css("box-shadow", "grey 0 0 10px 2px");
     });
+    if (props.auth.isAuthenticated) {
+      loadUser();
+    }
 
     return () => {
       document.body.style.backgroundImage = `url("https://www.transparenttextures.com/patterns/black-linen.png")`;
@@ -60,6 +67,86 @@ function DetailFilm({ match }) {
     let hours = Math.trunc(runtime / 60);
     let minutes = runtime % 60;
     setConvertedRuntime(hours + "h" + minutes);
+  }
+
+  async function loadUser() {
+    try {
+      const dataUser = await axios.get(
+        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+      );
+      console.log("user ", dataUser);
+      setLiked(dataUser.data[0].moviesLiked.includes(props.match.params.id));
+      setDisliked(
+        dataUser.data[0].moviesDisliked.includes(props.match.params.id)
+      );
+      setFavorited(
+        dataUser.data[0].moviesFavorites.includes(props.match.params.id)
+      );
+      setPending(false);
+      forceUpdate();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function toggleFavorited() {
+    setFavorited(!favorited);
+
+    // try {
+    //   const dataUser = await axios.get(
+    //     `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`
+    //   );
+    //   console.log("user ", dataUser);
+    //   forceUpdate();
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  }
+
+  async function toggleLike() {
+    if (disliked) {
+      alert(
+        "Vous ne pouvez pas liker un film que vous avez disliké. Merci de retirer le dislike d'abord"
+      );
+      return;
+    }
+
+    setLiked(!liked);
+
+    if (liked) {
+      console.log("je retire le film de mes likes");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/moviesLiked/${props.match.params.id}`
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("j'ajoute le film à mes likes");
+      try {
+        const dataUser = await axios.post(
+          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/moviesLiked/${props.match.params.id}`,
+          { userId: props.auth.user.id, movieId: props.match.params.id }
+        );
+        console.log("user ", dataUser);
+        forceUpdate();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  async function toggleDislike() {
+    if (liked) {
+      alert(
+        "Vous ne pouvez pas disliker un film que vous avez liké. Merci de retirer le like d'abord"
+      );
+      return;
+    }
+    setDisliked(!disliked);
   }
 
   async function loadFilmDetail() {
@@ -180,50 +267,119 @@ function DetailFilm({ match }) {
                     starCount={10}
                     value={filmDetail && filmDetail.vote_average}
                   />
-                  <div
-                    className="row"
-                    style={{ margin: "20px 0", padding: "20px" }}
-                  >
+                  {props.auth.isAuthenticated && (
                     <div
-                      className="col s12 m4"
-                      style={{ display: "flex", justifyContent: "center" }}
+                      className="row"
+                      style={{ margin: "20px 0", padding: "20px" }}
                     >
-                      <i
-                        className="material-icons tooltipped"
-                        data-position="bottom"
-                        data-tooltip="Ajouter ce film à mes likes"
-                        style={{ cursor: "pointer", color: "#95878B" }}
+                      <div
+                        className="col s12 m3"
+                        style={{ display: "flex", justifyContent: "center" }}
                       >
-                        thumb_up
-                      </i>
-                    </div>
-                    <div
-                      className="col s12 m4"
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <i
-                        className="material-icons tooltipped"
-                        data-position="bottom"
-                        data-tooltip="Ajouter ce film à mes dislikes"
-                        style={{ cursor: "pointer", color: "#95878B" }}
+                        {!favorited ? (
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Ajouter ce film à mes favoris"
+                            data-micron="bounce"
+                            style={{ cursor: "pointer", color: "#95878B" }}
+                            onClick={toggleFavorited}
+                          >
+                            star
+                          </i>
+                        ) : (
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Retirer ce film de mes favoris"
+                            data-micron="bounce"
+                            style={{
+                              cursor: "pointer",
+                              color: "yellow"
+                            }}
+                            onClick={toggleFavorited}
+                          >
+                            star
+                          </i>
+                        )}
+                      </div>
+                      <div
+                        className="col s12 m3"
+                        style={{ display: "flex", justifyContent: "center" }}
                       >
-                        thumb_down
-                      </i>
-                    </div>
-                    <div
-                      className="col s12 m4"
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
-                      <i
-                        className="material-icons tooltipped"
-                        data-position="bottom"
-                        data-tooltip="Ajouter ce film à une liste"
-                        style={{ cursor: "pointer", color: "#95878B" }}
+                        {!liked ? (
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Ajouter ce film à mes likes"
+                            data-micron="bounce"
+                            style={{ cursor: "pointer", color: "#95878B" }}
+                            onClick={toggleLike}
+                          >
+                            thumb_up
+                          </i>
+                        ) : (
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Retirer ce film de mes likes"
+                            data-micron="bounce"
+                            style={{
+                              cursor: "pointer",
+                              color: "green"
+                            }}
+                            onClick={toggleLike}
+                          >
+                            thumb_up
+                          </i>
+                        )}
+                      </div>
+                      <div
+                        className="col s12 m3"
+                        style={{ display: "flex", justifyContent: "center" }}
                       >
-                        playlist_add
-                      </i>
+                        {!disliked ? (
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Ajouter ce film à mes dislikes"
+                            data-micron="bounce"
+                            style={{ cursor: "pointer", color: "#95878B" }}
+                            onClick={toggleDislike}
+                          >
+                            thumb_down
+                          </i>
+                        ) : (
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Retirer ce film de mes dislikes"
+                            data-micron="bounce"
+                            style={{
+                              cursor: "pointer",
+                              color: "red"
+                            }}
+                            onClick={toggleDislike}
+                          >
+                            thumb_down
+                          </i>
+                        )}
+                      </div>
+                      <div
+                        className="col s12 m3"
+                        style={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <i
+                          className="material-icons tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Ajouter ce film à une liste"
+                          style={{ cursor: "pointer", color: "#95878B" }}
+                        >
+                          playlist_add
+                        </i>
+                      </div>
                     </div>
-                  </div>
+                  )}
                   <p className="film-detail" style={{ marginTop: "20px" }}>
                     Titre original
                     <span>{filmDetail && filmDetail.original_title}</span>
@@ -434,4 +590,9 @@ function DetailFilm({ match }) {
   );
 }
 
-export default DetailFilm;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps)(DetailFilm);

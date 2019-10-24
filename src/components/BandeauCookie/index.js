@@ -45,7 +45,7 @@ function BandeauCookie() {
                 .
               </p>
               <button
-                className="btn waves-effect waves-light"
+                className="btn"
                 style={{ marginTop: "inherit" }}
                 onClick={closeBandeauCookie}
               >

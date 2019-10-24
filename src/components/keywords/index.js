@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import StarRatingComponent from "react-star-rating-component";
 import moment from "moment";
 import useForceUpdate from "use-force-update";
+import ReactPaginate from "react-paginate";
+import $ from "jquery";
 
-//import { genres } from '../../utils/genres';
 import Nav from "../Nav";
 import Spinner from "../Molecules/Spinner";
-import Pagination from "../Molecules/Pagination";
 
 function Keyword({ match }) {
   const [keyword, setKeyword] = useState(false);
@@ -78,6 +78,13 @@ function Keyword({ match }) {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  function handlePageChange() {
+    setInterval(() => {
+      setActivePage($("li.active").text());
+      forceUpdate();
+    }, 100);
   }
 
   return (
@@ -199,16 +206,22 @@ function Keyword({ match }) {
           )}
         </div>
       </div>
-      <div className="container">
-        <Pagination
-          getFirst={getFirst}
-          getPrevious={getPrevious}
-          getNext={getNext}
-          getLast={getLast}
-          goToPage={goToPage}
-          activePage={activePage}
-          setActivePage={setActivePage}
-          total={totalPages}
+      <div
+        className="container"
+        style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
+      >
+        <ReactPaginate
+          previousLabel={<i className="material-icons">chevron_left</i>}
+          nextLabel={<i className="material-icons">chevron_right</i>}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
         />
       </div>
     </>

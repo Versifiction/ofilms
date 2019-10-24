@@ -37,12 +37,12 @@ export default function Pagination({
   return (
     total > 1 && (
       <ul className="pagination">
-        <li className={`waves-effect ${activePage === 1 ? "disabled" : ""}`}>
+        <li className={`${activePage === 1 ? "disabled" : ""}`}>
           <a href="#!" onClick={() => getFirst()}>
             <i className="material-icons">first_page</i>
           </a>
         </li>
-        <li className={`waves-effect ${activePage === 1 ? "disabled" : ""}`}>
+        <li className={`${activePage === 1 ? "disabled" : ""}`}>
           <a href="#!" onClick={() => getPrevious()}>
             <i className="material-icons">chevron_left</i>
           </a>
@@ -56,12 +56,12 @@ export default function Pagination({
               </a>
             </li>
           ))}
-        <li className={`waves-effect ${activePage >= total ? "disabled" : ""}`}>
+        <li className={`${activePage >= total ? "disabled" : ""}`}>
           <a href="#!" onClick={() => getNext()}>
             <i className="material-icons">chevron_right</i>
           </a>
         </li>
-        <li className={`waves-effect ${activePage >= total ? "disabled" : ""}`}>
+        <li className={`${activePage >= total ? "disabled" : ""}`}>
           <a href="#!" onClick={() => getLast()}>
             <i className="material-icons">last_page</i>
           </a>

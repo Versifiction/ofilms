@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "../../App.css";
 
 import Nav from "../../components/Nav";
+import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function MentionsLegales() {
@@ -226,6 +227,7 @@ function MentionsLegales() {
           relative à la protection juridique des bases de données.
         </p>
       </div>
+      <FloatingChat />
       <BandeauCookie />
     </>
   );

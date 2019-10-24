@@ -6,6 +6,7 @@ import useForceUpdate from "use-force-update";
 import "../../App.css";
 import Nav from "../../components/Nav";
 import Spinner from "../../components/Molecules/Spinner";
+import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Series() {
@@ -145,6 +146,7 @@ function Series() {
           )}
         </div>
       </div>
+      <FloatingChat />
       <BandeauCookie />
     </>
   );

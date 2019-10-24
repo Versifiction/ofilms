@@ -21,7 +21,7 @@ function Chat(props) {
   const [chatOpen, setChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [username, setUsername] = useState("");
-  const [messages, setMessages] = useState(false);
+  const [messages, setMessages] = useState([]);
   const [isVerified, setIsVerified] = useState(false);
   const [isModerator, setIsModerator] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -41,17 +41,32 @@ function Chat(props) {
 
     socket.open();
     loadMessages();
-    socket.on("chat message", data => {
-      setMessages([...messages, data]);
-    });
 
     return () => {
       socket.close();
     };
   }, []);
 
+  // useEffect(() => {
+  //   const chat = document.getElementsByClassName("chat-messages-container")[0];
+  //   if (chat) {
+  //     chat.scrollTop = chat.scrollHeight;
+  //   }
+  // }, [messages]);
+
   useEffect(() => {
     M.AutoInit();
+    socket.on("send message", data => {
+      console.log("data dans send message ", data);
+      console.log("messages ", messages);
+      setMessages([...messages, data]);
+    });
+
+    socket.on("delete message", data => {
+      console.log("data dans delete message ", data);
+      console.log("messages ", messages);
+      setMessages(messages.filter(message => message._id !== data.id));
+    });
   });
 
   async function loadUser() {
@@ -92,10 +107,8 @@ function Chat(props) {
 
   async function deleteMessage(id) {
     console.log("dans fonction deletemessage");
-    axios
-      .get(`http://localhost:5000/api/chat/messages/delete/${id}`)
-      .then(console.log("success deletemessage"))
-      .catch(err => console.log(err));
+
+    socket.emit("delete message", { id: id });
   }
 
   function handleChange(e) {
@@ -109,7 +122,7 @@ function Chat(props) {
   async function sendMessage(e) {
     e.preventDefault();
 
-    socket.emit("chat message", {
+    socket.emit("send message", {
       writer: username,
       content: inputValue,
       date: new Date(),
@@ -209,6 +222,7 @@ function Chat(props) {
                                 {isModerator && (
                                   <i
                                     className="material-icons colored right chat-messages-trash"
+                                    title="Supprimer ce message"
                                     style={{
                                       cursor: "pointer",
                                       position: "absolute",
@@ -393,6 +407,7 @@ function Chat(props) {
     </>
   );
 }
+
 const mapStateToProps = state => ({
   auth: state.auth,
   errors: state.errors

@@ -9,10 +9,12 @@ import $ from "jquery";
 import "../../App.css";
 
 import Nav from "../../components/Nav";
+import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Bibliotheque() {
-  const [allGenres, setAllGenres] = useState(false);
+  const [moviesGenres, setMoviesGenres] = useState(false);
+  const [tvGenres, setTvGenres] = useState(false);
   const [result, setResult] = useState(false);
   const [mediaType, setMediaType] = useState("movie");
   const [nameGenreChosen, setNameGenreChosen] = useState("Action");
@@ -20,7 +22,8 @@ function Bibliotheque() {
   const [pending, setPending] = useState(false);
   const [activePage, setActivePage] = useState(1);
   const forceUpdate = useForceUpdate();
-  const allGenresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const moviesGenresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const tvGenresUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const searchUrl = `https://api.themoviedb.org/3/discover/${mediaType}?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`;
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
@@ -28,6 +31,7 @@ function Bibliotheque() {
   useEffect(() => {
     document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     window.scroll(0, 0);
+    M.AutoInit();
 
     return () => {
       document.body.style.backgroundImage = `url("https://www.transparenttextures.com/patterns/black-linen.png")`;
@@ -35,12 +39,12 @@ function Bibliotheque() {
   }, [activePage]);
 
   useEffect(() => {
-    M.AutoInit();
     document.title = "O'Films | Bibliothèque";
   });
 
   useEffect(() => {
-    loadAllGenres();
+    loadMoviesGenres();
+    loadTvGenres();
   }, []);
 
   useEffect(() => {
@@ -56,10 +60,20 @@ function Bibliotheque() {
     console.log("-------------");
   }, [mediaType, idGenreChosen, searchUrl, result]);
 
-  async function loadAllGenres() {
+  async function loadMoviesGenres() {
     try {
-      const dataAllGenres = await axios.get(allGenresUrl);
-      setAllGenres(dataAllGenres.data.genres);
+      const dataMoviesGenres = await axios.get(moviesGenresUrl);
+      setMoviesGenres(dataMoviesGenres.data.genres);
+      setPending(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadTvGenres() {
+    try {
+      const dataTvGenres = await axios.get(tvGenresUrl);
+      setTvGenres(dataTvGenres.data.genres);
       setPending(false);
     } catch (error) {
       console.error(error);
@@ -88,7 +102,11 @@ function Bibliotheque() {
         .children("span")
         .text()
     );
-    setIdGenreChosen(allGenres.find(genre => genre.name === e.target.value).id);
+    setIdGenreChosen(
+      mediaType === "movie"
+        ? moviesGenres.find(genre => genre.name === e.target.value).id
+        : tvGenres.find(genre => genre.name === e.target.value).id
+    );
     forceUpdate();
   }
 
@@ -126,17 +144,31 @@ function Bibliotheque() {
 
           <div className="input-field col s6">
             <p>Choisissez un genre</p>
-            <select onChange={handleGenreChange}>
-              <option value="" disabled defaultValue>
-                Choisissez un genre
-              </option>
-              {allGenres &&
-                allGenres.map(genre => (
-                  <option value={genre.name} key={genre.id} id={genre.id}>
-                    {genre.name}
-                  </option>
-                ))}
-            </select>
+            {mediaType === "movie" ? (
+              <select onChange={handleGenreChange}>
+                <option value="" disabled defaultValue>
+                  Choisissez un genre
+                </option>
+                {moviesGenres &&
+                  moviesGenres.map(genre => (
+                    <option value={genre.name} key={genre.id} id={genre.id}>
+                      {genre.name}
+                    </option>
+                  ))}
+              </select>
+            ) : (
+              <select onChange={handleGenreChange}>
+                <option value="" disabled defaultValue>
+                  Choisissez un genre
+                </option>
+                {tvGenres &&
+                  tvGenres.map(genre => (
+                    <option value={genre.name} key={genre.id} id={genre.id}>
+                      {genre.name}
+                    </option>
+                  ))}
+              </select>
+            )}
           </div>
         </div>
         <br />
@@ -202,7 +234,7 @@ function Bibliotheque() {
       </div>
       <div
         className="container"
-        style={{ display: "flex", justifyContent: "center" }}
+        style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
       >
         <ReactPaginate
           previousLabel={<i className="material-icons">chevron_left</i>}
@@ -218,6 +250,7 @@ function Bibliotheque() {
           activeClassName={"active"}
         />
       </div>
+      <FloatingChat />
       <BandeauCookie />
     </>
   );

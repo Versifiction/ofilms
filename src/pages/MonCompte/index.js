@@ -8,12 +8,16 @@ import { logoutUser } from "../../store/actions/authActions";
 
 import "../../App.css";
 import Nav from "../../components/Nav";
+import Spinner from "../../components/Molecules/Spinner";
+import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function MonCompte(props) {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [pending, setPending] = useState(false);
+  const [pending, setPending] = useState(true);
   const [editable, setEditable] = useState(false);
+  const [citiesList, setCitiesList] = useState(false);
+  const [departementsList, setDepartementsList] = useState(false);
   const [user, setUser] = useState(false);
   const forceUpdate = useForceUpdate();
   const [fields, setFields] = useState({
@@ -31,12 +35,44 @@ function MonCompte(props) {
     creationDate: null,
     errors: {}
   });
+  const citiesUrl = `https://geo.api.gouv.fr/departements/${fields.departement}/communes`;
+  const departementsUrl = `https://geo.api.gouv.fr/departements/`;
 
   useEffect(() => {
     document.title = "O'Films | Mon compte";
-    M.AutoInit();
     loadUser();
+    loadDepartements();
   }, []);
+
+  useEffect(() => {
+    M.AutoInit();
+  });
+
+  useEffect(() => {
+    loadCities();
+  }, [fields.departement]);
+
+  async function loadCities() {
+    try {
+      const dataCities = await axios.get(citiesUrl);
+      console.log("citiesList ", dataCities.data);
+      setCitiesList(dataCities.data);
+      forceUpdate();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function loadDepartements() {
+    try {
+      const dataDepartements = await axios.get(departementsUrl);
+      console.log("departementsList ", dataDepartements.data);
+      setDepartementsList(dataDepartements.data);
+      forceUpdate();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async function loadUser() {
     try {
@@ -56,6 +92,7 @@ function MonCompte(props) {
       fields.departement = user.departement;
       fields.creationDate = user.creationDate;
       fields.lastConnection = user.lastConnection;
+      M.AutoInit();
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -66,11 +103,13 @@ function MonCompte(props) {
   function handleChange(e) {}
 
   function validateChanges() {
+    console.log("function validate");
     setEditable(false);
     M.toast({ html: "Vos changements ont bien été effectués" });
   }
 
   function cancelChanges() {
+    console.log("function cancel");
     setEditable(false);
   }
 
@@ -82,7 +121,10 @@ function MonCompte(props) {
       <div className="container">
         <h2 className="media-type">Mon compte</h2>
         <h4 style={{ color: "white" }}>Informations du profil</h4>
-        {user &&
+        {pending ? (
+          <Spinner />
+        ) : (
+          user &&
           user.map(data => (
             <>
               <div className="row">
@@ -94,7 +136,12 @@ function MonCompte(props) {
                 >
                   <div className="row">
                     <div className="input-field col s6">
-                      <i className="material-icons colored prefix">mail</i>
+                      <i
+                        className="material-icons colored prefix"
+                        title="Adresse e-mail"
+                      >
+                        mail
+                      </i>
                       <input
                         id="email"
                         type="email"
@@ -111,13 +158,17 @@ function MonCompte(props) {
                         })}
                         required
                       />
-                      <label htmlFor="email">Adresse e-mail *</label>
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
                         {fields.errors.email}
                       </span>
                     </div>
                     <div className="input-field col s6">
-                      <i className="material-icons colored prefix">message</i>
+                      <i
+                        className="material-icons colored prefix"
+                        title="Pseudo"
+                      >
+                        message
+                      </i>
                       <input
                         id="username"
                         type="text"
@@ -132,16 +183,183 @@ function MonCompte(props) {
                         })}
                         required
                       />
-                      <label htmlFor="username">Pseudo *</label>
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
                         {fields.errors.username}
                       </span>
                     </div>
                   </div>
-                  <div className="row center" style={{ marginTop: "40px" }}>
+                  <div className="row">
+                    <div className="input-field col s6">
+                      <i className="material-icons colored prefix">contacts</i>
+                      <input
+                        placeholder="Entrez votre prénom"
+                        id="firstname"
+                        name="firstname"
+                        type="text"
+                        disabled={!editable}
+                        value={data.firstname}
+                        onChange={e => handleChange(e)}
+                        style={{ backgroundColor: "transparent" }}
+                        className={classnames("validate", {
+                          invalid: fields.errors.firstname
+                        })}
+                        required
+                      />
+                      <span className="red-text" style={{ marginLeft: "3rem" }}>
+                        {fields.errors.firstname}
+                      </span>
+                    </div>
+                    <div className="input-field col s6">
+                      <i className="material-icons colored prefix">contacts</i>
+                      <input
+                        id="lastname"
+                        type="text"
+                        name="lastname"
+                        disabled={!editable}
+                        placeholder="Entrez votre nom"
+                        value={data.lastname}
+                        onChange={e => handleChange(e)}
+                        style={{ backgroundColor: "transparent" }}
+                        className={classnames("validate", {
+                          invalid: fields.errors.lastname
+                        })}
+                        required
+                      />
+                      <span className="red-text" style={{ marginLeft: "3rem" }}>
+                        {fields.errors.lastname}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="input-field col s6">
+                      <i className="material-icons colored prefix">wc</i>
+                      <select
+                        name="sexe"
+                        id="sexe"
+                        disabled={!editable}
+                        onChange={e => handleChange(e)}
+                        value={data.sexe}
+                        className={classnames("validate", {
+                          invalid: fields.errors.sexe
+                        })}
+                        required
+                      >
+                        <option value="" disabled selectedvalue="true">
+                          Sélectionnez votre sexe
+                        </option>
+                        <option value="H">Homme</option>
+                        <option value="F">Femme</option>
+                      </select>
+                      <span className="red-text" style={{ marginLeft: "3rem" }}>
+                        {fields.errors.sexe}
+                      </span>
+                    </div>
+                    <div className="input-field col s6">
+                      <i className="material-icons colored prefix">phone</i>
+                      <input
+                        id="mobilePhone"
+                        type="text"
+                        name="mobilePhone"
+                        disabled={!editable}
+                        placeholder="Entrez votre numéro de téléphone mobile"
+                        value={data.mobilePhone}
+                        onChange={e => handleChange(e)}
+                        className={classnames("validate", {
+                          invalid: fields.errors.sexe
+                        })}
+                      />
+                      <span className="red-text" style={{ marginLeft: "3rem" }}>
+                        {fields.errors.mobilePhone}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="row" style={{ position: "relative" }}>
+                    <i
+                      className="material-icons tooltipped"
+                      data-position="bottom"
+                      data-tooltip="Vous devez renseigner votre département avant de sélectionner la ville"
+                      style={{
+                        position: "absolute",
+                        right: "0.75rem",
+                        top: "0",
+                        cursor: "pointer",
+                        color: "#95878B",
+                        fontSize: "15px",
+                        zIndex: "1"
+                      }}
+                    >
+                      error
+                    </i>
+                    <div className="input-field col s6">
+                      <i className="material-icons colored prefix">place</i>
+                      <select
+                        name="departement"
+                        id="departement"
+                        disabled={!editable}
+                        onChange={e => handleChange(e)}
+                        value={data.departement}
+                        className={classnames("validate", {
+                          invalid: fields.errors.departement
+                        })}
+                        style={{ overflowY: "auto" }}
+                      >
+                        <option value="" disabled selectedvalue="true">
+                          Sélectionnez votre département
+                        </option>
+                        {departementsList &&
+                          departementsList.map(departement => (
+                            <option
+                              value={departement.code}
+                              key={departement.code}
+                            >
+                              {departement.nom} ({departement.code})
+                            </option>
+                          ))}
+                      </select>
+                      <span className="red-text" style={{ marginLeft: "3rem" }}>
+                        {fields.errors.departement}
+                      </span>
+                    </div>
+                    <div className="input-field col s6">
+                      <i className="material-icons colored prefix">
+                        location_city
+                      </i>
+                      <select
+                        name="city"
+                        id="city"
+                        disabled={data.departement === "" || !editable}
+                        onChange={e => handleChange(e)}
+                        value={data.city}
+                        className={classnames("validate", {
+                          invalid: fields.errors.city
+                        })}
+                      >
+                        <option value="" disabled selectedvalue="true">
+                          Sélectionnez votre ville
+                        </option>
+                        {citiesList &&
+                          citiesList.map(city => (
+                            <option value={city.nom} key={city.nom}>
+                              {city.nom}
+                            </option>
+                          ))}
+                      </select>
+                      <span className="red-text" style={{ marginLeft: "3rem" }}>
+                        {fields.errors.city}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    className="row center"
+                    style={{
+                      marginTop: "40px",
+                      display: "flex",
+                      justifyContent: "center"
+                    }}
+                  >
                     {!editable ? (
                       <button
-                        className="btn-large waves-effect waves-light"
+                        className="btn-large"
                         onClick={() => {
                           setEditable(true);
                         }}
@@ -155,111 +373,28 @@ function MonCompte(props) {
                           type="submit"
                           value="Valider"
                           onClick={validateChanges}
-                          style={{ zIndex: "-1", cursor: "pointer" }}
+                          style={{ cursor: "pointer" }}
                         />
-                        <input
-                          type="submit"
-                          value="Annuler"
+                        <button
+                          className="btn-large"
+                          onClick={cancelChanges}
                           style={{
-                            zIndex: "-1",
                             cursor: "pointer",
                             marginLeft: "10px"
                           }}
-                        />
+                        >
+                          Annuler
+                        </button>
                       </>
                     )}
                   </div>
                 </form>
               </div>
             </>
-          ))}
-        <div className="row">
-          <form
-            className="col s12"
-            autoComplete="off"
-            onSubmit={update}
-            method="post"
-          >
-            <div className="row">
-              <div className="input-field col s6">
-                <i className="material-icons colored prefix">mail</i>
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  disabled={!editable}
-                  placeholder="Entrez votre adresse e-mail"
-                  value={fields.email}
-                  onChange={e => handleChange(e)}
-                  style={{
-                    backgroundColor: "transparent !important"
-                  }}
-                  className={classnames("validate", {
-                    invalid: fields.errors.email
-                  })}
-                  required
-                />
-                <label htmlFor="email">Adresse e-mail *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.email}
-                </span>
-              </div>
-              <div className="input-field col s6">
-                <i className="material-icons colored prefix">message</i>
-                <input
-                  id="username"
-                  type="text"
-                  name="username"
-                  disabled={!editable}
-                  value={fields.username}
-                  onChange={e => handleChange(e)}
-                  style={{ backgroundColor: "transparent" }}
-                  placeholder="Entrez votre pseudo"
-                  className={classnames("validate", {
-                    invalid: fields.errors.username
-                  })}
-                  required
-                />
-                <label htmlFor="username">Pseudo *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.username}
-                </span>
-              </div>
-            </div>
-            <div className="row center" style={{ marginTop: "40px" }}>
-              {!editable ? (
-                <button
-                  className="btn-large waves-effect waves-light"
-                  onClick={() => {
-                    setEditable(true);
-                  }}
-                >
-                  Modifier mes informations
-                  <i className="material-icons right">edit</i>
-                </button>
-              ) : (
-                <>
-                  <input
-                    type="submit"
-                    value="Valider"
-                    onClick={validateChanges}
-                    style={{ zIndex: "-1", cursor: "pointer" }}
-                  />
-                  <input
-                    type="submit"
-                    value="Annuler"
-                    style={{
-                      zIndex: "-1",
-                      cursor: "pointer",
-                      marginLeft: "10px"
-                    }}
-                  />
-                </>
-              )}
-            </div>
-          </form>
-        </div>
+          ))
+        )}
       </div>
+      <FloatingChat />
       <BandeauCookie />
     </>
   );

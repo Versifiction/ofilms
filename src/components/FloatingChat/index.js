@@ -13,7 +13,7 @@ function FloatingChat(props) {
   const [chatOpen, setChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [username, setUsername] = useState("");
-  const [messages, setMessages] = useState(false);
+  const [messages, setMessages] = useState([]);
   const [isVerified, setIsVerified] = useState(false);
   const [isModerator, setIsModerator] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -32,6 +32,18 @@ function FloatingChat(props) {
 
   useEffect(() => {
     M.AutoInit();
+
+    socket.on("send message", data => {
+      console.log("data dans send message ", data);
+      console.log("messages ", messages);
+      setMessages([...messages, data]);
+    });
+
+    socket.on("delete message", data => {
+      console.log("data dans delete message ", data);
+      console.log("messages ", messages);
+      setMessages(messages.filter(message => message._id !== data.id));
+    });
   });
 
   useEffect(() => {
@@ -74,10 +86,8 @@ function FloatingChat(props) {
 
   async function deleteMessage(id) {
     console.log("dans fonction deletemessage");
-    axios
-      .get(`http://localhost:5000/api/chat/messages/delete/${id}`)
-      .then(console.log("success deletemessage"))
-      .catch(err => console.log(err));
+
+    socket.emit("delete message", { id: id });
   }
 
   function toggleChat() {
@@ -95,7 +105,7 @@ function FloatingChat(props) {
   async function sendMessage(e) {
     e.preventDefault();
 
-    socket.emit("chat message", {
+    socket.emit("send message", {
       writer: username,
       content: inputValue,
       date: new Date(),
@@ -156,12 +166,12 @@ function FloatingChat(props) {
                 <div className="col s12">
                   <ul className="tabs">
                     <li className="tab col s6">
-                      <a href="#messages">Messages</a>
+                      <a href="#messages" className="active">
+                        Messages
+                      </a>
                     </li>
                     <li className="tab col s6">
-                      <a className="active" href="#infos">
-                        Infos
-                      </a>
+                      <a href="#infos">Infos</a>
                     </li>
                   </ul>
                 </div>
@@ -188,7 +198,7 @@ function FloatingChat(props) {
                             </p>
                             {isModerator && (
                               <i
-                                className="material-icons colored right"
+                                className="material-icons colored right chat-messages-trash"
                                 style={{
                                   cursor: "pointer",
                                   position: "absolute",

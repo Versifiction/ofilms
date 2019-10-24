@@ -36,14 +36,6 @@ function Nav(props) {
     //   });
   });
 
-  useEffect(() => {
-    console.log("searchActive ", searchActive);
-    console.log("searchInputValue ", searchInputValue);
-    console.log("sideNavActive ", sideNavActive);
-    console.log("searchResult ", searchResult);
-    console.log("pending ", pending);
-  }, [searchActive, searchInputValue, sideNavActive, searchResult, pending]);
-
   function logout(e) {
     e.preventDefault();
     props.logoutUser();
@@ -98,7 +90,7 @@ function Nav(props) {
               >
                 O'Films
               </a>
-              <ul className="hide-on-med-and-down right">
+              <ul className="right">
                 <li>
                   <form action="" className="browser-default right">
                     <input
@@ -161,7 +153,10 @@ function Nav(props) {
                       )}
                     </label>
                     {searchActive && (
-                      <div className="search-popup">
+                      <div
+                        className="search-popup"
+                        style={{ backgroundColor: "#232d32" }}
+                      >
                         <div className="search-content">
                           <ul className="popup-list">
                             {searchResult &&
@@ -353,6 +348,44 @@ function Nav(props) {
             <span id="txt1">Bibliothèque</span>
           </NavLink>
         </li>
+        {props.auth.isAuthenticated && (
+          <>
+            <div className="divider"></div>
+            <li>
+              <NavLink
+                className="waves-effect waves-light"
+                activeClassName="active"
+                href="/favoris"
+                to="/favoris"
+              >
+                <i className="material-icons colored">star</i>
+                <span id="txt1">Mes favoris</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="waves-effect waves-light"
+                activeClassName="active"
+                href="/likes-dislikes"
+                to="/likes-dislikes"
+              >
+                <i className="material-icons colored">thumbs_up_down</i>
+                <span id="txt1">Mes likes / dislikes</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="waves-effect waves-light"
+                activeClassName="active"
+                href="/listes"
+                to="/listes"
+              >
+                <i className="material-icons colored">playlist_play</i>
+                <span id="txt1">Mes listes</span>
+              </NavLink>
+            </li>
+          </>
+        )}
         <div className="divider"></div>
         <li>
           <NavLink

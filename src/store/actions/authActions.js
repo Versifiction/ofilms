@@ -14,7 +14,10 @@ export const registerUser = (userData, history) => dispatch => {
           process.env.CLIENT_PORT || "http://localhost:3000")
     )
     .catch(err => {
-      console.log("err ", err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 };
 
@@ -37,7 +40,10 @@ export const loginUser = (userData, history) => dispatch => {
       window.location.href = process.env.CLIENT_PORT || "http://localhost:3000";
     })
     .catch(err => {
-      console.log("err ", err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
     });
 };
 

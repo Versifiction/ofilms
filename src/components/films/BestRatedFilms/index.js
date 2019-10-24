@@ -203,7 +203,7 @@ function BestRatedFilms() {
       </div>
       <div
         className="container"
-        style={{ display: "flex", justifyContent: "center" }}
+        style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
       >
         <ReactPaginate
           previousLabel={<i className="material-icons">chevron_left</i>}

@@ -4,7 +4,7 @@ import "../../App.css";
 
 function AccueilIntro() {
   return (
-    <div className="accueil-intro">
+    <div id="accueil-intro">
       <div className="container">
         <h3>O'Films, c'est quoi ?</h3>
         <p>

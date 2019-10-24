@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongo = require("mongodb").MongoClient;
+const ObjectId = require("mongodb").ObjectId;
 const url = "mongodb://localhost:27017/";
 const SocketIO = require("socket.io");
 const io = SocketIO();
@@ -33,32 +34,39 @@ router.get("/messages", (req, res) => {
   );
 });
 
-router.get("/messages/delete/:id", (req, res) => {
+router.delete("/messages/delete/:id", (req, res) => {
   console.log("supp message dans api");
-  // Message.deleteOne({ _id: req.params.id }, function(err, user) {
-  //   if (err) res.json(err);
-  //   else res.json("Enlevé avec succès");
+  // Message.findOneAndDelete({ _id: req.params.id }, function(err, user) {
+  //   if (err) {
+  //     res.json(err);
+  //     console.log(err);
+  //   } else {
+  //     res.json("Enlevé avec succès");
+  //     console.log(req.params.id);
+  //     console.log("success");
+  //   }
   // });
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("chat-messages");
-      collection.deleteOne({ _id: req.params.id }, function(err, user) {
-        if (err) res.json(err);
-        else res.json("Enlevé avec succès");
-      });
-      client.close();
+  mongo.connect(url, (err, client) => {
+    if (err) {
+      console.error(err);
+      return;
     }
-  );
+    const db = client.db("ofilms-demo");
+    const collection = db.collection("chat-messages");
+    const id = req.params.id;
+    const o_id = new ObjectId(id);
+    collection.findOneAndDelete({ _id: o_id }, function(err, user) {
+      if (err) {
+        res.json(err);
+        console.log(err);
+      } else {
+        res.json("Enlevé avec succès");
+        console.log(req.params.id);
+        console.log("success");
+      }
+    });
+    client.close();
+  });
 });
 
 // router.post("/messages", (req, res) => {

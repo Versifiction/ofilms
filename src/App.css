@@ -63,6 +63,7 @@ nav i.material-icons {
 
 h1,
 i.material-icons.colored,
+.colored,
 .fab {
   color: #0cd0fc;
 }
@@ -732,10 +733,6 @@ ul.tabs {
   border-color: #0cd0fc !important;
 }
 
-.input-field .prefix {
-  top: 0;
-}
-
 ul.right li {
   margin-left: 6px;
 }
@@ -853,10 +850,6 @@ nav ul.popup-list li a {
   padding: 0;
   font-size: 12px;
   color: #0cd0fc !important;
-}
-
-nav ul.popup-list li a:hover {
-  background-color: #f7f7f7;
 }
 
 p {

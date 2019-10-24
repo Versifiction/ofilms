@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import useForceUpdate from "use-force-update";
 import StarRatingComponent from "react-star-rating-component";
 import Flag from "react-world-flags";
@@ -16,7 +17,7 @@ import Crew from "../../films/DetailFilm/Crew";
 import Photos from "../../films/DetailFilm/Photos";
 //import placeholder from '../../../images/placeholder.png';
 
-function DetailSerie({ match }) {
+function DetailSerie(props) {
   const [serieDetail, setSerieDetail] = useState(false);
   const [castSerie, setCastSerie] = useState(false);
   const [crewSerie, setCrewSerie] = useState(false);
@@ -27,40 +28,22 @@ function DetailSerie({ match }) {
   const [seeAllVideos, setSeeAllVideos] = useState(false);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [pending, setPending] = useState(true);
+  const [favorited, setFavorited] = useState(false);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
-  const serieDetailUrl = `https://api.themoviedb.org/3/tv/${match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const creditsSerieUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
-  const similarSeriesUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=1`;
-  const videosSerieUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const photosSerieUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/images?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const keywordsSerieUrl = `https://api.themoviedb.org/3/tv/${match.params.id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`;
+  const serieDetailUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const creditsSerieUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}/credits?api_key=${process.env.REACT_APP_API_KEY}`;
+  const similarSeriesUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}/similar?api_key=${process.env.REACT_APP_API_KEY}&language=fr&page=1`;
+  const videosSerieUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}/videos?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const photosSerieUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}/images?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  const keywordsSerieUrl = `https://api.themoviedb.org/3/tv/${props.match.params.id}/keywords?api_key=${process.env.REACT_APP_API_KEY}`;
   const forceUpdate = useForceUpdate();
-
-  function toggleLike() {
-    if (disliked) {
-      alert(
-        "Vous ne pouvez pas liker un film que vous avez disliké. Merci de retirer le dislike d'abord"
-      );
-      return;
-    }
-    setLiked(!liked);
-  }
-
-  function toggleDislike() {
-    if (liked) {
-      alert(
-        "Vous ne pouvez pas disliker un film que vous avez liké. Merci de retirer le like d'abord"
-      );
-      return;
-    }
-    setDisliked(!disliked);
-  }
 
   useEffect(() => {
     console.log("liked ", liked);
     console.log("disliked ", disliked);
-  }, [liked, disliked]);
+    console.log("favorited ", favorited);
+  }, [liked, disliked, favorited]);
 
   useEffect(() => {
     loadSerieDetail();
@@ -69,6 +52,9 @@ function DetailSerie({ match }) {
     loadVideosSerie();
     loadPhotosSerie();
     loadKeywordsSerie();
+    if (props.auth.isAuthenticated) {
+      loadUser();
+    }
 
     return () => {
       document.body.style.backgroundImage = `url("https://www.transparenttextures.com/patterns/black-linen.png")`;
@@ -78,6 +64,70 @@ function DetailSerie({ match }) {
   useEffect(() => {
     M.AutoInit();
   });
+
+  async function loadUser() {
+    try {
+      const dataUser = await axios.get(
+        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+      );
+      console.log("user ", dataUser);
+      setLiked(dataUser.data[0].seriesLiked.includes(props.match.params.id));
+      setDisliked(
+        dataUser.data[0].seriesDisliked.includes(props.match.params.id)
+      );
+      setFavorited(
+        dataUser.data[0].seriesFavorites.includes(props.match.params.id)
+      );
+      setPending(false);
+      forceUpdate();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function toggleFavorited() {
+    setFavorited(!favorited);
+
+    // try {
+    //   const dataUser = await axios.get(
+    //     `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`
+    //   );
+    //   console.log("user ", dataUser);
+    //   forceUpdate();
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  }
+
+  async function toggleLike() {
+    if (disliked) {
+      alert(
+        "Vous ne pouvez pas liker un film que vous avez disliké. Merci de retirer le dislike d'abord"
+      );
+      return;
+    }
+    setLiked(!liked);
+
+    try {
+      const dataUser = await axios.get(
+        `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`
+      );
+      console.log("user ", dataUser);
+      forceUpdate();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function toggleDislike() {
+    if (liked) {
+      alert(
+        "Vous ne pouvez pas disliker un film que vous avez liké. Merci de retirer le like d'abord"
+      );
+      return;
+    }
+    setDisliked(!disliked);
+  }
 
   async function loadSerieDetail() {
     try {
@@ -179,23 +229,6 @@ function DetailSerie({ match }) {
     }
   }
 
-  function toggleTabs(event) {
-    $(".active").removeClass("active");
-    $(event.target).addClass("active");
-    $(event.target)
-      .attr("aria-selected", true)
-      .siblings()
-      .attr("aria-selected", false);
-    event.target.id === "nav-photos-tab"
-      ? $("#nav-photos").show()
-      : $("#nav-photos").hide();
-    $("body")
-      .find(`[aria-labelledby="${event.target.id}"`)
-      .addClass("show active")
-      .siblings()
-      .removeClass("show active");
-  }
-
   return (
     <>
       <Nav />
@@ -225,88 +258,119 @@ function DetailSerie({ match }) {
                   starCount={10}
                   value={serieDetail && serieDetail.vote_average}
                 />
-                <div
-                  className="row"
-                  style={{ margin: "20px 0", padding: "20px" }}
-                >
+                {props.auth.isAuthenticated && (
                   <div
-                    className="col s12 m4"
-                    style={{ display: "flex", justifyContent: "center" }}
+                    className="row"
+                    style={{ margin: "20px 0", padding: "20px" }}
                   >
-                    {!liked ? (
-                      <i
-                        className="material-icons tooltipped"
-                        data-position="bottom"
-                        data-tooltip="Ajouter cette série à mes likes"
-                        data-micron="shake"
-                        style={{ cursor: "pointer", color: "#95878B" }}
-                        onClick={toggleLike}
-                      >
-                        thumb_up
-                      </i>
-                    ) : (
-                      <i
-                        className="material-icons tooltipped"
-                        data-position="bottom"
-                        data-tooltip="Retirer cette série de mes likes"
-                        data-micron="shake"
-                        style={{
-                          cursor: "pointer",
-                          color: "#95878B",
-                          color: "green"
-                        }}
-                        onClick={toggleLike}
-                      >
-                        thumb_up
-                      </i>
-                    )}
-                  </div>
-                  <div
-                    className="col s12 m4"
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    {!disliked ? (
-                      <i
-                        className="material-icons tooltipped"
-                        data-position="bottom"
-                        data-tooltip="Ajouter cette série à mes dislikes"
-                        data-micron="shake"
-                        style={{ cursor: "pointer", color: "#95878B" }}
-                        onClick={toggleDislike}
-                      >
-                        thumb_down
-                      </i>
-                    ) : (
-                      <i
-                        className="material-icons tooltipped"
-                        data-position="bottom"
-                        data-tooltip="Retirer cette série de mes dislikes"
-                        data-micron="shake"
-                        style={{
-                          cursor: "pointer",
-                          color: "#95878B",
-                          color: "red"
-                        }}
-                        onClick={toggleDislike}
-                      >
-                        thumb_down
-                      </i>
-                    )}
-                  </div>
-                  <div
-                    className="col s12 m4"
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <i
-                      className="material-icons tooltipped"
-                      data-position="bottom"
-                      data-tooltip="Ajouter cette série à une liste"
-                      style={{ cursor: "pointer", color: "#95878B" }}
+                    <div
+                      className="col s12 m3"
+                      style={{ display: "flex", justifyContent: "center" }}
                     >
-                      playlist_add
-                    </i>
+                      {!favorited ? (
+                        <i
+                          className="material-icons tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Ajouter cette série à mes favoris"
+                          data-micron="bounce"
+                          style={{ cursor: "pointer", color: "#95878B" }}
+                          onClick={toggleFavorited}
+                        >
+                          star
+                        </i>
+                      ) : (
+                        <i
+                          className="material-icons tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Retirer cette série de mes favoris"
+                          data-micron="bounce"
+                          style={{
+                            cursor: "pointer",
+                            color: "yellow"
+                          }}
+                          onClick={toggleFavorited}
+                        >
+                          star
+                        </i>
+                      )}
+                    </div>
+                    <div
+                      className="col s12 m3"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      {!liked ? (
+                        <i
+                          className="material-icons tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Ajouter cette série à mes likes"
+                          data-micron="bounce"
+                          style={{ cursor: "pointer", color: "#95878B" }}
+                          onClick={toggleLike}
+                        >
+                          thumb_up
+                        </i>
+                      ) : (
+                        <i
+                          className="material-icons tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Retirer cette série de mes likes"
+                          data-micron="bounce"
+                          style={{
+                            cursor: "pointer",
+                            color: "green"
+                          }}
+                          onClick={toggleLike}
+                        >
+                          thumb_up
+                        </i>
+                      )}
+                    </div>
+                    <div
+                      className="col s12 m3"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      {!disliked ? (
+                        <i
+                          className="material-icons tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Ajouter cette série à mes dislikes"
+                          data-micron="bounce"
+                          style={{ cursor: "pointer", color: "#95878B" }}
+                          onClick={toggleDislike}
+                        >
+                          thumb_down
+                        </i>
+                      ) : (
+                        <i
+                          className="material-icons tooltipped"
+                          data-position="bottom"
+                          data-tooltip="Retirer cette série de mes dislikes"
+                          data-micron="bounce"
+                          style={{
+                            cursor: "pointer",
+                            color: "red"
+                          }}
+                          onClick={toggleDislike}
+                        >
+                          thumb_down
+                        </i>
+                      )}
+                    </div>
+                    <div
+                      className="col s12 m3"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <i
+                        className="material-icons tooltipped"
+                        data-position="bottom"
+                        data-tooltip="Ajouter cette série à une liste"
+                        style={{ cursor: "pointer", color: "#95878B" }}
+                      >
+                        playlist_add
+                      </i>
+                    </div>
                   </div>
-                </div>
+                )}
                 <p className="film-detail">
                   Titre original
                   <span>{serieDetail && serieDetail.original_name}</span>
@@ -571,4 +635,9 @@ function DetailSerie({ match }) {
   );
 }
 
-export default DetailSerie;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps)(DetailSerie);

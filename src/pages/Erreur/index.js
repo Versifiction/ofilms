@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import "../../App.css";
 import AccueilBanner from "../../images/404.jpg";
+import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Erreur() {
@@ -34,6 +35,7 @@ function Erreur() {
           </div>
         </div>
       </div>
+      <FloatingChat />
       <BandeauCookie />
     </>
   );
