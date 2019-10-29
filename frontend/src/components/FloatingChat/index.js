@@ -121,7 +121,10 @@ function FloatingChat(props) {
   return (
     <>
       {!chatOpen ? (
-        <div className="fixed-action-btn" style={{ paddingTop: "inherit" }}>
+        <div
+          className="fixed-action-btn floating-chat-button"
+          style={{ paddingTop: "inherit" }}
+        >
           <div
             className="btn-floating btn-large"
             onClick={toggleChat}

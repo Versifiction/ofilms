@@ -24,3 +24,7 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+beforeEach(function() {
+  cy.wait(2000);
+});

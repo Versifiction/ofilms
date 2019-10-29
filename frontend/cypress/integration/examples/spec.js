@@ -1,4 +1,14 @@
 /* eslint-disable no-undef */
+// ignore uncaught exceptions
+Cypress.on("uncaught:exception", err => {
+  return false;
+});
+
+// patch Cypress top.onerror
+Object.defineProperty(top, "onerror", {
+  value: window.onerror
+});
+
 describe("Mon premier test", function() {
   it("Ca fait rien de spécial", function() {
     expect(true).to.equal(true);
@@ -11,7 +21,7 @@ describe("Un autre test", function() {
   });
 
   it("Il y a 10 li dans le ul, et ils contiennent des termes précis", function() {
-    cy.get(".sidenav .dark > li").should($liste => {
+    cy.get(".sidenav-trigger").should($liste => {
       expect($liste, "10 items").to.have.length(4);
 
       expect($liste.eq(0), "first item").to.contain("O'Films");
@@ -27,7 +37,7 @@ describe("Un autre test", function() {
   });
 
   it("Au clic sur l'icone chat, le chat doit apparaitre", function() {
-    cy.get(".floating-chat-elements").trigger("click");
+    cy.get(".floating-chat-button").trigger("click");
 
     cy.get(".floating-chat-container").should("be.visible");
   });

@@ -8,7 +8,7 @@ import moment from "moment";
 import "moment/locale/fr";
 import Cookies from "universal-cookie";
 
-import IconsUserChat from "../../components/IconsUserChat/";
+import IconsUserChat from "../../components/IconsUserChat";
 import "../../App.css";
 
 import Nav from "../../components/Nav";
