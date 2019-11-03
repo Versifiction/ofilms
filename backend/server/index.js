@@ -14,18 +14,8 @@ const root = require("./routes/api/root");
 const cors = require("cors");
 const mongo = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
+const db = require("./config/keys").mongoURI;
 require("dotenv").config();
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-//   res.header("Access-Control-Allow-Credentials", true);
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-//   next();
-// });
 
 app.use(
   cors({
@@ -46,71 +36,56 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/chat", chat);
 app.use("/api/date", date);
+// app.use("/api/sockets", sockets)
 app.use("/", root);
 
+let Message = require("./models/ChatMessage");
+
 io.on("connection", function(socket) {
-  socket.on("send message", function(message) {
-    io.emit("send message", message);
-    mongo.connect(
-      `mongodb://${process.env.PORT_DB}/${process.env.COLLECTION}`,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      },
-      (err, client) => {
-        if (err) {
-          console.error(err);
-          return;
-        }
-        const db = client.db("ofilms-demo");
-        const collection = db.collection("chat-messages");
-        collection.insertOne(message, (err, res) => {
-          if (err) throw err;
-        });
-        client.close();
-      }
-    );
+  socket.on("send message", async function(message) {
+    try {
+      console.log("message envoyé");
+      io.emit("send message", message);
+      const sent = await Message.create(message, function(err, res) {
+        if (err) throw err;
+      });
+    } catch (err) {
+      console.log(err);
+    }
   });
 
-  socket.on("delete message", function(message) {
-    io.emit("delete message", message);
-    mongo.connect(
-      `mongodb://${process.env.PORT_DB}/${process.env.COLLECTION}`,
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      },
-      (err, client) => {
+  socket.on("delete message", async function(message) {
+    try {
+      console.log("message supprimé");
+      io.emit("delete message", message);
+      const id = message.id;
+      const o_id = new ObjectId(id);
+      const deleted = await Message.findOneAndDelete({ _id: o_id }, function(
+        err,
+        user
+      ) {
         if (err) {
-          console.error(err);
-          return;
+          throw err;
         }
-        const db = client.db("ofilms-demo");
-        const collection = db.collection("chat-messages");
-        const id = message.id;
-        const o_id = new ObjectId(id);
-        collection.findOneAndDelete({ _id: o_id }, function(err, user) {
-          if (err) {
-            throw err;
-          }
-        });
-        client.close();
-      }
-    );
+      });
+    } catch (err) {
+      console.log(err);
+    }
   });
 });
 
-mongoose.set("useCreateIndex", true);
+console.log(process.env.USER);
+console.log(process.env.PASSWORD);
+
+// Connexion à la base de données mLab
 mongoose
-  .connect(`mongodb://${process.env.PORT_DB}/${process.env.COLLECTION}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => {
+  .connect(
+    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@ofilms-demo-f9iwz.mongodb.net/test?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() =>
     console.log(
       "Le serveur tourne sur le port 5000 et la connexion à la base de données MongoDB s'est bien déroulée"
-    );
-  })
-  .catch(e =>
-    console.log("Erreur lors de la connexion à la base de données ", e)
-  );
+    )
+  )
+  .catch(err => console.log(err));

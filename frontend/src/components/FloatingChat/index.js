@@ -21,6 +21,7 @@ function FloatingChat(props) {
   const socket = io("http://localhost:5000");
 
   useEffect(() => {
+    console.log("props ", props);
     if (props.auth.isAuthenticated) {
       loadUser();
     }
@@ -306,3 +307,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(FloatingChat);
+
+// export default FloatingChat;

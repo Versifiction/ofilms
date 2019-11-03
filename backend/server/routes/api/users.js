@@ -3,24 +3,21 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
-const passport = require("passport");
 const isEmpty = require("is-empty");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
-const mongo = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
-const url = "mongodb://localhost:27017/";
 
 let User = require("../../models/User");
 
-router.post("/register", (req, res) => {
+router.post("/register", async function(req, res) {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors);
   }
 
-  User.find(
+  const user = await User.find(
     {
       $or: [{ email: req.body.email }, { username: req.body.username }]
     },
@@ -74,7 +71,7 @@ router.post("/register", (req, res) => {
   };
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", async function(req, res) {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
@@ -84,7 +81,7 @@ router.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  User.findOne({ email }).then(user => {
+  const user = await User.findOne({ email }).then(user => {
     if (!user) {
       errors.email = "L'adresse email existe déjà";
     }
@@ -126,420 +123,178 @@ router.post("/login", (req, res) => {
   };
 });
 
-router.get("/getAll", function(req, res) {
+router.get("/getAll", async function(req, res) {
   console.log("get all users");
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      collection.find().toArray((err, items) => {
-        res.json(items);
-      });
-      client.close();
-    }
-  );
+  const users = await User.find({});
+  res.send(users);
 });
 
-router.get("/my-account/:id", function(req, res) {
+router.get("/my-account/:id", async function(req, res) {
   console.log("get my account infos");
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.find({ _id: o_id }).toArray((err, items) => {
-        res.json(items);
-      });
-      client.close();
-    }
-  );
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.find({ _id: o_id });
+  res.send(user);
 });
 
-router.get("/user/:username", function(req, res) {
+router.get("/user/:username", async function(req, res) {
   console.log(`get infos of user : ${req.params.username}`);
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const username = req.params.username;
-      collection.find({ username: username }).toArray((err, items) => {
-        res.json(items);
-      });
-      client.close();
-    }
-  );
+  const username = req.params.username;
+  const user = await User.find({ username: username });
+  res.send(user);
 });
 
-router.get("/user/:user/moviesLiked/:movie", function(req, res) {
+router.get("/user/:user/moviesLiked/:movie", async function(req, res) {
   console.log(`get moviesLiked list of user ${req.params.user}`);
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      collection
-        .find({
-          _id: req.params.user,
-          moviesLiked: { $in: { moviesLiked: [req.params.movie] } }
-        })
-        .toArray((err, items) => {
-          res.json(items);
-        });
-      client.close();
-    }
-  );
+  const user = await User.find({
+    _id: req.params.user,
+    moviesLiked: { $in: { moviesLiked: [req.params.movie] } }
+  });
+  res.send(user);
 });
 
-router.get("/user/:user/seriesLiked/:serie", function(req, res) {
+router.get("/user/:user/seriesLiked/:serie", async function(req, res) {
   console.log(`get seriesLiked list of user ${req.params.user}`);
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      collection
-        .find({
-          _id: req.params.user,
-          seriesLiked: { $in: { seriesLiked: [req.params.serie] } }
-        })
-        .toArray((err, items) => {
-          res.json(items);
-        });
-      client.close();
-    }
-  );
+  const user = await User.find({
+    _id: req.params.user,
+    seriesLiked: { $in: { seriesLiked: [req.params.serie] } }
+  });
+
+  res.send(user);
 });
 
-router.get("/user/:id/moviesFavorites/:movie", function(req, res) {
+router.get("/user/:id/moviesFavorites/:movie", async function(req, res) {
   console.log(`get moviesFavorites list of user ${req.params.id}`);
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      collection
-        .find({
-          _id: req.params.id,
-          moviesFavorites: { $in: { moviesFavorites: [req.params.movie] } }
-        })
-        .toArray((err, items) => {
-          res.json(items);
-        });
-      client.close();
-    }
-  );
+  const user = await User.find({
+    _id: req.params.id,
+    moviesFavorites: { $in: { moviesFavorites: [req.params.movie] } }
+  });
+  res.send(user);
 });
 
-router.get("/user/:id/seriesFavorites/:serie", function(req, res) {
+router.get("/user/:id/seriesFavorites/:serie", async function(req, res) {
   console.log(`get seriesFavorites list of user ${req.params.id}`);
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      collection
-        .find({
-          _id: req.params.id,
-          seriesFavorites: { $in: { seriesFavorites: [req.params.serie] } }
-        })
-        .toArray((err, items) => {
-          res.json(items);
-        });
-      client.close();
-    }
-  );
+  const user = await User.find({
+    _id: req.params.id,
+    seriesFavorites: { $in: { seriesFavorites: [req.params.serie] } }
+  });
+  res.send(user);
 });
 
-router.post("/user/:id/add/seriesLiked/:serie", function(req, res) {
+router.post("/user/:id/add/seriesLiked/:serie", async function(req, res) {
   console.log(
     `add serie ${req.params.serie} to seriesLiked list of user ${req.params.id}`
   );
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.update(
-        { _id: o_id },
-        { $addToSet: { seriesLiked: req.params.serie } }
-      );
-      client.close();
-    }
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.update(
+    { _id: o_id },
+    { $addToSet: { seriesLiked: req.params.serie } }
   );
+  res.send(user);
 });
 
-router.post("/user/:id/add/moviesLiked/:movie", function(req, res) {
+router.post("/user/:id/add/moviesLiked/:movie", async function(req, res) {
   console.log(
     `add movie ${req.params.movie} to moviesLiked list of user ${req.params.id}`
   );
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.update(
-        { _id: o_id },
-        { $addToSet: { moviesLiked: req.params.movie } }
-      );
-      client.close();
-    }
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.update(
+    { _id: o_id },
+    { $addToSet: { moviesLiked: req.params.movie } }
   );
+  res.send(user);
 });
 
-router.post("/user/:id/add/moviesFavorites/:movie", function(req, res) {
+router.post("/user/:id/add/moviesFavorites/:movie", async function(req, res) {
   console.log(
     `add movie ${req.params.movie} to moviesFavorites list of user ${req.params.id}`
   );
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.update(
-        { _id: o_id },
-        { $addToSet: { moviesFavorites: req.params.movie } }
-      );
-      client.close();
-    }
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.update(
+    { _id: o_id },
+    { $addToSet: { moviesFavorites: req.params.movie } }
   );
+  res.send(user);
 });
 
-router.post("/user/:id/add/seriesFavorites/:serie", function(req, res) {
+router.post("/user/:id/add/seriesFavorites/:serie", async function(req, res) {
   console.log(
     `add serie ${req.params.serie} to seriesFavorites list of user ${req.params.id}`
   );
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.update(
-        { _id: o_id },
-        { $addToSet: { seriesFavorites: req.params.serie } }
-      );
-      client.close();
-    }
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.update(
+    { _id: o_id },
+    { $addToSet: { seriesFavorites: req.params.serie } }
   );
+  res.send(user);
 });
 
-router.post("/user/:id/remove/seriesLiked/:serie", function(req, res) {
+router.post("/user/:id/remove/seriesLiked/:serie", async function(req, res) {
   console.log(
     `remove serie ${req.params.serie} to seriesLiked list of user ${req.params.id}`
   );
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.update(
-        { _id: o_id },
-        { $pull: { seriesLiked: req.params.serie } }
-      );
-      client.close();
-    }
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.update(
+    { _id: o_id },
+    { $pull: { seriesLiked: req.params.serie } }
   );
+  res.send(user);
 });
 
-router.post("/user/:id/remove/moviesLiked/:movie", function(req, res) {
+router.post("/user/:id/remove/moviesLiked/:movie", async function(req, res) {
   console.log(
     `remove movie ${req.params.movie} to moviesLiked list of user ${req.params.id}`
   );
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.update(
-        { _id: o_id },
-        { $pull: { moviesLiked: req.params.movie } }
-      );
-      client.close();
-    }
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.update(
+    { _id: o_id },
+    { $pull: { moviesLiked: req.params.movie } }
   );
+  res.send(user);
 });
 
-router.post("/user/:id/remove/moviesFavorites/:movie", function(req, res) {
+router.post("/user/:id/remove/moviesFavorites/:movie", async function(
+  req,
+  res
+) {
   console.log(
     `remove movie ${req.params.movie} to moviesFavorites list of user ${req.params.id}`
   );
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.update(
-        { _id: o_id },
-        { $pull: { moviesFavorites: req.params.movie } }
-      );
-      client.close();
-    }
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.update(
+    { _id: o_id },
+    { $pull: { moviesFavorites: req.params.movie } }
   );
+  res.send(user);
 });
 
-router.post("/user/:id/remove/seriesFavorites/:serie", function(req, res) {
+router.post("/user/:id/remove/seriesFavorites/:serie", async function(
+  req,
+  res
+) {
   console.log(
     `remove serie ${req.params.serie} to seriesFavorites list of user ${req.params.id}`
   );
-  mongo.connect(
-    url,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    },
-    (err, client) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      const db = client.db("ofilms-demo");
-      const collection = db.collection("users");
-      const id = req.params.id;
-      const o_id = new ObjectId(id);
-      collection.update(
-        { _id: o_id },
-        { $pull: { seriesFavorites: req.params.serie } }
-      );
-      client.close();
-    }
+  const id = req.params.id;
+  const o_id = new ObjectId(id);
+  const user = await User.update(
+    { _id: o_id },
+    { $pull: { seriesFavorites: req.params.serie } }
   );
+  res.send(user);
 });
 
 // Defined delete | remove | destroy route
-router.delete("/delete/:id", function(req, res) {
-  User.findByIdAndRemove({ _id: req.params.id }, function(err, user) {
-    if (err) res.json(err);
-    else res.json("Enlevé avec succès");
-  });
+router.delete("/delete/:id", async function(req, res) {
+  const user = User.findByIdAndRemove({ _id: req.params.id });
+  res.send(user);
 });
 
 module.exports = router;

@@ -236,3 +236,7 @@ input[type="submit"] {
   background-color: #95878b;
   cursor: not-allowed;
 }
+
+.sidenav-overlay {
+  opacity: 0;
+}

@@ -500,3 +500,5 @@ export default connect(
   mapStateToProps,
   { logoutUser }
 )(withRouter(Nav));
+
+// export default withRouter(Nav);

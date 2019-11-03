@@ -15,4 +15,4 @@ const ChatMessageSchema = new Schema({
   isAdmin: Boolean
 });
 
-module.exports = mongoose.model("ChatMessage", ChatMessageSchema);
+module.exports = mongoose.model("chat-messages", ChatMessageSchema);
