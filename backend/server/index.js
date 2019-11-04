@@ -74,9 +74,6 @@ io.on("connection", function(socket) {
   });
 });
 
-console.log(process.env.USER);
-console.log(process.env.PASSWORD);
-
 // Connexion à la base de données mLab
 mongoose
   .connect(

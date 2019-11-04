@@ -35,6 +35,7 @@ import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import Users from "./pages/Users";
 import User from "./pages/User";
 import MonCompte from "./pages/MonCompte";
+import AdminRoute from "./components/AdminRoute";
 import PrivateRoute from "./components/PrivateRoute";
 import Erreur from "./pages/Erreur";
 import BandeauCookie from "./components/BandeauCookie";
@@ -85,7 +86,7 @@ function Router() {
         exact
         component={PolitiqueConfidentialite}
       />
-      <Route path="/users" exact component={Users} />
+      <AdminRoute path="/users" exact component={Users} />
       <Route path="/user/:username" exact component={User} />
       <PrivateRoute path="/mon-compte" exact component={MonCompte} />
       <Route component={Erreur} />

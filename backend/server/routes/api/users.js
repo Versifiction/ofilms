@@ -71,7 +71,7 @@ router.post("/register", async function(req, res) {
   };
 });
 
-router.post("/login", async function(req, res) {
+router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
@@ -81,7 +81,7 @@ router.post("/login", async function(req, res) {
   const email = req.body.email;
   const password = req.body.password;
 
-  const user = await User.findOne({ email }).then(user => {
+  User.findOne({ email }).then(user => {
     if (!user) {
       errors.email = "L'adresse email existe déjà";
     }
@@ -93,21 +93,21 @@ router.post("/login", async function(req, res) {
           name: user.name
         };
 
-        user.lastConnection = new Date();
-
-        jwt.sign(
-          payload,
-          keys.secretOrKey,
-          {
-            expiresIn: 7200
-          },
-          (err, token) => {
-            res.json({
-              success: true,
-              token: "Bearer " + token
-            });
-          }
-        );
+        user.update({ lastConnection: new Date() }).then(updatedUser => {
+          jwt.sign(
+            payload,
+            keys.secretOrKey,
+            {
+              expiresIn: 7200
+            },
+            (err, token) => {
+              res.json({
+                success: true,
+                token: "Bearer " + token
+              });
+            }
+          );
+        });
       } else {
         errors.password = "Le mot de passe saisi n'est pas correct";
         // return res

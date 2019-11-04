@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import useForceUpdate from "use-force-update";
 import moment from "moment";
 import M from "materialize-css";
@@ -11,16 +12,36 @@ import Nav from "../../components/Nav";
 import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
-function Users() {
+function Users(props) {
+  const [user, setUser] = useState(false);
   const [usersList, setUsersList] = useState(false);
   const [pending, setPending] = useState(true);
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
     document.title = "O'Films | Utilisateurs";
+    if (props.auth.isAuthenticated) {
+      loadUser();
+    }
     loadAllUsers();
     M.AutoInit();
   }, []);
+
+  async function loadUser() {
+    console.log("load user");
+    try {
+      const dataUser = await axios.get(
+        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+      );
+      console.log("data ", dataUser);
+      setUser(dataUser.data);
+      setPending(false);
+      console.log("user isadmin ", user.isAdmin);
+      M.AutoInit();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function loadAllUsers() {
     try {
@@ -46,11 +67,15 @@ function Users() {
     window.location.reload();
   }
 
+  if (!user) {
+    return <></>;
+  }
+
   return (
     <>
       <Nav />
       <h2>Utilisateurs</h2>
-      {pending ? (
+      {!user.isAdmin ? (
         <Spinner />
       ) : (
         <>
@@ -159,14 +184,16 @@ function Users() {
                         )}
                       </td>
                       <td>
-                        {moment(user.creationDate).format(
-                          "DD/MM/YYYY à hh:mm:ss"
-                        )}
+                        {moment(user.creationDate)
+                          .locale("fr")
+                          .calendar()}
                       </td>
                       <td>
-                        {moment(user.lastConnection).format(
-                          "DD/MM/YYYY à hh:mm:ss"
-                        )}
+                        {user.lastConnection !== null
+                          ? moment(user.lastConnection)
+                              .locale("fr")
+                              .calendar()
+                          : "-"}
                       </td>
                       <td>
                         <button
@@ -228,4 +255,7 @@ function Users() {
   );
 }
 
-export default Users;
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+export default connect(mapStateToProps)(Users);
