@@ -40,6 +40,7 @@ app.use("/api/date", date);
 app.use("/", root);
 
 let Message = require("./models/ChatMessage");
+let typingusers = [];
 
 io.on("connection", function(socket) {
   socket.on("send message", async function(message) {
@@ -71,6 +72,32 @@ io.on("connection", function(socket) {
     } catch (err) {
       console.log(err);
     }
+  });
+
+  function broadcastTyping() {
+    let message = "";
+    if (typingusers.length === 1) {
+      message = typingusers[0] + " est en train d'écrire";
+    } else if (typingusers.length === 2) {
+      let typingusersAsArray = Object.values(typingusers);
+      message = typingusersAsArray.join("et ") + " sont en train d'écrire";
+    } else if (typingusers.length > 2) {
+      message = "Plusieurs personnes sont en train d'écrire";
+    }
+
+    io.emit("typing message", { message, typingusers });
+  }
+
+  socket.on("typing message", username => {
+    if (!typingusers.includes(username.username)) {
+      typingusers.push(username.username);
+    }
+    broadcastTyping();
+  });
+
+  socket.on("not typing message", username => {
+    typingusers.splice(typingusers.indexOf(username.username), 1);
+    broadcastTyping();
   });
 });
 

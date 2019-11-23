@@ -17,6 +17,8 @@ import Crew from "./Crew";
 import BandesAnnonces from "./BandesAnnonces";
 import Photos from "./Photos";
 import SimilarFilms from "./SimilarFilms";
+import FloatingChat from "../../FloatingChat";
+import BandeauCookie from "../../BandeauCookie";
 import placeholder from "../../../images/placeholder.png";
 
 function DetailFilm(props) {

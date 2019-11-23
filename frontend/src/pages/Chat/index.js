@@ -26,6 +26,7 @@ function Chat(props) {
   const [isModerator, setIsModerator] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [pending, setPending] = useState(true);
+  const [someoneIsWriting, setSomeoneIsWriting] = useState();
   const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
   const socket = io("http://localhost:5000");
 
@@ -56,18 +57,36 @@ function Chat(props) {
 
   useEffect(() => {
     M.AutoInit();
+
     socket.on("send message", data => {
-      console.log("data dans send message ", data);
-      console.log("messages ", messages);
       setMessages([...messages, data]);
     });
 
     socket.on("delete message", data => {
-      console.log("data dans delete message ", data);
-      console.log("messages ", messages);
       setMessages(messages.filter(message => message._id !== data.id));
     });
+
+    socket.on("typing message", data => {
+      document.getElementById("typing-names").innerHTML = data.message;
+      setSomeoneIsWriting(data.typingusers.length > 0)
+    });
+
+    socket.on("not typing message", message => {
+      document.getElementById("typing-names").innerHTML = message;
+    });
+
+    setSomeoneIsWriting(
+      document.getElementById("typing-names").innerHTML !== ""
+    );
   });
+
+  useEffect(() => {
+    if (inputValue.length > 0) {
+      socket.emit("typing message", { username });
+    } else {
+      socket.emit("not typing message", { username });
+    }
+  }, [inputValue]);
 
   async function loadUser() {
     try {
@@ -281,6 +300,29 @@ function Chat(props) {
                           pour envoyer des messages
                         </p>
                       )}
+                    </div>
+                    <div
+                      className="typing-container"
+                      style={{ display: "flex" }}
+                    >
+                      {someoneIsWriting && (
+                        <div
+                          className="typing-indicator"
+                          style={{ width: "42px" }}
+                        >
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      )}
+                      <div
+                        id="typing-names"
+                        style={{
+                          color: "white",
+                          lineheight: "25px",
+                          marginLeft: "6px"
+                        }}
+                      ></div>
                     </div>
                   </div>
                 </div>

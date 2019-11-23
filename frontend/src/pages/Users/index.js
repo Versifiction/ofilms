@@ -75,7 +75,7 @@ function Users(props) {
     <>
       <Nav />
       <h2>Utilisateurs</h2>
-      {!user.isAdmin ? (
+      {pending ? (
         <Spinner />
       ) : (
         <>

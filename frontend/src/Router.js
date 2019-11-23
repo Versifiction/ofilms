@@ -86,7 +86,8 @@ function Router() {
         exact
         component={PolitiqueConfidentialite}
       />
-      <AdminRoute path="/users" exact component={Users} />
+      {/* <AdminRoute path="/users" exact component={Users} /> */}
+      <Route path="/users" exact component={Users} />
       <Route path="/user/:username" exact component={User} />
       <PrivateRoute path="/mon-compte" exact component={MonCompte} />
       <Route component={Erreur} />
