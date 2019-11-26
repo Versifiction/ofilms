@@ -128,7 +128,7 @@ function Connexion(props) {
                 <label htmlFor="password">Mot de passe</label>
                 <span className="red-text">{fields.errors.password}</span>
               </div>
-              <div className="row center" style={{ marginTop: "40px" }}>
+              <div className="row center">
                 <button
                   // className={`btn ${
                   //   !submittable ? "disabled" : ""
@@ -141,6 +141,13 @@ function Connexion(props) {
               </div>
             </div>
           </form>
+        </div>
+        <div className="row">
+          <div className="col s12 m6 push-m3">
+            <div style={{ textDecoration: "underline", textAlign: "center" }}>
+              <a href="/reset-password">J'ai oublié mon mot de passe</a>
+            </div>
+          </div>
         </div>
         <div className="row">
           <div className="col s12 m6 push-m3">

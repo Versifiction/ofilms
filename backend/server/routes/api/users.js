@@ -6,7 +6,9 @@ const keys = require("../../config/keys");
 const isEmpty = require("is-empty");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
+const validateResetPassword = require("../../validation/reset");
 const ObjectId = require("mongodb").ObjectId;
+const nodemailer = require("nodemailer");
 
 let User = require("../../models/User");
 
@@ -47,6 +49,7 @@ router.post("/register", async function(req, res) {
           isModerator: false,
           isConnected: false,
           isVerified: false,
+          isFounder: false,
           creationDate: new Date(),
           lastConnection: ""
         });
@@ -93,7 +96,7 @@ router.post("/login", (req, res) => {
           name: user.name
         };
 
-        user.update({ lastConnection: new Date() }).then(updatedUser => {
+        user.updateOne({ lastConnection: new Date() }).then(updatedUser => {
           jwt.sign(
             payload,
             keys.secretOrKey,
@@ -116,6 +119,64 @@ router.post("/login", (req, res) => {
       }
     });
   });
+
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  };
+});
+
+router.post("/user/reset-password", async function(req, res) {
+  const { errors, isValid } = validateResetPassword(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  console.log(`reset password of user : ${req.params.email}`);
+  const email = req.params.email;
+  const user = await User.findOne({ email }).then(user => {
+    if (user === null) {
+      errors.email = "L'adresse e-mail n'est rattachée à aucun utilisateur";
+    } else {
+      const token = crypto.randomBytes(20).toString("hex");
+      user.update({
+        resetPasswordToken: token,
+        resetPassWordExpires: Date.now() + 360000
+      });
+
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: `${process.env.EMAIL_ADDRESS}`,
+          pass: `${process.env.EMAIL_PASSWORD}`
+        }
+      });
+
+      const mailOptions = {
+        from: `contact.ofilms@gmail.com`,
+        to: email,
+        subject: `O'Films - Lien de réinitialisation de mot de passe`,
+        text:
+          `Vous recevez cet e-mail car vous avez demandé une réinitialisation du mot de passe de votre compte O'Films.\n\n` +
+          `S'il vous plaît, cliquez sur le lien suivant, ou collez le dans votre navigateur dans l'heure suivant la réception de cet e-mail\n\n` +
+          `http://localhost:3000/reset-password/${token}\n\n` +
+          `Si vous n'êtes pas à l'origine de cet, merci d'ignorer cet e-mail et votre mot de passe restera inchangé.\n`
+      };
+    }
+  });
+
+  console.log("sending mail");
+
+  transporter.sendMail(mailOptions, function(err, response) {
+    if (err) {
+      console.error("error in sending mail ", err);
+    } else {
+      console.log("res ", response);
+      res.status(200).json("email de reinitialisation envoyé");
+    }
+  });
+  res.send(user);
 
   return {
     errors,
@@ -187,7 +248,7 @@ router.post("/user/:id/add/seriesLiked/:serie", async function(req, res) {
   );
   const id = req.params.id;
   const o_id = new ObjectId(id);
-  const user = await User.update(
+  const user = await User.updateOne(
     { _id: o_id },
     { $addToSet: { seriesLiked: req.params.serie } }
   );
@@ -200,7 +261,7 @@ router.post("/user/:id/add/moviesLiked/:movie", async function(req, res) {
   );
   const id = req.params.id;
   const o_id = new ObjectId(id);
-  const user = await User.update(
+  const user = await User.updateOne(
     { _id: o_id },
     { $addToSet: { moviesLiked: req.params.movie } }
   );
@@ -213,7 +274,7 @@ router.post("/user/:id/add/moviesFavorites/:movie", async function(req, res) {
   );
   const id = req.params.id;
   const o_id = new ObjectId(id);
-  const user = await User.update(
+  const user = await User.updateOne(
     { _id: o_id },
     { $addToSet: { moviesFavorites: req.params.movie } }
   );
@@ -226,7 +287,7 @@ router.post("/user/:id/add/seriesFavorites/:serie", async function(req, res) {
   );
   const id = req.params.id;
   const o_id = new ObjectId(id);
-  const user = await User.update(
+  const user = await User.updateOne(
     { _id: o_id },
     { $addToSet: { seriesFavorites: req.params.serie } }
   );
@@ -239,7 +300,7 @@ router.post("/user/:id/remove/seriesLiked/:serie", async function(req, res) {
   );
   const id = req.params.id;
   const o_id = new ObjectId(id);
-  const user = await User.update(
+  const user = await User.updateOne(
     { _id: o_id },
     { $pull: { seriesLiked: req.params.serie } }
   );
@@ -252,7 +313,7 @@ router.post("/user/:id/remove/moviesLiked/:movie", async function(req, res) {
   );
   const id = req.params.id;
   const o_id = new ObjectId(id);
-  const user = await User.update(
+  const user = await User.updateOne(
     { _id: o_id },
     { $pull: { moviesLiked: req.params.movie } }
   );
@@ -268,7 +329,7 @@ router.post("/user/:id/remove/moviesFavorites/:movie", async function(
   );
   const id = req.params.id;
   const o_id = new ObjectId(id);
-  const user = await User.update(
+  const user = await User.updateOne(
     { _id: o_id },
     { $pull: { moviesFavorites: req.params.movie } }
   );
@@ -284,7 +345,7 @@ router.post("/user/:id/remove/seriesFavorites/:serie", async function(
   );
   const id = req.params.id;
   const o_id = new ObjectId(id);
-  const user = await User.update(
+  const user = await User.updateOne(
     { _id: o_id },
     { $pull: { seriesFavorites: req.params.serie } }
   );

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -10,11 +11,8 @@ import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Series() {
-  const [afficheSeries, setAfficheSeries] = useState([]);
   const [tendancesSeries, setTendancesSeries] = useState([]);
   const [bestRatedSeries, setBestRatedSeries] = useState([]);
-  const [activePage, setActivePage] = useState(1);
-  const [timeValue, setTimeValue] = useState("week");
   const [pending, setPending] = useState(true);
   const tendancesSeriesUrl = `https://api.themoviedb.org/3/tv/popular?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const bestRatedSeriesUrl = `https://api.themoviedb.org/3/tv/top_rated?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;

@@ -11,8 +11,9 @@ const ChatMessageSchema = new Schema({
   writer: String,
   isMasked: Boolean,
   isVerified: Boolean,
-  isMModerator: Boolean,
-  isAdmin: Boolean
+  isModerator: Boolean,
+  isAdmin: Boolean,
+  isFounder: Boolean
 });
 
 module.exports = mongoose.model("chat-messages", ChatMessageSchema);

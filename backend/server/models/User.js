@@ -35,6 +35,7 @@ const UserSchema = new Schema({
   },
   lastConnection: Date,
   isVerified: Boolean,
+  isFounder: Boolean,
   isAdmin: Boolean,
   isModerator: Boolean,
   isConnected: Boolean

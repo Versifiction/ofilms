@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 
 // Register User
-export const registerUser = (userData, history) => dispatch => {
+export const registerUser = userData => dispatch => {
   axios
     .post("http://localhost:5000/api/users/register", userData)
     .then(
@@ -22,7 +22,7 @@ export const registerUser = (userData, history) => dispatch => {
 };
 
 // Login - get user token
-export const loginUser = (userData, history) => dispatch => {
+export const loginUser = userData => dispatch => {
   axios
     .post("http://localhost:5000/api/users/login", userData)
     .then(res => {
@@ -39,6 +39,22 @@ export const loginUser = (userData, history) => dispatch => {
       dispatch(setCurrentUser(decoded));
       window.location.href = process.env.CLIENT_PORT || "http://localhost:3000";
     })
+    .catch(err => {
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+export const resetPassword = userEmail => dispatch => {
+  axios
+    .post("http://localhost:5000/api/users/user/reset-password", userEmail)
+    .then(
+      res =>
+        (window.location.href =
+          process.env.CLIENT_PORT || "http://localhost:3000")
+    )
     .catch(err => {
       dispatch({
         type: GET_ERRORS,

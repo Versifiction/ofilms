@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
@@ -18,16 +19,15 @@ import BandeauCookie from "../../components/BandeauCookie";
 function Chat(props) {
   const cookies = new Cookies();
   const forceUpdate = useForceUpdate();
-  const [chatOpen, setChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [username, setUsername] = useState("");
   const [messages, setMessages] = useState([]);
   const [isVerified, setIsVerified] = useState(false);
   const [isModerator, setIsModerator] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isFounder, setIsFounder] = useState(false);
   const [pending, setPending] = useState(true);
   const [someoneIsWriting, setSomeoneIsWriting] = useState();
-  const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
   const socket = io("http://localhost:5000");
 
   useEffect(() => {
@@ -68,7 +68,7 @@ function Chat(props) {
 
     socket.on("typing message", data => {
       document.getElementById("typing-names").innerHTML = data.message;
-      setSomeoneIsWriting(data.typingusers.length > 0)
+      setSomeoneIsWriting(data.typingusers.length > 0);
     });
 
     socket.on("not typing message", message => {
@@ -98,6 +98,7 @@ function Chat(props) {
       setIsVerified(dataUser.data[0].isVerified);
       setIsModerator(dataUser.data[0].isModerator);
       setIsAdmin(dataUser.data[0].isAdmin);
+      setIsFounder(dataUser.data[0].isFounder);
       forceUpdate();
     } catch (error) {
       console.log(error);
@@ -146,6 +147,7 @@ function Chat(props) {
       content: inputValue,
       date: new Date(),
       isMasked: false,
+      isFounder: isFounder,
       isVerified: isVerified,
       isModerator: isModerator,
       isAdmin: isAdmin
@@ -217,6 +219,7 @@ function Chat(props) {
                               >
                                 <p style={{ paddingRight: "30px" }}>
                                   <IconsUserChat
+                                    isFounder={message.isFounder}
                                     isVerified={message.isVerified}
                                     isModerator={message.isModerator}
                                     isAdmin={message.isAdmin}

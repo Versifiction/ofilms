@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import StarRatingComponent from "react-star-rating-component";
-import moment from "moment";
 import useForceUpdate from "use-force-update";
 import ReactPaginate from "react-paginate";
 import $ from "jquery";
@@ -22,14 +21,6 @@ function Keyword({ match }) {
   const forceUpdate = useForceUpdate();
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
-
-  const goToPage = val => setActivePage(val);
-  const getFirst = () => setActivePage(1);
-  const getPrevious = () =>
-    activePage > 1 ? setActivePage(activePage - 1) : "";
-  const getNext = () =>
-    activePage < totalPages ? setActivePage(activePage + 1) : "";
-  const getLast = () => setActivePage(totalPages);
 
   useEffect(() => {
     loadKeyword();

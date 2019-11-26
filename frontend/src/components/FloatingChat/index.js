@@ -17,6 +17,7 @@ function FloatingChat(props) {
   const [isVerified, setIsVerified] = useState(false);
   const [isModerator, setIsModerator] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isFounder, setIsFounder] = useState(false);
   const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
   const socket = io("http://localhost:5000");
 
@@ -66,6 +67,8 @@ function FloatingChat(props) {
       setIsVerified(dataUser.data[0].isVerified);
       setIsModerator(dataUser.data[0].isModerator);
       setIsAdmin(dataUser.data[0].isAdmin);
+      setIsFounder(dataUser.data[0].isFounder);
+
       forceUpdate();
     } catch (error) {
       console.log(error);
@@ -194,11 +197,17 @@ function FloatingChat(props) {
                           >
                             <p style={{ paddingRight: "30px" }}>
                               <IconsUserChat
+                                isFounder={message.isFounder}
                                 isVerified={message.isVerified}
                                 isModerator={message.isModerator}
                                 isAdmin={message.isAdmin}
                               />
-                              <span>{message.writer}</span>: {message.content}
+                              <span>
+                                <a href={`/user/${message.writer}`}>
+                                  {message.writer}
+                                </a>
+                              </span>
+                              : {message.content}
                             </p>
                             {isModerator && (
                               <i
