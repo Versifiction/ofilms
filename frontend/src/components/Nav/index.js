@@ -204,7 +204,7 @@ function Nav(props) {
                                           {result.name}
                                           <span
                                             style={{
-                                              fontSize: "10px",
+                                              fontSize: "0.625rem",
                                               textTransform: "uppercase",
                                               marginLeft: "6px",
                                               backgroundColor: "#95878b",
@@ -240,7 +240,7 @@ function Nav(props) {
                                           {result.title}
                                           <span
                                             style={{
-                                              fontSize: "10px",
+                                              fontSize: "0.625rem",
                                               textTransform: "uppercase",
                                               marginLeft: "6px",
                                               backgroundColor: "#95878b",
@@ -310,180 +310,188 @@ function Nav(props) {
         style={{ transform: sideNavActive ? "translateX(0%)" : "" }}
         onClick={toggleSideNav}
       >
-        <li>
-          <div className="user-view">
-            <div>
-              <a href="/">O'Films</a>
+        <div
+          className="subnav"
+          style={{ position: "relative", height: "100%" }}
+        >
+          <li>
+            <div className="user-view">
+              <div>
+                <a href="/">O'Films</a>
+              </div>
             </div>
-          </div>
-        </li>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/films"
-            to="/films"
-          >
-            <i className="material-icons colored">local_movies</i>Films
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/series"
-            to="/series"
-          >
-            <i className="material-icons colored">tv</i>Séries
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/bibliotheque"
-            to="/bibliotheque"
-          >
-            <i className="material-icons colored">view_list</i>
-            <span id="txt1">Bibliothèque</span>
-          </NavLink>
-        </li>
-        {props.auth.isAuthenticated && (
-          <>
-            <div className="divider"></div>
-            <li>
-              <NavLink
-                className="waves-effect waves-light"
-                activeClassName="active"
-                href="/favoris"
-                to="/favoris"
-              >
-                <i className="material-icons colored">star</i>
-                <span id="txt1">Mes favoris</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="waves-effect waves-light"
-                activeClassName="active"
-                href="/likes-dislikes"
-                to="/likes-dislikes"
-              >
-                <i className="material-icons colored">thumbs_up_down</i>
-                <span id="txt1">Mes likes / dislikes</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                className="waves-effect waves-light"
-                activeClassName="active"
-                href="/listes"
-                to="/listes"
-              >
-                <i className="material-icons colored">playlist_play</i>
-                <span id="txt1">Mes listes</span>
-              </NavLink>
-            </li>
-          </>
-        )}
-        <div className="divider"></div>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/forum"
-            to="/forum"
-          >
-            <i className="material-icons colored">forum</i>
-            <span id="txt1">Forum</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/chat"
-            to="/chat"
-          >
-            <i className="material-icons colored">chat</i>
-            <span id="txt1">Chat</span>
-          </NavLink>
-        </li>
-        <div className="divider"></div>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/a-propos"
-            to="/a-propos"
-          >
-            <i className="material-icons colored">info</i>
-            <span id="txt1">A propos</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/faq"
-            to="/faq"
-          >
-            <i className="material-icons colored">format_list_bulleted</i>
-            <span id="txt1">FAQ</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/contact"
-            to="/contact"
-          >
-            <i className="material-icons colored">contact_mail</i>
-            <span id="txt1">Contact</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className="waves-effect waves-light"
-            activeClassName="active"
-            href="/mentions-legales"
-            to="/mentions-legales"
-          >
-            <i className="material-icons colored">format_align_left</i>
-            <span id="txt1">Mentions légales</span>
-          </NavLink>
-        </li>
-        <div className="row" style={{ marginTop: "50px" }}>
+          </li>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/films"
+              to="/films"
+            >
+              <i className="material-icons colored">local_movies</i>Films
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/series"
+              to="/series"
+            >
+              <i className="material-icons colored">tv</i>Séries
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/bibliotheque"
+              to="/bibliotheque"
+            >
+              <i className="material-icons colored">view_list</i>
+              <span id="txt1">Bibliothèque</span>
+            </NavLink>
+          </li>
+          {props.auth.isAuthenticated && (
+            <>
+              <div className="divider"></div>
+              <li>
+                <NavLink
+                  className="waves-effect waves-light"
+                  activeClassName="active"
+                  href="/favoris"
+                  to="/favoris"
+                >
+                  <i className="material-icons colored">star</i>
+                  <span id="txt1">Mes favoris</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className="waves-effect waves-light"
+                  activeClassName="active"
+                  href="/likes-dislikes"
+                  to="/likes-dislikes"
+                >
+                  <i className="material-icons colored">thumbs_up_down</i>
+                  <span id="txt1">Mes likes / dislikes</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  className="waves-effect waves-light"
+                  activeClassName="active"
+                  href="/listes"
+                  to="/listes"
+                >
+                  <i className="material-icons colored">playlist_play</i>
+                  <span id="txt1">Mes listes</span>
+                </NavLink>
+              </li>
+            </>
+          )}
+          <div className="divider"></div>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/forum"
+              to="/forum"
+            >
+              <i className="material-icons colored">forum</i>
+              <span id="txt1">Forum</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/chat"
+              to="/chat"
+            >
+              <i className="material-icons colored">chat</i>
+              <span id="txt1">Chat</span>
+            </NavLink>
+          </li>
+          <div className="divider"></div>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/a-propos"
+              to="/a-propos"
+            >
+              <i className="material-icons colored">info</i>
+              <span id="txt1">A propos</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/faq"
+              to="/faq"
+            >
+              <i className="material-icons colored">format_list_bulleted</i>
+              <span id="txt1">FAQ</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/contact"
+              to="/contact"
+            >
+              <i className="material-icons colored">contact_mail</i>
+              <span id="txt1">Contact</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className="waves-effect waves-light"
+              activeClassName="active"
+              href="/mentions-legales"
+              to="/mentions-legales"
+            >
+              <i className="material-icons colored">format_align_left</i>
+              <span id="txt1">Mentions légales</span>
+            </NavLink>
+          </li>
           <div
-            className="col s4"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "40px"
-            }}
+            className="row"
+            style={{ position: "absolute", bottom: "0", width: "100%" }}
           >
-            <i className="fab fa-twitter"></i>
-          </div>
-          <div
-            className="col s4"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "40px"
-            }}
-          >
-            <i className="fab fa-facebook-f"></i>
-          </div>
-          <div
-            className="col s4"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "40px"
-            }}
-          >
-            <i className="fab fa-instagram"></i>
+            <div
+              className="col s4"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "2rem"
+              }}
+            >
+              <i className="fab fa-twitter"></i>
+            </div>
+            <div
+              className="col s4"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "2rem"
+              }}
+            >
+              <i className="fab fa-facebook-f"></i>
+            </div>
+            <div
+              className="col s4"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "2rem"
+              }}
+            >
+              <i className="fab fa-instagram"></i>
+            </div>
           </div>
         </div>
       </ul>

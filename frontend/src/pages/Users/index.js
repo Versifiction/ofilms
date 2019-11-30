@@ -118,12 +118,12 @@ function Users(props) {
                         {user.sexe === "H" ? (
                           <i
                             className="fas fa-male"
-                            style={{ fontSize: "30px", color: "#95878B" }}
+                            style={{ fontSize: "1.875rem", color: "#95878B" }}
                           ></i>
                         ) : (
                           <i
                             className="fa fa-female"
-                            style={{ fontSize: "30px", color: "#0CD0FC" }}
+                            style={{ fontSize: "1.875rem", color: "#0CD0FC" }}
                           ></i>
                         )}
                       </td>

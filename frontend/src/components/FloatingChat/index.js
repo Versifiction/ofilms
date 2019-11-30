@@ -163,7 +163,7 @@ function FloatingChat(props) {
                   style={{
                     color: "white",
                     textAlign: "center",
-                    fontSize: "36px"
+                    fontSize: "2.25rem"
                   }}
                 >
                   Chat
@@ -239,7 +239,7 @@ function FloatingChat(props) {
                     </a>
                   </p>
                   <p>Sont interdits dans le chat : </p>
-                  <ul style={{ color: "#95878b", fontSize: "16px" }}>
+                  <ul style={{ color: "#95878b", fontSize: "1rem" }}>
                     <li>- Les insultes</li>
                     <li>- Les propos obscènes</li>
                     <li>- Les propos racistes</li>
@@ -254,7 +254,7 @@ function FloatingChat(props) {
                     style={{
                       textDecoration: "underline",
                       color: "#0CD0FC",
-                      fontSize: "16px"
+                      fontSize: "1rem"
                     }}
                   >
                     Basculer sur les messages

@@ -109,7 +109,9 @@ function Likes(props) {
           >
             Mes likes
           </h2>
-          <h4 style={{ color: "white", fontSize: "30px" }}>Films favorisés</h4>
+          <h4 style={{ color: "white", fontSize: "1.875rem" }}>
+            Films favorisés
+          </h4>
           <br />
           {pending ? (
             <Spinner />
@@ -142,7 +144,7 @@ function Likes(props) {
             </div>
           )}
           <br />
-          <h4 style={{ color: "white", fontSize: "30px" }}>
+          <h4 style={{ color: "white", fontSize: "1.875rem" }}>
             Séries favorisées
           </h4>
           <br />

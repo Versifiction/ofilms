@@ -20,7 +20,7 @@ function AccueilActions() {
             <p
               style={{
                 color: "white",
-                fontSize: "20px",
+                fontSize: "1.25rem",
                 textAlign: "center"
               }}
             >
@@ -39,7 +39,7 @@ function AccueilActions() {
             <p
               style={{
                 color: "white",
-                fontSize: "20px",
+                fontSize: "1.25rem",
                 textAlign: "center"
               }}
             >
@@ -58,7 +58,7 @@ function AccueilActions() {
             <p
               style={{
                 color: "white",
-                fontSize: "20px",
+                fontSize: "1.25rem",
                 textAlign: "center"
               }}
             >

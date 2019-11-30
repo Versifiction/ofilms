@@ -39,6 +39,7 @@ import AdminRoute from "./components/AdminRoute";
 import PrivateRoute from "./components/PrivateRoute";
 import Erreur from "./pages/Erreur";
 import BandeauCookie from "./components/BandeauCookie";
+import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
 if (localStorage.jwtToken) {
@@ -90,7 +91,8 @@ function Router() {
       {/* <AdminRoute path="/users" exact component={Users} /> */}
       <Route path="/users" exact component={Users} />
       <Route path="/user/:username" exact component={User} />
-      <Route path="/reset-password" exact component={ResetPassword} />
+      <Route path="/forgot-password" exact component={ForgotPassword} />
+      <Route path="/reset-password/:token?" exact component={ResetPassword} />
       <PrivateRoute path="/mon-compte" exact component={MonCompte} />
       <Route component={Erreur} />
     </Switch>

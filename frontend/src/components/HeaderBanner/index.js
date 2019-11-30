@@ -9,7 +9,10 @@ function HeaderBanner() {
     backgroundImage: "url(" + AccueilBanner + ")",
     width: "100%",
     height: "calc(100vh - 64px)",
-    position: "relative"
+    position: "relative",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   };
 
   useEffect(() => {
@@ -43,16 +46,18 @@ function HeaderBanner() {
 
   return (
     <div className="accueil-banniere" style={style}>
-      <h1 className="accueil-title">O'Films</h1>
-      <p className="accueil-text">
-        Les meilleurs films. Les meilleures séries.
-      </p>
-      <a href="/inscription" style={{ color: "#0cd0fc" }}>
-        <button className="btn-large">
-          S'inscrire
-          <i className="material-icons right">send</i>
-        </button>
-      </a>
+      <div className="accueil-banniere-content">
+        <h1 className="accueil-title">O'Films</h1>
+        <p className="accueil-text">
+          Les meilleurs films. Les meilleures séries.
+        </p>
+        <a href="/inscription" style={{ color: "#0cd0fc" }}>
+          <button className="btn-large">
+            S'inscrire
+            <i className="material-icons right">send</i>
+          </button>
+        </a>
+      </div>
       <div className="bounce">
         <a href="#accueil-intro">
           <i

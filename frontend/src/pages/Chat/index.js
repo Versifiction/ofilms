@@ -224,7 +224,7 @@ function Chat(props) {
                                     isModerator={message.isModerator}
                                     isAdmin={message.isAdmin}
                                   />
-                                  <span style={{ fontSize: "20px" }}>
+                                  <span style={{ fontSize: "1.25rem" }}>
                                     {message.writer}
                                   </span>{" "}
                                   <span
@@ -237,7 +237,7 @@ function Chat(props) {
                                       .locale("fr")
                                       .calendar()}
                                   </span>
-                                  <p style={{ fontSize: "20px" }}>
+                                  <p style={{ fontSize: "1.25rem" }}>
                                     {message.content}
                                   </p>
                                 </p>
@@ -334,14 +334,14 @@ function Chat(props) {
                     style={{
                       color: "#95878b",
                       textDecoration: "underline",
-                      fontSize: "24px"
+                      fontSize: "1.5rem"
                     }}
                   >
                     Règles
                   </h5>
                   <br />
                   <p>Sont interdits dans le chat : </p>
-                  <ul style={{ color: "white", fontSize: "16px" }}>
+                  <ul style={{ color: "white", fontSize: "1rem" }}>
                     <li>- Les insultes</li>
                     <li>- Les propos obscènes</li>
                     <li>- Les propos racistes</li>
@@ -355,7 +355,7 @@ function Chat(props) {
                     style={{
                       color: "#95878b",
                       textDecoration: "underline",
-                      fontSize: "24px"
+                      fontSize: "1.5rem"
                     }}
                   >
                     Types d'utilisateurs
@@ -365,7 +365,7 @@ function Chat(props) {
                     style={{
                       color: "#95878b",
 
-                      fontSize: "16px"
+                      fontSize: "1rem"
                     }}
                   >
                     Les administrateurs
@@ -388,7 +388,7 @@ function Chat(props) {
                     style={{
                       color: "#95878b",
 
-                      fontSize: "16px"
+                      fontSize: "1rem"
                     }}
                   >
                     Les modérateurs
@@ -410,7 +410,7 @@ function Chat(props) {
                     style={{
                       color: "#95878b",
 
-                      fontSize: "16px"
+                      fontSize: "1rem"
                     }}
                   >
                     Les vérifiés
@@ -434,7 +434,7 @@ function Chat(props) {
                     style={{
                       textDecoration: "underline",
                       color: "#0CD0FC",
-                      fontSize: "16px"
+                      fontSize: "1rem"
                     }}
                     onClick={acceptChatRules}
                   >

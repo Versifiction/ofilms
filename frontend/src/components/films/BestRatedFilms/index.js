@@ -123,7 +123,7 @@ function BestRatedFilms() {
                       <p
                         className="card-title"
                         style={{
-                          fontSize: "26px",
+                          fontSize: "1.625rem",
                           textTransform: "uppercase",
                           textOverflow: "ellipsis",
                           overflow: "hidden",
@@ -150,7 +150,7 @@ function BestRatedFilms() {
                       </div>
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "0.875rem",
                           marginBottom: "0",
                           color: "#0CD0FC",
                           textTransform: "uppercase",
@@ -186,7 +186,7 @@ function BestRatedFilms() {
                             color: "#0CD0FC",
                             textTransform: "uppercase",
                             fontWeight: "bold",
-                            fontSize: "14px"
+                            fontSize: "0.875rem"
                           }}
                         >
                           Synopsis

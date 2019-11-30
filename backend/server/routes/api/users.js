@@ -9,8 +9,12 @@ const validateLoginInput = require("../../validation/login");
 const validateResetPassword = require("../../validation/reset");
 const ObjectId = require("mongodb").ObjectId;
 const nodemailer = require("nodemailer");
+const crypto = require("crypto");
+const moment = require("moment");
 
 let User = require("../../models/User");
+
+const BCRYPT_SALT_ROUNDS = 12;
 
 router.post("/register", async function(req, res) {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -50,6 +54,8 @@ router.post("/register", async function(req, res) {
           isConnected: false,
           isVerified: false,
           isFounder: false,
+          resetPasswordToken: null,
+          resetPasswordExpires: null,
           creationDate: new Date(),
           lastConnection: ""
         });
@@ -126,24 +132,44 @@ router.post("/login", (req, res) => {
   };
 });
 
-router.post("/user/reset-password", async function(req, res) {
+router.post("/forgotPassword", (req, res) => {
   const { errors, isValid } = validateResetPassword(req.body);
 
   if (!isValid) {
     return res.status(400).json(errors);
   }
 
-  console.log(`reset password of user : ${req.params.email}`);
-  const email = req.params.email;
-  const user = await User.findOne({ email }).then(user => {
+  console.log(`reset password of user : ${req.body.email}`);
+  User.findOne({ email: req.body.email }).then(user => {
     if (user === null) {
+      console.log("NO user with this mail exists");
+      res.status(403).send({ message: "Pas d'utilisateur avec ce mail" });
       errors.email = "L'adresse e-mail n'est rattachée à aucun utilisateur";
     } else {
+      console.log("user with this mail exists");
+      console.log("user ", user);
       const token = crypto.randomBytes(20).toString("hex");
-      user.update({
+      const myDate = new Date();
+      const newDate = new Date(myDate);
+
+      user.updateOne({
         resetPasswordToken: token,
-        resetPassWordExpires: Date.now() + 360000
+        resetPasswordExpires: newDate.setHours(newDate.getHours() + 1)
       });
+
+      console.log("token ", token);
+      console.log(
+        "date actuelle ",
+        moment(myDate)
+          .locale("fr")
+          .format("LLLL")
+      );
+      console.log(
+        "dans 1h ",
+        moment(newDate)
+          .locale("fr")
+          .format("LLLL")
+      );
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
@@ -154,34 +180,91 @@ router.post("/user/reset-password", async function(req, res) {
       });
 
       const mailOptions = {
-        from: `contact.ofilms@gmail.com`,
-        to: email,
+        from: process.env.ADDRESS,
+        to: req.body.email,
         subject: `O'Films - Lien de réinitialisation de mot de passe`,
         text:
-          `Vous recevez cet e-mail car vous avez demandé une réinitialisation du mot de passe de votre compte O'Films.\n\n` +
-          `S'il vous plaît, cliquez sur le lien suivant, ou collez le dans votre navigateur dans l'heure suivant la réception de cet e-mail\n\n` +
+          `Vous avez demandé une réinitialisation du mot de passe de votre compte O'Films. Dans le cas contraire, ignorez cet e-mail.\n\n` +
+          `Pour choisir un nouveau mot de passe et valider votre demande, cliquez sur le lien suivant :\n\n` +
           `http://localhost:3000/reset-password/${token}\n\n` +
-          `Si vous n'êtes pas à l'origine de cet, merci d'ignorer cet e-mail et votre mot de passe restera inchangé.\n`
+          `Si le lien ne fonctionne pas, copiez-le et collez-le directement dans la barre d'adresse de votre navigateur.\n\n
+          Vous pouvez modifier votre mot de passe à tout moment depuis votre espace Mon compte sur www.ofilms.fr\n`
       };
+      transporter.sendMail(mailOptions, (err, response) => {
+        if (err) {
+          console.error("err ", err);
+        } else {
+          res.status(200).json("Lien réinitialisation envoyé");
+        }
+      });
     }
   });
 
-  console.log("sending mail");
+  router.get("/resetPassword", (req, res) => {
+    console.log("req query ", req.query);
+    console.log("req body ", req.body);
+    User.findOne({
+      resetPasswordToken: req.query.resetPasswordToken,
+      resetPasswordExpires: {
+        $gt: Date.now()
+      }
+    }).then(user => {
+      if (user == null) {
+        console.error("Lien réinitialisation mot de passe invalide ou expiré");
+        res
+          .status(403)
+          .send("Lien réinitialisation mot de passe invalide ou expiré");
+      } else {
+        res.status(200).send({
+          username: user.username,
+          message: "Lien réinitialisation OK"
+        });
+      }
+    });
+  });
+});
 
-  transporter.sendMail(mailOptions, function(err, response) {
-    if (err) {
-      console.error("error in sending mail ", err);
+router.put("/updatePasswordViaEmail", (req, res) => {
+  User.findOne({
+    where: {
+      email: req.body.email,
+      resetPasswordToken: req.body.resetPasswordToken,
+      resetPasswordExpires: {
+        $gt: Date.now()
+      }
+    }
+  }).then(user => {
+    if (user == null) {
+      console.error("Lien réinitialisation mot de passe invalide ou expiré");
+      res
+        .status(403)
+        .send("Lien réinitialisation mot de passe invalide ou expiré");
+    } else if (user != null) {
+      console.log("L'utilisateur existe en base de données");
+      bcrypt
+        .hash(req.body.password, BCRYPT_SALT_ROUNDS)
+        .then(hashedPassword => {
+          user.update({
+            password: hashedPassword,
+            resetPasswordToken: null,
+            resetPasswordExpires: null
+          });
+        })
+        .then(() => {
+          console.log("Mot de passe mis à jour");
+          res.status(200).send({ message: "Mot de passe mis à jour" });
+        });
     } else {
-      console.log("res ", response);
-      res.status(200).json("email de reinitialisation envoyé");
+      console.error(
+        "Pas d'utilisateur existant dans la base de données à mettre à jour"
+      );
+      res
+        .status(401)
+        .json(
+          "Pas d'utilisateur existant dans la base de données à mettre à jour"
+        );
     }
   });
-  res.send(user);
-
-  return {
-    errors,
-    isValid: isEmpty(errors)
-  };
 });
 
 router.get("/getAll", async function(req, res) {

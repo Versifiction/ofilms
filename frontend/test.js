@@ -13,7 +13,7 @@ test 1
         }}
       >
         <p>Note moyenne</p>
-        <p style={{ fontWeight: "bold", fontSize: "20px" }}>
+        <p style={{ fontWeight: "bold", fontSize: "1.25rem" }}>
           {filmDetail && filmDetail.vote_average}
         </p>
       </div>
@@ -28,7 +28,7 @@ test 1
         }}
       >
         <p>Nombre de votes</p>
-        <p style={{ fontWeight: "bold", fontSize: "20px" }}>
+        <p style={{ fontWeight: "bold", fontSize: "1.25rem" }}>
           {filmDetail && filmDetail.vote_count}
         </p>
       </div>
@@ -43,7 +43,7 @@ test 1
         }}
       >
         <p>Popularité</p>
-        <p style={{ fontWeight: "bold", fontSize: "20px" }}>
+        <p style={{ fontWeight: "bold", fontSize: "1.25rem" }}>
           {filmDetail && filmDetail.popularity}
         </p>
       </div>

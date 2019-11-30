@@ -284,7 +284,7 @@ function MonCompte(props) {
                         top: "0",
                         cursor: "pointer",
                         color: "#95878B",
-                        fontSize: "15px",
+                        fontSize: "1rem",
                         zIndex: "1"
                       }}
                     >

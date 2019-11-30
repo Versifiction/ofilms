@@ -593,13 +593,13 @@ function DetailFilm(props) {
                             padding: "20px"
                           }}
                         >
-                          <p style={{ fontWeight: "300", fontSize: "20px" }}>
+                          <p style={{ fontWeight: "300", fontSize: "1.25rem" }}>
                             Note moyenne
                           </p>
                           <p
                             style={{
                               fontWeight: "bold",
-                              fontSize: "30px",
+                              fontSize: "1.875rem",
                               color: "#0CD0FC"
                             }}
                           >
@@ -615,13 +615,13 @@ function DetailFilm(props) {
                             padding: "20px"
                           }}
                         >
-                          <p style={{ fontWeight: "300", fontSize: "20px" }}>
+                          <p style={{ fontWeight: "300", fontSize: "1.25rem" }}>
                             Nombre de votes
                           </p>
                           <p
                             style={{
                               fontWeight: "bold",
-                              fontSize: "30px",
+                              fontSize: "1.875rem",
                               color: "#0CD0FC"
                             }}
                           >
@@ -637,13 +637,13 @@ function DetailFilm(props) {
                             padding: "20px"
                           }}
                         >
-                          <p style={{ fontWeight: "300", fontSize: "20px" }}>
+                          <p style={{ fontWeight: "300", fontSize: "1.25rem" }}>
                             Popularité
                           </p>
                           <p
                             style={{
                               fontWeight: "bold",
-                              fontSize: "30px",
+                              fontSize: "1.875rem",
                               color: "#0CD0FC"
                             }}
                           >

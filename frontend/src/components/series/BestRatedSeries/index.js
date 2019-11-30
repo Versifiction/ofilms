@@ -122,7 +122,7 @@ function BestRatedSeries() {
                       <p
                         className="card-title"
                         style={{
-                          fontSize: "26px",
+                          fontSize: "1.625rem",
                           textTransform: "uppercase",
                           textOverflow: "ellipsis",
                           overflow: "hidden",
@@ -138,7 +138,7 @@ function BestRatedSeries() {
                       />
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "1.625rem",
                           marginBottom: "0",
                           color: "#0CD0FC",
                           textTransform: "uppercase",
@@ -171,7 +171,7 @@ function BestRatedSeries() {
                             color: "#0CD0FC",
                             textTransform: "uppercase",
                             fontWeight: "bold",
-                            fontSize: "14px"
+                            fontSize: "1.625rem"
                           }}
                         >
                           Synopsis

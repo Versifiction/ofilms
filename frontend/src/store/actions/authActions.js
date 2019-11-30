@@ -47,21 +47,44 @@ export const loginUser = userData => dispatch => {
     });
 };
 
-export const resetPassword = userEmail => dispatch => {
-  axios
-    .post("http://localhost:5000/api/users/user/reset-password", userEmail)
-    .then(
-      res =>
-        (window.location.href =
-          process.env.CLIENT_PORT || "http://localhost:3000")
-    )
-    .catch(err => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      });
-    });
-};
+// export const forgotPassword = userEmail => dispatch => {
+//   console.log("in forgot password action");
+//   console.log("user mail ", userEmail);
+//   axios
+//     .post("http://localhost:5000/api/users/reset", userEmail)
+//     .then(
+//       res =>
+//         (window.location.href =
+//           process.env.CLIENT_PORT || "http://localhost:3000")
+//     )
+//     .catch(err => {
+//       dispatch({
+//         type: GET_ERRORS,
+//         payload: err.response.data
+//       });
+//     });
+// };
+
+// export const resetPassword = token => dispatch => {
+//   console.log("in reset password action");
+//   console.log("user mail ", token)
+//   axios
+//     .post("http://localhost:5000/api/users/reset", { params: { resetPasswordToken: token }})
+//     .then(
+//       res => {
+//         console.log("res ", res);
+//         if (res.data.message === "password reset link a-ok") {
+//           s
+//         }
+//       }
+//     )
+//     .catch(err => {
+//       dispatch({
+//         type: GET_ERRORS,
+//         payload: err.response.data
+//       });
+//     });
+// };
 
 // Set logged in user
 export const setCurrentUser = decoded => {

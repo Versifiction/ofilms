@@ -215,7 +215,7 @@ function Bibliotheque() {
                     <p
                       className="card-title"
                       style={{
-                        fontSize: "20px",
+                        fontSize: "1.25rem",
                         textTransform: "uppercase",
                         textOverflow: "ellipsis",
                         overflow: "hidden",

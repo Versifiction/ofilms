@@ -128,7 +128,7 @@ function TendancesFilms() {
                       <p
                         className="card-title"
                         style={{
-                          fontSize: "26px",
+                          fontSize: "1.625rem",
                           textTransform: "uppercase",
                           textOverflow: "ellipsis",
                           overflow: "hidden",
@@ -183,7 +183,7 @@ function TendancesFilms() {
                             color: "#0CD0FC",
                             textTransform: "uppercase",
                             fontWeight: "bold",
-                            fontSize: "14px"
+                            fontSize: "0.875rem"
                           }}
                         >
                           Synopsis

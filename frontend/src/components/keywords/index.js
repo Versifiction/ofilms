@@ -133,7 +133,7 @@ function Keyword({ match }) {
                       <p
                         className="card-title"
                         style={{
-                          fontSize: "26px",
+                          fontSize: "1.625rem",
                           textTransform: "uppercase",
                           textOverflow: "ellipsis",
                           overflow: "hidden",
@@ -149,7 +149,7 @@ function Keyword({ match }) {
                       />
                       <span
                         style={{
-                          fontSize: "14px",
+                          fontSize: "0.875rem",
                           marginBottom: "0",
                           color: "#0CD0FC",
                           textTransform: "uppercase",
@@ -182,7 +182,7 @@ function Keyword({ match }) {
                             color: "#0CD0FC",
                             textTransform: "uppercase",
                             fontWeight: "bold",
-                            fontSize: "14px"
+                            fontSize: "0.875rem"
                           }}
                         >
                           Synopsis

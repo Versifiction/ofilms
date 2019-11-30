@@ -42,8 +42,6 @@ function Connexion(props) {
     setFields({ ...fields, [e.target.name]: e.target.value.trim() });
 
     forceUpdate();
-
-    console.log("fields ", fields);
   }
 
   async function login(e) {
@@ -145,7 +143,7 @@ function Connexion(props) {
         <div className="row">
           <div className="col s12 m6 push-m3">
             <div style={{ textDecoration: "underline", textAlign: "center" }}>
-              <a href="/reset-password">J'ai oublié mon mot de passe</a>
+              <a href="/forgot-password">J'ai oublié mon mot de passe</a>
             </div>
           </div>
         </div>

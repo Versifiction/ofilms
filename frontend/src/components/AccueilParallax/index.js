@@ -10,7 +10,7 @@ function AccueilParallax() {
           <p
             style={{
               color: "white",
-              fontSize: "60px",
+              fontSize: "3.75rem",
               textShadow: "4px 2px 5px black",
               textAlign: "center",
               marginBottom: "50px",
@@ -24,7 +24,7 @@ function AccueilParallax() {
               <p
                 style={{
                   color: "#0CD0FC",
-                  fontSize: "50px",
+                  fontSize: "3.125rem",
                   textShadow: "4px 2px 5px black",
                   textAlign: "center"
                 }}
@@ -34,7 +34,7 @@ function AccueilParallax() {
               <p
                 style={{
                   color: "white",
-                  fontSize: "37px",
+                  fontSize: "2.25rem",
                   textShadow: "4px 2px 5px black",
                   textAlign: "center"
                 }}
@@ -46,7 +46,7 @@ function AccueilParallax() {
               <p
                 style={{
                   color: "#0CD0FC",
-                  fontSize: "50px",
+                  fontSize: "3.125rem",
                   textShadow: "4px 2px 5px black",
                   textAlign: "center"
                 }}
@@ -56,7 +56,7 @@ function AccueilParallax() {
               <p
                 style={{
                   color: "white",
-                  fontSize: "37px",
+                  fontSize: "2.25rem",
                   textShadow: "4px 2px 5px black",
                   textAlign: "center"
                 }}
@@ -68,7 +68,7 @@ function AccueilParallax() {
               <p
                 style={{
                   color: "#0CD0FC",
-                  fontSize: "50px",
+                  fontSize: "3.125rem",
                   textShadow: "4px 2px 5px black",
                   textAlign: "center"
                 }}
@@ -78,7 +78,7 @@ function AccueilParallax() {
               <p
                 style={{
                   color: "white",
-                  fontSize: "37px",
+                  fontSize: "2.25rem",
                   textShadow: "4px 2px 5px black",
                   textAlign: "center"
                 }}
@@ -91,7 +91,7 @@ function AccueilParallax() {
         <p
           style={{
             color: "white",
-            fontSize: "20px",
+            fontSize: "1.25rem",
             textShadow: "4px 2px 5px black",
             textAlign: "center",
             position: "absolute",

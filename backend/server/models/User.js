@@ -34,6 +34,8 @@ const UserSchema = new Schema({
     default: Date.now
   },
   lastConnection: Date,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
   isVerified: Boolean,
   isFounder: Boolean,
   isAdmin: Boolean,

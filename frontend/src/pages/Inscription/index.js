@@ -108,8 +108,6 @@ function Inscription(props) {
     setFields({ ...fields, [e.target.name]: e.target.value.trim() });
 
     forceUpdate();
-
-    console.log("fields ", fields);
   }
 
   function register(e) {
@@ -285,7 +283,7 @@ function Inscription(props) {
                   top: "0",
                   cursor: "pointer",
                   color: "#95878B",
-                  fontSize: "15px",
+                  fontSize: "1rem",
                   zIndex: "1"
                 }}
               >

@@ -137,7 +137,7 @@ ul.right li a {
 }
 
 #txt1 {
-  font-size: 16px;
+  font-size: 1rem;
   margin-left: 4px;
 }
 
@@ -171,7 +171,7 @@ ul.right li a {
 
 .sidenav .user-view {
   padding: 32px 32px;
-  font-size: 32px;
+  font-size: 2rem;
   text-align: center;
 }
 
@@ -272,16 +272,15 @@ ul li {
 
 .accueil-title {
   font-weight: bold;
-  font-size: 120px;
+  font-size: 7.5rem;
   filter: brightness(100%);
   text-transform: uppercase;
   text-shadow: 1px 1px 2px #232d32;
   background-color: rgba(0, 0, 0, 0.1);
-  padding-top: 300px;
 }
 
 .accueil-text {
-  font-size: 30px;
+  font-size: 1.875rem;
   text-transform: uppercase;
   letter-spacing: 3px;
   text-shadow: 1px 1px 2px #232d32;
@@ -308,12 +307,12 @@ ul li {
 
 .erreur-title {
   font-weight: bold;
-  font-size: 30px;
+  font-size: 1.875rem;
   color: white;
 }
 
 .erreur-title span {
-  font-size: 80px;
+  font-size: 5rem;
 }
 
 .erreur-content a {
@@ -370,7 +369,7 @@ ul li {
 }
 
 .film-detail {
-  font-size: 16px;
+  font-size: 1rem;
   color: #0cd0fc;
   display: block;
   text-transform: uppercase;
@@ -407,7 +406,7 @@ ul li {
 
 .film-detail-cast-character {
   color: #99aab5;
-  font-size: 14px;
+  font-size: 0.875rem;
   padding: 0 10px !important;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -445,7 +444,7 @@ ul li {
 }
 
 .film-detail-title {
-  font-size: 26px;
+  font-size: 1.625rem;
   text-transform: uppercase;
 }
 
@@ -454,7 +453,7 @@ ul li {
   display: inline-block;
   margin-right: 10px;
   padding: 6px;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: bold;
   color: #95878b;
   border: 1px solid #95878b;
@@ -495,7 +494,7 @@ ul li {
 }
 
 .film-types-suite {
-  font-size: 16px;
+  font-size: 1rem;
   padding-top: 10px;
   text-decoration: underline;
   position: absolute;
@@ -601,7 +600,7 @@ p.film-types-title {
 
 .banniere-films h2,
 .banniere-series h2 {
-  font-size: 50px;
+  font-size: 3.125rem;
   text-shadow: 1px 1px 10px #232d32;
   color: white;
 }
@@ -694,7 +693,7 @@ p.film-encart:hover {
 }
 
 .genres {
-  font-size: 14px;
+  font-size: 0.875rem;
   margin-bottom: 0;
   color: #0cd0fc;
   text-transform: uppercase;
@@ -813,7 +812,7 @@ input.search-field:focus:hover {
 .search-heading {
   color: #0cd0fc;
   display: block;
-  font-size: 12px;
+  font-size: 0.75rem;
   line-height: 30px;
 }
 
@@ -848,7 +847,7 @@ nav ul.popup-list li {
 nav ul.popup-list li a {
   line-height: 30px;
   padding: 0;
-  font-size: 12px;
+  font-size: 0.75rem;
   color: #0cd0fc !important;
 }
 
@@ -904,7 +903,7 @@ p {
   }
 
   .search-popup-span {
-    font-size: 10px;
+    font-size: 0.625rem;
     text-transform: uppercase;
     margin-left: 6px;
     background-color: #95878b;
@@ -937,6 +936,10 @@ p {
   @media only screen and (max-width: 992px) {
     footer {
       padding-left: 0;
+    }
+
+    .accueil-title {
+      font-size: 4.2rem;
     }
   }
 }
