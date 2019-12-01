@@ -16,8 +16,8 @@ function ForgotPassword(props) {
   const forceUpdate = useForceUpdate();
   const [showError, setShowError] = useState(false);
   const [messageFromServer, setMessageFromServer] = useState("");
-  const [showNullError, setShowNullError] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [showNullError, setShowNullError] = useState(false);
   const [submittable, setSubmittable] = useState(false);
 
   const [fields, setFields] = useState({
@@ -53,7 +53,7 @@ function ForgotPassword(props) {
         console.log(response.data);
         if (response.data === "Lien réinitialisation envoyé") {
           setShowError(false);
-          setMessageFromServer("");
+          setMessageFromServer("Mail de réinitialisation envoyé");
           setShowNullError(false);
           setEmailSent(true);
         } else {
@@ -62,11 +62,10 @@ function ForgotPassword(props) {
       } catch (error) {
         console.error("err ", error);
         console.error("err res ", error.response);
-        if (error.response.data === "email not in db") {
-          setShowError(true);
-          setMessageFromServer("");
-          setShowNullError(false);
-        } else if (error.response.data.message === "Pas d'utilisateur avec ce mail") {
+        if (
+          error.response.data ===
+          "L'adresse e-mail n'est rattachée à aucun utilisateur"
+        ) {
           setShowError(true);
           setMessageFromServer(
             "Cette adresse e-mail ne correspond à aucun utilisateur"
@@ -91,6 +90,7 @@ function ForgotPassword(props) {
             >
               <div className="row">
                 <div className="input-field col s12">
+                  <i className="material-icons colored prefix">mail</i>
                   <input
                     id="email"
                     type="email"

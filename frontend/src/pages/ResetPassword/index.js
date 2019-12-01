@@ -14,14 +14,15 @@ import BandeauCookie from "../../components/BandeauCookie";
 function ResetPassword(props) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [updated, setUpdated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [errors, setErrors] = useState(false);
   const forceUpdate = useForceUpdate();
   const [submittable, setSubmittable] = useState(false);
+  const [errors, setErrors] = useState({});
   const [fields, setFields] = useState({
     password: "",
     confirmPassword: "",
@@ -67,7 +68,7 @@ function ResetPassword(props) {
 
     axios
       .put("http://localhost:5000/api/users/updatePasswordViaEmail", {
-        username,
+        email,
         password,
         resetPasswordToken: props.match.params.token
       })
@@ -100,6 +101,27 @@ function ResetPassword(props) {
             >
               <div className="row">
                 <div className="input-field col s12">
+                  <i className="material-icons colored prefix">mail</i>
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Entrez votre adresse e-mail"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    style={{ backgroundColor: "transparent !important" }}
+                    className={classnames("validate", {
+                      invalid: errors.email
+                    })}
+                    required
+                  />
+                  <label htmlFor="email">Adresse e-mail *</label>
+                  <span className="red-text">{errors.email}</span>
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <i className="material-icons colored prefix">fingerprint</i>
                   <input
                     id="password"
                     type={passwordVisible ? "text" : "password"}
@@ -130,12 +152,13 @@ function ResetPassword(props) {
                   >
                     {passwordVisible ? "visibility_off" : "visibility"}
                   </i>
-                  <label htmlFor="email">Mot de passe</label>
+                  <label htmlFor="email">Nouveau mot de passe</label>
                   <span className="red-text">{errors.password}</span>
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
+                  <i className="material-icons colored prefix">fingerprint</i>
                   <input
                     id="confirmPassword"
                     type={confirmPasswordVisible ? "text" : "password"}
@@ -184,9 +207,11 @@ function ResetPassword(props) {
             </form>
           </div>
         ) : (
-          <>
-            <p>Votre mot de passe a été mis à jour</p>
-          </>
+          <div className="row">
+            <p style={{ color: "green", textAlign: "center" }}>
+              Votre mot de passe a bien été mis à jour
+            </p>
+          </div>
         )}
         <div className="row">
           <div className="col s12 m6 push-m3">
@@ -202,8 +227,4 @@ function ResetPassword(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth,
-  errors: state.errors
-});
-export default connect(mapStateToProps)(withRouter(ResetPassword));
+export default ResetPassword;

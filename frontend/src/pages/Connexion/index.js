@@ -72,6 +72,7 @@ function Connexion(props) {
           >
             <div className="row">
               <div className="input-field col s12">
+                <i className="material-icons colored prefix">mail</i>
                 <input
                   id="email"
                   type="email"
@@ -92,6 +93,7 @@ function Connexion(props) {
                 className="input-field col s12"
                 style={{ position: "relative" }}
               >
+                <i className="material-icons colored prefix">fingerprint</i>
                 <input
                   placeholder="Entrez votre mot de passe"
                   id="password"

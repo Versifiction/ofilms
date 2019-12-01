@@ -133,76 +133,101 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/forgotPassword", (req, res) => {
-  const { errors, isValid } = validateResetPassword(req.body);
+  console.log("----------");
+  console.log("forgotPassword");
+  // const { errors, isValid } = validateResetPassword(req.body);
 
-  if (!isValid) {
-    return res.status(400).json(errors);
-  }
+  // if (!isValid) {
+  //   return res.status(400).json(errors);
+  // }
 
-  console.log(`reset password of user : ${req.body.email}`);
-  User.findOne({ email: req.body.email }).then(user => {
-    if (user === null) {
-      console.log("NO user with this mail exists");
-      res.status(403).send({ message: "Pas d'utilisateur avec ce mail" });
-      errors.email = "L'adresse e-mail n'est rattachée à aucun utilisateur";
-    } else {
-      console.log("user with this mail exists");
-      console.log("user ", user);
-      const token = crypto.randomBytes(20).toString("hex");
-      const myDate = new Date();
-      const newDate = new Date(myDate);
+  // console.log(`forgot password of user : ${req.body.email}`);
 
-      user.updateOne({
+  const { email } = req.body;
+
+  // check if email is registered in the database
+  User.findOne({ email })
+    .then(user => {
+      if (user.length === 0) {
+        console.log("L'adresse e-mail n'est rattachée à aucun utilisateur");
+
+        // send error message to the client
+        return res.status(404).json({
+          message: "L'adresse e-mail n'est rattachée à aucun utilisateur"
+        });
+      } else {
+        console.log("L'adresse e-mail est rattachée à un utilisateur");
+      }
+    })
+    .catch(err => {
+      return res.status(500).json({
+        message: err.message
+      });
+    });
+
+  const token = crypto.randomBytes(20).toString("hex");
+  const myDate = new Date();
+  const newDate = new Date(myDate);
+
+  console.log("token ", token);
+  console.log(
+    "date actuelle ",
+    moment(myDate)
+      .locale("fr")
+      .format("LLLL")
+  );
+  console.log(
+    "dans 1h ",
+    moment(newDate.setHours(newDate.getHours() + 1))
+      .locale("fr")
+      .format("LLLL")
+  );
+
+  // if the email exists, run this update to the account with the associated email
+  User.updateOne(
+    { email },
+    {
+      $set: {
         resetPasswordToken: token,
         resetPasswordExpires: newDate.setHours(newDate.getHours() + 1)
-      });
+      }
+    }
+  ).catch(err => {
+    return res.status(500).json({
+      message: err.message
+    });
+  });
 
-      console.log("token ", token);
-      console.log(
-        "date actuelle ",
-        moment(myDate)
-          .locale("fr")
-          .format("LLLL")
-      );
-      console.log(
-        "dans 1h ",
-        moment(newDate)
-          .locale("fr")
-          .format("LLLL")
-      );
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: `${process.env.EMAIL_ADDRESS}`,
+      pass: `${process.env.EMAIL_PASSWORD}`
+    }
+  });
 
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: `${process.env.EMAIL_ADDRESS}`,
-          pass: `${process.env.EMAIL_PASSWORD}`
-        }
-      });
-
-      const mailOptions = {
-        from: process.env.ADDRESS,
-        to: req.body.email,
-        subject: `O'Films - Lien de réinitialisation de mot de passe`,
-        text:
-          `Vous avez demandé une réinitialisation du mot de passe de votre compte O'Films. Dans le cas contraire, ignorez cet e-mail.\n\n` +
-          `Pour choisir un nouveau mot de passe et valider votre demande, cliquez sur le lien suivant :\n\n` +
-          `http://localhost:3000/reset-password/${token}\n\n` +
-          `Si le lien ne fonctionne pas, copiez-le et collez-le directement dans la barre d'adresse de votre navigateur.\n\n
-          Vous pouvez modifier votre mot de passe à tout moment depuis votre espace Mon compte sur www.ofilms.fr\n`
-      };
-      transporter.sendMail(mailOptions, (err, response) => {
-        if (err) {
-          console.error("err ", err);
-        } else {
-          res.status(200).json("Lien réinitialisation envoyé");
-        }
-      });
+  const mailOptions = {
+    from: process.env.ADDRESS,
+    to: req.body.email,
+    subject: `O'Films - Lien de réinitialisation de mot de passe`,
+    text:
+      `Vous avez demandé une réinitialisation du mot de passe de votre compte O'Films. Dans le cas contraire, ignorez cet e-mail.\n\n` +
+      `Pour choisir un nouveau mot de passe et valider votre demande, cliquez sur le lien suivant :\n\n` +
+      `http://localhost:3000/reset-password/${token}\n\n` +
+      `Si le lien ne fonctionne pas, copiez-le et collez-le directement dans la barre d'adresse de votre navigateur.\n\n
+        Vous pouvez modifier votre mot de passe à tout moment depuis votre espace Mon compte sur www.ofilms.fr\n`
+  };
+  transporter.sendMail(mailOptions, (err, response) => {
+    if (err) {
+      console.error("err ", err);
+    } else {
+      res.status(200).json("Lien réinitialisation envoyé");
     }
   });
 
   router.get("/resetPassword", (req, res) => {
-    console.log("req query ", req.query);
-    console.log("req body ", req.body);
+    console.log("----------");
+    console.log("resetPassword");
     User.findOne({
       resetPasswordToken: req.query.resetPasswordToken,
       resetPasswordExpires: {
@@ -226,12 +251,10 @@ router.post("/forgotPassword", (req, res) => {
 
 router.put("/updatePasswordViaEmail", (req, res) => {
   User.findOne({
-    where: {
-      email: req.body.email,
-      resetPasswordToken: req.body.resetPasswordToken,
-      resetPasswordExpires: {
-        $gt: Date.now()
-      }
+    email: req.body.email,
+    resetPasswordToken: req.body.resetPasswordToken,
+    resetPasswordExpires: {
+      $gt: new Date()
     }
   }).then(user => {
     if (user == null) {
@@ -244,10 +267,19 @@ router.put("/updatePasswordViaEmail", (req, res) => {
       bcrypt
         .hash(req.body.password, BCRYPT_SALT_ROUNDS)
         .then(hashedPassword => {
-          user.update({
-            password: hashedPassword,
-            resetPasswordToken: null,
-            resetPasswordExpires: null
+          User.updateOne(
+            { email: req.body.email },
+            {
+              $set: {
+                password: hashedPassword,
+                resetPasswordToken: null,
+                resetPasswordExpires: null
+              }
+            }
+          ).catch(err => {
+            return res.status(500).json({
+              message: err.message
+            });
           });
         })
         .then(() => {
