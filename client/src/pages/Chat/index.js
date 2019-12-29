@@ -31,7 +31,7 @@ function Chat(props) {
   const socket = io(
     process.env.NODE_ENV === "development"
       ? "http://localhost:5000"
-      : process.env.CLIENT_PRODUCTION
+      : "https://ofilms.herokuapp.com/"
   );
 
   useEffect(() => {
