@@ -70,7 +70,7 @@ function DetailSerie(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+        `/api/users/my-account/${props.auth.user.id}`
       );
       console.log("user ", dataUser);
       setLiked(dataUser.data[0].seriesLiked.includes(props.match.params.id));
@@ -95,7 +95,7 @@ function DetailSerie(props) {
       console.log("je retire le film de mes favoris");
       try {
         const dataUser = await axios.post(
-          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/seriesFavorites/${props.match.params.id}`
+          `/api/users/user/${props.auth.user.id}/remove/seriesFavorites/${props.match.params.id}`
         );
         console.log("user ", dataUser);
         forceUpdate();
@@ -106,7 +106,7 @@ function DetailSerie(props) {
       console.log("j'ajoute le film à mes favoris");
       try {
         const dataUser = await axios.post(
-          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesFavorites/${props.match.params.id}`,
+          `/api/users/user/${props.auth.user.id}/add/seriesFavorites/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
         console.log("user ", dataUser);
@@ -132,7 +132,7 @@ function DetailSerie(props) {
       console.log("je retire le film de mes likes");
       try {
         const dataUser = await axios.post(
-          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/seriesLiked/${props.match.params.id}`
+          `/api/users/user/${props.auth.user.id}/remove/seriesLiked/${props.match.params.id}`
         );
         console.log("user ", dataUser);
         forceUpdate();
@@ -143,7 +143,7 @@ function DetailSerie(props) {
       console.log("j'ajoute le film à mes likes");
       try {
         const dataUser = await axios.post(
-          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`,
+          `/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
         console.log("user ", dataUser);
@@ -169,7 +169,7 @@ function DetailSerie(props) {
       console.log("je retire le film de mes dislikes");
       try {
         const dataUser = await axios.post(
-          `http://localhost:5000/api/users/user/${props.auth.user.id}/remove/seriesDisliked/${props.match.params.id}`
+          `/api/users/user/${props.auth.user.id}/remove/seriesDisliked/${props.match.params.id}`
         );
         console.log("user ", dataUser);
         forceUpdate();
@@ -180,7 +180,7 @@ function DetailSerie(props) {
       console.log("j'ajoute le film à mes dislikes");
       try {
         const dataUser = await axios.post(
-          `http://localhost:5000/api/users/user/${props.auth.user.id}/add/seriesDisliked/${props.match.params.id}`,
+          `/api/users/user/${props.auth.user.id}/add/seriesDisliked/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
         console.log("user ", dataUser);

@@ -49,7 +49,7 @@ function User({ match }) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/user/${match.params.username}`
+        `/api/users/user/${match.params.username}`
       );
       console.log("data ", dataUser);
       setUser(dataUser.data);

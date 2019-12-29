@@ -19,7 +19,11 @@ function FloatingChat(props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isFounder, setIsFounder] = useState(false);
   const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
-  const socket = io("http://localhost:5000");
+  const socket = io(
+    process.env.NODE_ENV === "developement"
+      ? process.env.SERVER_PORT
+      : process.env.CLIENT_PRODUCTION
+  );
 
   useEffect(() => {
     console.log("props ", props);
@@ -60,7 +64,7 @@ function FloatingChat(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+        `/api/users/my-account/${props.auth.user.id}`
       );
       console.log("user ", dataUser);
       setUsername(dataUser.data[0].username);
@@ -77,9 +81,7 @@ function FloatingChat(props) {
 
   async function loadMessages() {
     try {
-      const dataMessages = await axios.get(
-        `http://localhost:5000/api/chat/messages`
-      );
+      const dataMessages = await axios.get(`/api/chat/messages`);
       console.log("messages ", dataMessages);
       setMessages(dataMessages.data);
       forceUpdate();

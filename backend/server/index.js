@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 5000;
 const users = require("./routes/api/users");
 const chat = require("./routes/api/chat");
+const path = require("path");
 const sendMessages = require("./routes/api/chat").sendMessages;
 const date = require("./routes/api/date");
 const root = require("./routes/api/root");
@@ -17,12 +18,29 @@ const ObjectId = require("mongodb").ObjectId;
 const db = require("./config/keys").mongoURI;
 require("dotenv").config();
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true
-  })
-);
+app.use(express.static(path.join(__dirname, "../../frontend/build")));
+
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "../../../frontend/build/index.html"));
+// });
+
+// var whitelist = [
+//   process.env.CLIENT_PORT,
+//   process.env.CLIENT_PRODUCTION,
+//   process.env.SERVER_PORT
+// ];
+
+// var corsOptions = {
+//   origin: function(origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1 || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   }
+// };
+
+// app.use(cors(corsOptions));
 
 app.use(
   bodyParser.urlencoded({
@@ -101,13 +119,9 @@ io.on("connection", function(socket) {
   });
 });
 
-// Connexion à la base de données mLab
-console.log(process.env.USER);
-console.log(process.env.PASSWORD);
-console.log(process.env.test);
 mongoose
   .connect(
-    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@ofilms-demo-f9iwz.mongodb.net/test`,
+    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@ofilms-demo-f9iwz.mongodb.net/${process.env.DB}`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() =>

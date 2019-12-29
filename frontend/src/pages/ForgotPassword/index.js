@@ -44,12 +44,9 @@ function ForgotPassword(props) {
       setShowNullError(true);
     } else {
       try {
-        const response = await axios.post(
-          "http://localhost:5000/api/users/forgotPassword",
-          {
-            email: fields.email
-          }
-        );
+        const response = await axios.post("/api/users/forgotPassword", {
+          email: fields.email
+        });
         console.log(response.data);
         if (response.data === "Lien réinitialisation envoyé") {
           setShowError(false);

@@ -28,7 +28,11 @@ function Chat(props) {
   const [isFounder, setIsFounder] = useState(false);
   const [pending, setPending] = useState(true);
   const [someoneIsWriting, setSomeoneIsWriting] = useState();
-  const socket = io("http://localhost:5000");
+  const socket = io(
+    process.env.NODE_ENV === "developement"
+      ? process.env.SERVER_PORT
+      : process.env.CLIENT_PRODUCTION
+  );
 
   useEffect(() => {
     document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
@@ -91,7 +95,7 @@ function Chat(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+        `/api/users/my-account/${props.auth.user.id}`
       );
       console.log("user ", dataUser);
       setUsername(dataUser.data[0].username);
@@ -107,9 +111,7 @@ function Chat(props) {
 
   async function loadMessages() {
     try {
-      const dataMessages = await axios.get(
-        `http://localhost:5000/api/chat/messages`
-      );
+      const dataMessages = await axios.get(`/api/chat/messages`);
       console.log("messages ", dataMessages);
       setMessages(dataMessages.data);
       setPending(false);

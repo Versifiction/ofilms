@@ -31,7 +31,7 @@ function Users(props) {
     console.log("load user");
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+        `/api/users/my-account/${props.auth.user.id}`
       );
       console.log("data ", dataUser);
       setUser(dataUser.data);
@@ -45,9 +45,7 @@ function Users(props) {
 
   async function loadAllUsers() {
     try {
-      const dataAllUsers = await axios.get(
-        "http://localhost:5000/api/users/getAll"
-      );
+      const dataAllUsers = await axios.get("/api/users/getAll");
       console.log("data ", dataAllUsers);
       setUsersList(dataAllUsers.data);
       console.log("usersList ", usersList);
@@ -60,7 +58,7 @@ function Users(props) {
 
   function deleteUser(id) {
     axios
-      .get(`http://localhost:5000/api/users/delete/${id}`)
+      .get(`/api/users/delete/${id}`)
       .then()
       .catch(err => console.log(err));
 

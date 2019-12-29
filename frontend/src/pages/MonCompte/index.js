@@ -77,7 +77,7 @@ function MonCompte(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+        `/api/users/my-account/${props.auth.user.id}`
       );
       console.log("data ", dataUser);
       setUser(dataUser.data);

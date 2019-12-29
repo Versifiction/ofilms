@@ -4,37 +4,13 @@ Projet crée avec Create-React-App (https://github.com/facebook/create-react-app
 
 ## Lancer le projet
 
-- npm install
-- npm start
-- ouvrir un navigateur et accéder à localhost:3000
+Avant de faire un "npm start", veillez à bien installer les dépendances du backend et du frontend, en faisant un "npm install" dans chacun des dossiers.
 
-## Tester le site
+- cd frontend && npm install
+- cd backend && npm install
+  Ensuite, vous pouvez revenir à la racine du projet et :
+- npm install && npm start
 
-Seules quelques pages concernant les films et les séries sont intégrées.
-
-Liste des URLS terminées :
-
-- /
-- /connexion
-- /inscription
-- /mon-compte
-- /users
-- /films
-- /film/:id
-- /film/affiche
-- /film/tendances
-- /film/populaires
-- /series
-- /serie/:id
-- /series/tendances
-- /series/populaires
-- /person/:id
-- /keyword/:id
-- /company/:id
-- /mentions-legales
-- /faq
-- /chat
-- /a-propos
-- /contact
+Le projet lancera automatiquement le serveur et le projet React, et ouvrira un nouvel onglet dans votre navigateur sur http://localhost:3000,
 
 Bonne navigation !

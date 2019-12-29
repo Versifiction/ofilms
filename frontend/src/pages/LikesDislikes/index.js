@@ -140,7 +140,7 @@ function LikesDislikes(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `http://localhost:5000/api/users/my-account/${props.auth.user.id}`
+        `/api/users/my-account/${props.auth.user.id}`
       );
       console.log("user ", dataUser);
       setMoviesLiked(dataUser.data[0].moviesLiked);

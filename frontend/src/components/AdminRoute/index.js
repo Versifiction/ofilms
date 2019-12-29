@@ -15,9 +15,7 @@ function AdminRoute({ component: Component, auth }) {
   async function loadUser() {
     console.log("load user");
     try {
-      const dataUser = await axios.get(
-        `http://localhost:5000/api/users/my-account/${auth.user.id}`
-      );
+      const dataUser = await axios.get(`/api/users/my-account/${auth.user.id}`);
       console.log("data ", dataUser);
       setUser(dataUser.data);
       setPending(false);
