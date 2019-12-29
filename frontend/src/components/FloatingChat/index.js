@@ -20,7 +20,7 @@ function FloatingChat(props) {
   const [isFounder, setIsFounder] = useState(false);
   const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
   const socket = io(
-    process.env.NODE_ENV === "developement"
+    process.env.NODE_ENV === "development"
       ? process.env.SERVER_PORT
       : process.env.CLIENT_PRODUCTION
   );

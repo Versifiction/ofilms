@@ -4,10 +4,10 @@ Projet crée avec Create-React-App (https://github.com/facebook/create-react-app
 
 ## Lancer le projet
 
-Avant de faire un "npm start", veillez à bien installer les dépendances du backend et du frontend, en faisant un "npm install" dans chacun des dossiers.
+Avant de faire un "npm start", veillez à bien installer les dépendances du serveur et du client, en faisant un "npm install" dans chacun des dossiers.
 
-- cd frontend && npm install
-- cd backend && npm install
+- cd server && npm install
+- cd client && npm install
 
 Ensuite, vous pouvez revenir à la racine du projet et :
 

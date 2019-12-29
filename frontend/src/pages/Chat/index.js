@@ -29,12 +29,13 @@ function Chat(props) {
   const [pending, setPending] = useState(true);
   const [someoneIsWriting, setSomeoneIsWriting] = useState();
   const socket = io(
-    process.env.NODE_ENV === "developement"
+    process.env.NODE_ENV === "development"
       ? process.env.SERVER_PORT
       : process.env.CLIENT_PRODUCTION
   );
 
   useEffect(() => {
+    console.log(process.env.NODE_ENV);
     document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     document.title = "O'Films | Chat";
   });

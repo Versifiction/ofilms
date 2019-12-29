@@ -9,19 +9,20 @@ const port = process.env.PORT || 5000;
 const users = require("./routes/api/users");
 const chat = require("./routes/api/chat");
 const path = require("path");
-const sendMessages = require("./routes/api/chat").sendMessages;
+const morgan = require("morgan");
 const date = require("./routes/api/date");
 const root = require("./routes/api/root");
 const cors = require("cors");
-const mongo = require("mongodb").MongoClient;
 const ObjectId = require("mongodb").ObjectId;
 const db = require("./config/keys").mongoURI;
 require("dotenv").config();
 
-app.use(express.static(path.join(__dirname, "../../frontend/build")));
+app.use(morgan("tiny"));
+
+app.use(express.static(path.join(__dirname, "../../client/build")));
 
 // app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname + "../../../frontend/build/index.html"));
+//   res.sendFile(path.join(__dirname + "../../../client/build/index.html"));
 // });
 
 // var whitelist = [
@@ -55,7 +56,7 @@ app.use("/api/users", users);
 app.use("/api/chat", chat);
 app.use("/api/date", date);
 // app.use("/api/sockets", sockets)
-app.use("/", root);
+app.use("/api/root", root);
 
 let Message = require("./models/ChatMessage");
 let typingusers = [];
