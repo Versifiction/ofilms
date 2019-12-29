@@ -30,7 +30,7 @@ function Chat(props) {
   const [someoneIsWriting, setSomeoneIsWriting] = useState();
   const socket = io(
     process.env.NODE_ENV === "development"
-      ? process.env.SERVER_PORT
+      ? "http://localhost:5000"
       : process.env.CLIENT_PRODUCTION
   );
 

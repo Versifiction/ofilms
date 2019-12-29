@@ -21,11 +21,12 @@ function FloatingChat(props) {
   const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
   const socket = io(
     process.env.NODE_ENV === "development"
-      ? process.env.SERVER_PORT
+      ? "http://localhost:5000"
       : process.env.CLIENT_PRODUCTION
   );
 
   useEffect(() => {
+    console.log(process.env.NODE_ENV);
     console.log("props ", props);
     if (props.auth.isAuthenticated) {
       loadUser();
