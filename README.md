@@ -8,7 +8,9 @@ Avant de faire un "npm start", veillez à bien installer les dépendances du bac
 
 - cd frontend && npm install
 - cd backend && npm install
-  Ensuite, vous pouvez revenir à la racine du projet et :
+
+Ensuite, vous pouvez revenir à la racine du projet et :
+
 - npm install && npm start
 
 Le projet lancera automatiquement le serveur et le projet React, et ouvrira un nouvel onglet dans votre navigateur sur http://localhost:3000,
