@@ -102,9 +102,12 @@ io.on("connection", function(socket) {
 });
 
 // Connexion à la base de données mLab
+console.log(process.env.USER);
+console.log(process.env.PASSWORD);
+console.log(process.env.test);
 mongoose
   .connect(
-    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@ofilms-demo-f9iwz.mongodb.net/test?retryWrites=true&w=majority`,
+    `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@ofilms-demo-f9iwz.mongodb.net/test`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() =>
