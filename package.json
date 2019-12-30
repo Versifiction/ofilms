@@ -76,5 +76,6 @@
   "devDependencies": {
     "cypress": "^3.4.1",
     "prettier": "^1.18.2"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
