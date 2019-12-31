@@ -15,7 +15,7 @@ function App() {
 
     // console.log("env ", process.env.REACT_APP_ENV);
     console.log("env ", process.env.NODE_ENV);
-    console.log("app url ", process.env.REACT_APP_SERVER_PORT);
+    console.log("app url ", process.env.REACT_APP_API_URL);
   }, []);
   return (
     <Provider store={store}>

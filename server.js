@@ -31,23 +31,23 @@ if (process.env.NODE_ENV === "production") {
 
 // app.use(cors());
 
-var whitelist = [
-  process.env.CLIENT_PORT,
-  process.env.CLIENT_PRODUCTION,
-  process.env.SERVER_PORT
-];
+// var whitelist = [
+//   process.env.CLIENT_PORT,
+//   process.env.CLIENT_PRODUCTION,
+//   process.env.SERVER_PORT
+// ];
 
-var corsOptions = {
-  origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
-};
+// var corsOptions = {
+//   origin: function(origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1 || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   }
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use(
   bodyParser.urlencoded({
