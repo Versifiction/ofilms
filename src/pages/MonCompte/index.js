@@ -77,7 +77,7 @@ function MonCompte(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `/api/users/my-account/${props.auth.user.id}`
+        `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
       console.log("data ", dataUser);
       setUser(dataUser.data);
@@ -403,7 +403,4 @@ function MonCompte(props) {
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(MonCompte);
+export default connect(mapStateToProps, { logoutUser })(MonCompte);

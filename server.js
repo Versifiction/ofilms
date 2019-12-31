@@ -17,15 +17,26 @@ const ObjectId = require("mongodb").ObjectId;
 const db = require("./config/keys").mongoURI;
 require("dotenv").config();
 
+console.log(process.env.PROJECT_ENV);
+console.log(process.env.USER, process.env.PASSWORD, process.env.DB);
+
 app.use(morgan("tiny"));
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname, "/build")));
+if (process.env.NODE_ENV === "production") {
+  // Express will serve up production assets
+  app.use(express.static("build"));
+  app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
+}
 
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname + "/build/index.html"));
-//   });
-// }
+if (process.env.NODE_ENV === "development") {
+  // Express will serve up production assets
+  app.use(express.static("public"));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve("public", "index.html"))
+  );
+}
+
+app.use(cors());
 
 // var whitelist = [
 //   process.env.CLIENT_PORT,

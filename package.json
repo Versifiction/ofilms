@@ -10,6 +10,7 @@
     "classnames": "^2.2.6",
     "concurrently": "^4.1.2",
     "cors": "^2.8.5",
+    "cross-env": "^6.0.3",
     "crypto": "^1.0.1",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
@@ -51,14 +52,14 @@
     "webkul-micron": "^1.1.6"
   },
   "scripts": {
-    "client": "react-scripts start",
-    "build": "react-scripts build",
+    "client": "cross-env PROJECT_ENV=development react-scripts start",
+    "build": "cross-env PROJECT_ENV=production react-scripts build",
     "server": "nodemon server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "npm install && npm run build"
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -78,6 +79,5 @@
   "devDependencies": {
     "cypress": "^3.4.1",
     "prettier": "^1.18.2"
-  },
-  "proxy": "http://localhost:5000"
+  }
 }

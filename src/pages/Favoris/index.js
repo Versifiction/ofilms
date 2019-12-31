@@ -83,7 +83,7 @@ function Likes(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `/api/users/my-account/${props.auth.user.id}`
+        `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
       console.log("user ", dataUser);
       setMoviesFavorites(dataUser.data[0].moviesFavorites);

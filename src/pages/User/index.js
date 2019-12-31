@@ -49,7 +49,7 @@ function User({ match }) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `/api/users/user/${match.params.username}`
+        `${process.env.REACT_APP_API_URL}/api/users/user/${match.params.username}`
       );
       console.log("data ", dataUser);
       setUser(dataUser.data);
