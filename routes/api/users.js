@@ -207,17 +207,13 @@ router.post("/forgotPassword", (req, res) => {
   });
 
   const mailOptions = {
-    from: process.env.ADDRESS,
+    from: process.env.EMAIL_ADDRESS,
     to: req.body.email,
     subject: `O'Films - Lien de réinitialisation de mot de passe`,
     text:
       `Vous avez demandé une réinitialisation du mot de passe de votre compte O'Films. Dans le cas contraire, ignorez cet e-mail.\n\n` +
       `Pour choisir un nouveau mot de passe et valider votre demande, cliquez sur le lien suivant :\n\n` +
-      `${
-        process.env.NODE_ENV === "development"
-          ? process.env.CLIENT_PORT
-          : process.env.CLIENT_PRODUCTION
-      }/reset-password/${token}\n\n` +
+      `${REACT_APP_API_URL}/reset-password/${token}\n\n` +
       `Si le lien ne fonctionne pas, copiez-le et collez-le directement dans la barre d'adresse de votre navigateur.\n\n
         Vous pouvez modifier votre mot de passe à tout moment depuis votre espace Mon compte sur www.ofilms.fr\n`
   };

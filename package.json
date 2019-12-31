@@ -53,12 +53,12 @@
   },
   "scripts": {
     "client": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env NODE_ENV=production react-scripts build",
     "server": "nodemon server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
