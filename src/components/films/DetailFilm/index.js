@@ -107,7 +107,7 @@ function DetailFilm(props) {
       console.log("je retire le film de mes favoris");
       try {
         const dataUser = await axios.post(
-          `/api/users/user/${props.auth.user.id}/remove/moviesFavorites/${props.match.params.id}`
+          `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/moviesFavorites/${props.match.params.id}`
         );
         console.log("user ", dataUser);
         forceUpdate();
@@ -118,7 +118,7 @@ function DetailFilm(props) {
       console.log("j'ajoute le film à mes favoris");
       try {
         const dataUser = await axios.post(
-          `/api/users/user/${props.auth.user.id}/add/moviesFavorites/${props.match.params.id}`,
+          `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/moviesFavorites/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
         console.log("user ", dataUser);
@@ -144,7 +144,7 @@ function DetailFilm(props) {
       console.log("je retire le film de mes likes");
       try {
         const dataUser = await axios.post(
-          `/api/users/user/${props.auth.user.id}/remove/moviesLiked/${props.match.params.id}`
+          `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/moviesLiked/${props.match.params.id}`
         );
         console.log("user ", dataUser);
         forceUpdate();
@@ -155,7 +155,7 @@ function DetailFilm(props) {
       console.log("j'ajoute le film à mes likes");
       try {
         const dataUser = await axios.post(
-          `/api/users/user/${props.auth.user.id}/add/moviesLiked/${props.match.params.id}`,
+          `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/moviesLiked/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
         console.log("user ", dataUser);
@@ -181,7 +181,7 @@ function DetailFilm(props) {
       console.log("je retire le film de mes dislikes");
       try {
         const dataUser = await axios.post(
-          `/api/users/user/${props.auth.user.id}/remove/moviesDisliked/${props.match.params.id}`
+          `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/moviesDisliked/${props.match.params.id}`
         );
         console.log("user ", dataUser);
         forceUpdate();
@@ -192,7 +192,7 @@ function DetailFilm(props) {
       console.log("j'ajoute le film à mes dislikes");
       try {
         const dataUser = await axios.post(
-          `/api/users/user/${props.auth.user.id}/add/moviesDisliked/${props.match.params.id}`,
+          `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/moviesDisliked/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
         console.log("user ", dataUser);

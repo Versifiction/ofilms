@@ -60,7 +60,7 @@ function Users(props) {
 
   function deleteUser(id) {
     axios
-      .get(`/api/users/delete/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/api/users/delete/${id}`)
       .then()
       .catch(err => console.log(err));
 

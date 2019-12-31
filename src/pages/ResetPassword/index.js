@@ -34,7 +34,7 @@ function ResetPassword(props) {
     console.log("token ", props.match.params.token);
     document.title = "O'Films | Réinitialisation de mot de passe";
     axios
-      .get("/api/users/resetPassword", {
+      .get(`${process.env.REACT_APP_API_URL}/api/users/resetPassword`, {
         params: { resetPasswordToken: props.match.params.token }
       })
       .then(res => {
@@ -67,11 +67,14 @@ function ResetPassword(props) {
     e.preventDefault();
 
     axios
-      .put("/api/users/updatePasswordViaEmail", {
-        email,
-        password,
-        resetPasswordToken: props.match.params.token
-      })
+      .put(
+        `${process.env.REACT_APP_API_URL}/api/users/updatePasswordViaEmail`,
+        {
+          email,
+          password,
+          resetPasswordToken: props.match.params.token
+        }
+      )
       .then(res => {
         if (res.data.message === "Mot de passe mis à jour") {
           setUpdated(true);
