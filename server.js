@@ -19,7 +19,7 @@ require("dotenv").config();
 
 app.use(morgan("tiny"));
 
-console.log("NODE ENV ", process.env.NODE_ENV);
+console.log("NODE ENV - ", process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "production") {
   console.log("PROD ENV ", process.env.NODE_ENV);
