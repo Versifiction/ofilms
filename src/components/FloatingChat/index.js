@@ -60,7 +60,7 @@ function FloatingChat(props) {
   async function loadUser() {
     try {
       const dataUser = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
+        `/api/users/my-account/${props.auth.user.id}`
       );
       console.log("user ", dataUser);
       setUsername(dataUser.data[0].username);
@@ -77,9 +77,7 @@ function FloatingChat(props) {
 
   async function loadMessages() {
     try {
-      const dataMessages = await axios.get(
-        `${process.env.REACT_APP_API_URL}/api/chat/messages`
-      );
+      const dataMessages = await axios.get(`/api/chat/messages`);
       console.log("messages ", dataMessages);
       setMessages(dataMessages.data);
       forceUpdate();
