@@ -19,16 +19,11 @@ require("dotenv").config();
 
 app.use(morgan("tiny"));
 
-if (process.env.ENV === "prod") {
+if (process.env.REACT_APP_ENV === "prod") {
   app.use(express.static("build"));
   app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
-}
-
-if (process.env.ENV === "dev") {
-  app.use(express.static("public"));
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve("public", "index.html"))
-  );
+} else if (process.env.REACT_APP_ENV === "dev") {
+  console.log("ENV ", process.env.REACT_APP_ENV);
 }
 
 app.use(cors());

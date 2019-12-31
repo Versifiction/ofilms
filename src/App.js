@@ -13,7 +13,7 @@ function App() {
       document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     }
 
-    console.log("env ", process.env.NODE_ENV);
+    console.log("env ", process.env.REACT_APP_ENV);
     console.log("app url ", process.env.REACT_APP_API_URL);
   }, []);
   return (
