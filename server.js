@@ -24,10 +24,8 @@ console.log("NODE ENV ", process.env.NODE_ENV);
 if (process.env.NODE_ENV === "production") {
   console.log("PROD ENV ", process.env.NODE_ENV);
 
-  app.use(express.static(path.join(__dirname, "build")));
-  app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "build", "index.html"));
-  });
+  app.use(express.static("build"));
+  app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
 }
 // else if (process.env.NODE_ENV === "development") {
 //   console.log("DEV ENV ", process.env.NODE_ENV);
