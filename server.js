@@ -23,35 +23,37 @@ console.log("NODE ENV ", process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "production") {
   console.log("PROD ENV ", process.env.NODE_ENV);
-  app.use(express.static(path.join(__dirname, "/build")));
 
-  // Handle React routing, return all requests to React app
+  app.use(express.static(path.join(__dirname, "build")));
   app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "/build", "index.html"));
+    res.sendFile(path.join(__dirname, "build", "index.html"));
   });
-} else if (process.env.NODE_ENV === "development") {
-  console.log("DEV ENV ", process.env.NODE_ENV);
 }
+// else if (process.env.NODE_ENV === "development") {
+//   console.log("DEV ENV ", process.env.NODE_ENV);
+//   app.use(express.static("public"));
+//   app.get("*", (req, res) =>
+//     res.sendFile(path.resolve("public", "index.html"))
+//   );
+// }
 
-// app.use(cors());
+var whitelist = [
+  process.env.CLIENT_PORT,
+  process.env.CLIENT_PRODUCTION,
+  process.env.SERVER_PORT
+];
 
-// var whitelist = [
-//   process.env.CLIENT_PORT,
-//   process.env.CLIENT_PRODUCTION,
-//   process.env.SERVER_PORT
-// ];
+var corsOptions = {
+  origin: function(origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+};
 
-// var corsOptions = {
-//   origin: function(origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1 || !origin) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   }
-// };
-
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use(
   bodyParser.urlencoded({
