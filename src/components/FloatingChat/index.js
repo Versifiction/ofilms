@@ -19,11 +19,7 @@ function FloatingChat(props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isFounder, setIsFounder] = useState(false);
   const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
-  const socket = io(
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:5000"
-      : "https://ofilms.herokuapp.com/"
-  );
+  const socket = io(process.env.REACT_APP_API_URL);
 
   useEffect(() => {
     console.log("props ", props);

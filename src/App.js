@@ -12,6 +12,8 @@ function App() {
     if (sidenav) {
       document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     }
+
+    console.log("env ", process.env.NODE_ENV);
   }, []);
   return (
     <Provider store={store}>

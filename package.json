@@ -52,8 +52,8 @@
     "webkul-micron": "^1.1.6"
   },
   "scripts": {
-    "client": "cross-env PROJECT_ENV=development react-scripts start",
-    "build": "cross-env PROJECT_ENV=production react-scripts build",
+    "client": "cross-env NODE_ENV=development react-scripts start",
+    "build": "cross-env NODE_ENV=production react-scripts build",
     "server": "nodemon server.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
