@@ -19,12 +19,12 @@ require("dotenv").config();
 
 app.use(morgan("tiny"));
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.ENV === "prod") {
   app.use(express.static("build"));
   app.get("*", (req, res) => res.sendFile(path.resolve("build", "index.html")));
 }
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.ENV === "dev") {
   app.use(express.static("public"));
   app.get("*", (req, res) =>
     res.sendFile(path.resolve("public", "index.html"))
