@@ -22,7 +22,6 @@ function FloatingChat(props) {
   const socket = io(process.env.REACT_APP_API_URL, { secure: true });
 
   useEffect(() => {
-    console.log("props ", props);
     if (props.auth.isAuthenticated) {
       loadUser();
     }
@@ -36,14 +35,10 @@ function FloatingChat(props) {
     M.AutoInit();
 
     socket.on("send message", data => {
-      console.log("data dans send message ", data);
-      console.log("messages ", messages);
       setMessages([...messages, data]);
     });
 
     socket.on("delete message", data => {
-      console.log("data dans delete message ", data);
-      console.log("messages ", messages);
       setMessages(messages.filter(message => message._id !== data.id));
     });
   });
@@ -62,7 +57,6 @@ function FloatingChat(props) {
       const dataUser = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
-      console.log("user ", dataUser);
       setUsername(dataUser.data[0].username);
       setIsVerified(dataUser.data[0].isVerified);
       setIsModerator(dataUser.data[0].isModerator);
@@ -80,7 +74,6 @@ function FloatingChat(props) {
       const dataMessages = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/chat/messages`
       );
-      console.log("messages ", dataMessages);
       setMessages(dataMessages.data);
       forceUpdate();
     } catch (error) {
@@ -89,8 +82,6 @@ function FloatingChat(props) {
   }
 
   async function deleteMessage(id) {
-    console.log("dans fonction deletemessage");
-
     socket.emit("delete message", { id: id });
   }
 

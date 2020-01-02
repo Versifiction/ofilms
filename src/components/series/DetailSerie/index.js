@@ -92,24 +92,20 @@ function DetailSerie(props) {
     setErrorMessage(false);
 
     if (favorited) {
-      console.log("je retire le film de mes favoris");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/seriesFavorites/${props.match.params.id}`
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
       }
     } else {
-      console.log("j'ajoute le film à mes favoris");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/seriesFavorites/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
@@ -129,24 +125,20 @@ function DetailSerie(props) {
     setErrorMessage(false);
 
     if (liked) {
-      console.log("je retire le film de mes likes");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/seriesLiked/${props.match.params.id}`
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
       }
     } else {
-      console.log("j'ajoute le film à mes likes");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/seriesLiked/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
@@ -166,24 +158,20 @@ function DetailSerie(props) {
     setErrorMessage(false);
 
     if (disliked) {
-      console.log("je retire le film de mes dislikes");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/seriesDisliked/${props.match.params.id}`
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
       }
     } else {
-      console.log("j'ajoute le film à mes dislikes");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/seriesDisliked/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
@@ -194,7 +182,6 @@ function DetailSerie(props) {
   async function loadSerieDetail() {
     try {
       const dataSerieDetail = await axios.get(serieDetailUrl);
-      console.log("SeriesDetail ", dataSerieDetail);
       setSerieDetail(dataSerieDetail.data);
       setPending(false);
       document.title = `O'Films | ${dataSerieDetail.data.original_name}`;
@@ -207,8 +194,6 @@ function DetailSerie(props) {
   async function loadCreditsSerie() {
     try {
       const dataCreditsSerie = await axios.get(creditsSerieUrl);
-      console.log("castSerie ", dataCreditsSerie.data.cast);
-      console.log("crewSerie ", dataCreditsSerie.data.crew);
       setCastSerie(dataCreditsSerie.data.cast);
       setCrewSerie(dataCreditsSerie.data.crew);
       setPending(false);
@@ -221,7 +206,6 @@ function DetailSerie(props) {
   async function loadSimilarSeries() {
     try {
       const dataSimilarSeries = await axios.get(similarSeriesUrl);
-      console.log("similarSeries ", dataSimilarSeries);
       setSimilarSeries(dataSimilarSeries.data.results);
       setPending(false);
       document.getElementsByClassName("sc-bdVaJa")[0].style.width = "100%";
@@ -258,7 +242,6 @@ function DetailSerie(props) {
   async function loadVideosSerie() {
     try {
       const dataVideosSerie = await axios.get(videosSerieUrl);
-      console.log("videosSerie ", dataVideosSerie);
       setVideosSerie(dataVideosSerie.data.results);
       setPending(false);
       forceUpdate();
@@ -270,7 +253,6 @@ function DetailSerie(props) {
   async function loadPhotosSerie() {
     try {
       const dataPhotosSerie = await axios.get(photosSerieUrl);
-      console.log("photosSeries ", dataPhotosSerie);
       setPhotosSerie(dataPhotosSerie.data.posters);
       setPending(false);
       forceUpdate();
@@ -282,7 +264,6 @@ function DetailSerie(props) {
   async function loadKeywordsSerie() {
     try {
       const dataKeywordsSerie = await axios.get(keywordsSerieUrl);
-      console.log("keywordsSerie ", dataKeywordsSerie);
       setKeywordsSerie(dataKeywordsSerie.data.results);
       setPending(false);
       forceUpdate();
