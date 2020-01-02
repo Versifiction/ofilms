@@ -6,7 +6,7 @@ function AccueilParallax() {
   return (
     <div className="accueil-parallax">
       <div className="parallax-container">
-        <div className="container" style={{ padding: "80px" }}>
+        <div className="container">
           <p
             style={{
               color: "white",
@@ -93,11 +93,7 @@ function AccueilParallax() {
             color: "white",
             fontSize: "1.25rem",
             textShadow: "4px 2px 5px black",
-            textAlign: "center",
-            position: "absolute",
-            left: "50%",
-            bottom: "0",
-            transform: "translate(-50%, -50%"
+            textAlign: "center"
           }}
         >
           source : https://www.themoviedb.org/about (au 7 octobre 2019)

@@ -600,7 +600,7 @@ p.film-types-title {
 
 .banniere-films h2,
 .banniere-series h2 {
-  font-size: 3.125rem;
+  font-size: 2rem;
   text-shadow: 1px 1px 10px #232d32;
   color: white;
 }
@@ -932,14 +932,14 @@ p {
   input:focus:-webkit-autofill {
     background-color: transparent !important;
   }
+}
 
-  @media only screen and (max-width: 992px) {
-    footer {
-      padding-left: 0;
-    }
+@media only screen and (max-width: 992px) {
+  footer {
+    padding-left: 0;
+  }
 
-    .accueil-title {
-      font-size: 4.2rem;
-    }
+  .accueil-title {
+    font-size: 4.2rem;
   }
 }

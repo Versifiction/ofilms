@@ -142,7 +142,7 @@ function Inscription(props) {
             method="post"
           >
             <div className="row">
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">mail</i>
                 <input
                   id="email"
@@ -162,7 +162,7 @@ function Inscription(props) {
                   {fields.errors.email}
                 </span>
               </div>
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">message</i>
                 <input
                   id="username"
@@ -185,7 +185,7 @@ function Inscription(props) {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">contacts</i>
                 <input
                   placeholder="Entrez votre prénom"
@@ -205,7 +205,7 @@ function Inscription(props) {
                   {fields.errors.firstname}
                 </span>
               </div>
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">contacts</i>
                 <input
                   id="lastname"
@@ -227,7 +227,7 @@ function Inscription(props) {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">wc</i>
                 <select
                   name="sexe"
@@ -250,7 +250,7 @@ function Inscription(props) {
                   {fields.errors.sexe}
                 </span>
               </div>
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">phone</i>
                 <input
                   id="mobilePhone"
@@ -287,7 +287,7 @@ function Inscription(props) {
               >
                 error
               </i>
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">place</i>
                 <select
                   name="departement"
@@ -314,7 +314,7 @@ function Inscription(props) {
                   {fields.errors.departement}
                 </span>
               </div>
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">location_city</i>
                 <select
                   name="city"
@@ -344,7 +344,7 @@ function Inscription(props) {
             </div>
             <div className="row">
               <div
-                className="input-field col s6"
+                className="input-field col s12 m6"
                 style={{ position: "relative" }}
               >
                 <i className="material-icons colored prefix">fingerprint</i>
@@ -387,7 +387,7 @@ function Inscription(props) {
                 </span>
               </div>
               <div
-                className="input-field col s6"
+                className="input-field col s12 m6"
                 style={{ position: "relative" }}
               >
                 <i className="material-icons colored prefix">fingerprint</i>
@@ -433,7 +433,7 @@ function Inscription(props) {
               </div>
             </div>
             <div className="row">
-              <div className="input-field col s6">
+              <div className="input-field col s12 m6">
                 <label htmlFor="check">
                   <input
                     type="checkbox"

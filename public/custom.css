@@ -169,6 +169,10 @@ input[type="submit"] {
   padding: 80px;
 }
 
+#accueil-parallax {
+  padding: 80px;
+}
+
 #accueil-intro h3,
 .accueil-actions h3 {
   font-size: 60px;
@@ -270,8 +274,29 @@ input[type="submit"] {
   animation: 1s blink infinite 0.9999s;
 }
 
+.parallax-container {
+  height: inherit;
+  padding: 80px;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
 @keyframes blink {
   50% {
     opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  .container {
+    width: 90% !important;
+  }
+
+  #accueil-intro,
+  .accueil-actions,
+  .parallax-container {
+    padding: 40px;
   }
 }

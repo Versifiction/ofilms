@@ -121,7 +121,7 @@ function Bibliotheque() {
           </div>
         </div>
         <div className="row">
-          <div className="input-field col s6">
+          <div className="input-field col s12 m6">
             <p>Choisissez un type de fiction</p>
             <select style={{ zIndex: "999" }} onChange={handleMediaTypeChange}>
               <option value="" disabled defaultValue>
@@ -132,7 +132,7 @@ function Bibliotheque() {
             </select>
           </div>
 
-          <div className="input-field col s6">
+          <div className="input-field col s12 m6">
             <p>Choisissez un genre</p>
             {mediaType === "movie" ? (
               <select onChange={handleGenreChange}>
@@ -181,7 +181,7 @@ function Bibliotheque() {
                 key={media.id}
                 style={{
                   textDecoration: "none",
-                  width: "20%",
+
                   padding: "10px",
                   marginBottom: "50px",
                   height: "300px"
