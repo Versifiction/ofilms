@@ -19,7 +19,7 @@ function FloatingChat(props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isFounder, setIsFounder] = useState(false);
   const [awayFromBottomChat, setAwayFromBottomChat] = useState(false);
-  const socket = io(process.env.REACT_APP_API_URL);
+  const socket = io(process.env.REACT_APP_API_URL, { secure: true });
 
   useEffect(() => {
     console.log("props ", props);

@@ -28,7 +28,7 @@ function Chat(props) {
   const [isFounder, setIsFounder] = useState(false);
   const [pending, setPending] = useState(true);
   const [someoneIsWriting, setSomeoneIsWriting] = useState();
-  const socket = io(process.env.REACT_APP_API_URL);
+  const socket = io(process.env.REACT_APP_API_URL, { secure: true });
 
   useEffect(() => {
     console.log(process.env.NODE_ENV);
