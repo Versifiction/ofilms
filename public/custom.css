@@ -57,7 +57,7 @@ input[type="submit"] {
   margin-top: 20px;
   height: 54px;
   line-height: 54px;
-  font-size: 15px;
+  font-size: 1rem;
   padding: 0 28px;
   text-align: center;
   border: none;
@@ -82,7 +82,7 @@ input[type="submit"] {
   bottom: 10px;
   width: 350px;
   z-index: 999;
-  font-size: 12px;
+  font-size: 1rem;
   line-height: 22px;
   font-family: "Roboto";
   font-weight: 500;
@@ -175,14 +175,14 @@ input[type="submit"] {
 
 #accueil-intro h3,
 .accueil-actions h3 {
-  font-size: 60px;
+  font-size: 3rem;
   margin-bottom: 50px !important;
 }
 
 #accueil-intro p,
 .accueil-actions p {
   color: inherit;
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .parallax {
@@ -281,6 +281,10 @@ input[type="submit"] {
 
 h2 {
   font-size: 2rem;
+}
+
+.material-icons {
+  font-size: 1.5rem;
 }
 
 @keyframes blink {
