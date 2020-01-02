@@ -77,7 +77,6 @@ function Inscription(props) {
   async function loadCities() {
     try {
       const dataCities = await axios.get(citiesUrl);
-      console.log("citiesList ", dataCities.data);
       setCitiesList(dataCities.data);
       forceUpdate();
     } catch (error) {
@@ -88,7 +87,6 @@ function Inscription(props) {
   async function loadDepartements() {
     try {
       const dataDepartements = await axios.get(departementsUrl);
-      console.log("departementsList ", dataDepartements.data);
       setDepartementsList(dataDepartements.data);
       forceUpdate();
     } catch (error) {
@@ -474,7 +472,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { registerUser }
-)(withRouter(Inscription));
+export default connect(mapStateToProps, { registerUser })(
+  withRouter(Inscription)
+);

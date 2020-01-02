@@ -30,15 +30,12 @@ function ResetPassword(props) {
   });
 
   useEffect(() => {
-    console.log("props ", props);
-    console.log("token ", props.match.params.token);
     document.title = "O'Films | Réinitialisation de mot de passe";
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/users/resetPassword`, {
         params: { resetPasswordToken: props.match.params.token }
       })
       .then(res => {
-        console.log("res ", res);
         if (res.data.message === "Lien réinitialisation OK") {
           setUsername(res.data.username);
           setUpdated(false);

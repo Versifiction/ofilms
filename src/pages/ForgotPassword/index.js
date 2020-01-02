@@ -36,7 +36,6 @@ function ForgotPassword(props) {
   }
 
   async function sendMail(e) {
-    console.log("send mail react");
     e.preventDefault();
     if (fields.email === "") {
       setShowError(false);
@@ -50,7 +49,6 @@ function ForgotPassword(props) {
             email: fields.email
           }
         );
-        console.log(response.data);
         if (response.data === "Lien réinitialisation envoyé") {
           setShowError(false);
           setMessageFromServer("Mail de réinitialisation envoyé");

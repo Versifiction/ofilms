@@ -51,15 +51,6 @@ function Bibliotheque() {
     search();
   }, [mediaType, idGenreChosen, searchUrl]);
 
-  useEffect(() => {
-    console.log("media type ", mediaType);
-    console.log("idGenreChosen ", idGenreChosen);
-    console.log("nameGenreChosen ", nameGenreChosen);
-    console.log("searchUrl ", searchUrl);
-    console.log("result ", result);
-    console.log("-------------");
-  }, [mediaType, idGenreChosen, searchUrl, result]);
-
   async function loadMoviesGenres() {
     try {
       const dataMoviesGenres = await axios.get(moviesGenresUrl);

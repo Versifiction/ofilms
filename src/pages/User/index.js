@@ -51,9 +51,7 @@ function User({ match }) {
       const dataUser = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/user/${match.params.username}`
       );
-      console.log("data ", dataUser);
       setUser(dataUser.data);
-      console.log("user ", user);
       fields.email = user.email;
       fields.username = user.username;
       fields.firstname = user.firstname;

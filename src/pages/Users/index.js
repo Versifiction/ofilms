@@ -28,15 +28,12 @@ function Users(props) {
   }, []);
 
   async function loadUser() {
-    console.log("load user");
     try {
       const dataUser = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
-      console.log("data ", dataUser);
       setUser(dataUser.data);
       setPending(false);
-      console.log("user isadmin ", user.isAdmin);
       M.AutoInit();
     } catch (error) {
       console.log(error);
@@ -48,9 +45,7 @@ function Users(props) {
       const dataAllUsers = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/getAll`
       );
-      console.log("data ", dataAllUsers);
       setUsersList(dataAllUsers.data);
-      console.log("usersList ", usersList);
       setPending(false);
       forceUpdate();
     } catch (error) {

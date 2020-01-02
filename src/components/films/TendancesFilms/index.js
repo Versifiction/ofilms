@@ -33,14 +33,9 @@ function TendancesFilms() {
     };
   }, [activePage]);
 
-  useEffect(() => {
-    console.log("allGenres ", allGenres);
-  }, [allGenres]);
-
   async function loadTendancesFilms() {
     try {
       const dataTendancesFilms = await axios.get(tendancesFilmsUrl);
-      console.log("tendancesFilms ", dataTendancesFilms);
       setTendancesFilms(dataTendancesFilms.data.results);
       setTotalPages(dataTendancesFilms.data.total_pages);
       setPending(false);
@@ -53,7 +48,6 @@ function TendancesFilms() {
   async function loadAllGenres() {
     try {
       const dataAllGenres = await axios.get(allGenresUrl);
-      console.log("allgenres ", dataAllGenres);
       setAllGenres(dataAllGenres.data.genres);
       setPending(false);
       forceUpdate();

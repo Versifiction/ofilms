@@ -31,7 +31,6 @@ function Chat(props) {
   const socket = io(process.env.REACT_APP_API_URL, { secure: true });
 
   useEffect(() => {
-    console.log(process.env.NODE_ENV);
     document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     document.title = "O'Films | Chat";
   });
@@ -94,7 +93,6 @@ function Chat(props) {
       const dataUser = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
-      console.log("user ", dataUser);
       setUsername(dataUser.data[0].username);
       setIsVerified(dataUser.data[0].isVerified);
       setIsModerator(dataUser.data[0].isModerator);
@@ -111,7 +109,6 @@ function Chat(props) {
       const dataMessages = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/chat/messages`
       );
-      console.log("messages ", dataMessages);
       setMessages(dataMessages.data);
       setPending(false);
       const chat = document.getElementsByClassName(
@@ -127,8 +124,6 @@ function Chat(props) {
   }
 
   async function deleteMessage(id) {
-    console.log("dans fonction deletemessage");
-
     socket.emit("delete message", { id: id });
   }
 

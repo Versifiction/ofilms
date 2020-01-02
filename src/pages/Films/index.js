@@ -36,7 +36,6 @@ function Films() {
   async function loadAfficheFilms() {
     try {
       const dataAfficheFilms = await axios.get(afficheFilmsUrl);
-      console.log("afficheFilms ", dataAfficheFilms);
       setAfficheFilms(dataAfficheFilms.data.results);
       setPending(false);
       forceUpdate();
@@ -48,7 +47,6 @@ function Films() {
   async function loadTendancesFilms() {
     try {
       const dataTendancesFilms = await axios.get(tendancesFilmsUrl);
-      console.log("tendancesFilms ", dataTendancesFilms);
       setTendancesFilms(dataTendancesFilms.data.results);
       setPending(false);
       forceUpdate();
@@ -60,7 +58,6 @@ function Films() {
   async function loadBestRatedFilms() {
     try {
       const dataBestRatedFilms = await axios.get(bestRatedFilmsUrl);
-      console.log("bestRatedFilms ", dataBestRatedFilms);
       setBestRatedFilms(dataBestRatedFilms.data.results);
       setPending(false);
       forceUpdate();

@@ -28,7 +28,6 @@ function Series() {
   async function loadTendancesSeries() {
     try {
       const dataTendancesSeries = await axios.get(tendancesSeriesUrl);
-      console.log("tendancesSeries ", dataTendancesSeries);
       setTendancesSeries(dataTendancesSeries.data.results);
       setPending(false);
       forceUpdate();
@@ -40,7 +39,6 @@ function Series() {
   async function loadBestRatedSeries() {
     try {
       const dataBestRatedSeries = await axios.get(bestRatedSeriesUrl);
-      console.log("bestRatedSeries ", dataBestRatedSeries);
       setBestRatedSeries(dataBestRatedSeries.data.results);
       setPending(false);
       forceUpdate();

@@ -48,8 +48,6 @@ function Nav(props) {
 
   async function handleChange(e) {
     setSearchInputValue(e.target.value);
-    console.log("target value ", e.target.value);
-    console.log("searchInputValue ", searchInputValue);
 
     try {
       const searchResult = await axios.get(
@@ -57,7 +55,6 @@ function Nav(props) {
       );
       setSearchResult(searchResult.data.results);
       setPending(false);
-      console.log("list of the search: ", searchResult);
     } catch (error) {
       console.error(error);
     }
@@ -504,9 +501,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(
-  mapStateToProps,
-  { logoutUser }
-)(withRouter(Nav));
+export default connect(mapStateToProps, { logoutUser })(withRouter(Nav));
 
 // export default withRouter(Nav);

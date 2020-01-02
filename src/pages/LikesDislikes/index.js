@@ -49,22 +49,6 @@ function LikesDislikes(props) {
     loadSeriesDislikedDetails();
   }, [seriesDisliked]);
 
-  useEffect(() => {
-    console.log("moviesLiked ", moviesLiked);
-    console.log("seriesLiked ", seriesLiked);
-    console.log("moviesDisliked ", moviesDisliked);
-    console.log("seriesDisliked ", seriesDisliked);
-    console.log("moviesLikedDetails ", moviesLikedDetails);
-    console.log("seriesLikedDetails ", seriesLikedDetails);
-    console.log("moviesDislikedDetails ", moviesDislikedDetails);
-    console.log("seriesDislikedDetails ", seriesDislikedDetails);
-  }, [
-    moviesLikedDetails,
-    seriesLikedDetails,
-    moviesDislikedDetails,
-    seriesDislikedDetails
-  ]);
-
   async function loadMoviesLikedDetails() {
     setMoviesLikedDetails([]);
     moviesLiked.forEach(async movie => {
@@ -72,7 +56,6 @@ function LikesDislikes(props) {
         const dataMovieDetail = await axios.get(
           `https://api.themoviedb.org/3/movie/${movie}?api_key=381e8c936f62f2ab614e9f29cad6630f&language=fr`
         );
-        console.log("MovieDetail ", dataMovieDetail.data);
         setMoviesLikedDetails(movieDetails => [
           ...movieDetails,
           dataMovieDetail.data
@@ -90,7 +73,6 @@ function LikesDislikes(props) {
         const dataSerieDetail = await axios.get(
           `https://api.themoviedb.org/3/tv/${serie}?api_key=381e8c936f62f2ab614e9f29cad6630f&language=fr`
         );
-        console.log("SerieDetail ", dataSerieDetail.data);
         setSeriesLikedDetails(serieDetails => [
           ...serieDetails,
           dataSerieDetail.data
@@ -108,7 +90,6 @@ function LikesDislikes(props) {
         const dataMovieDetail = await axios.get(
           `https://api.themoviedb.org/3/movie/${movie}?api_key=381e8c936f62f2ab614e9f29cad6630f&language=fr`
         );
-        console.log("MovieDetail ", dataMovieDetail.data);
         setMoviesDislikedDetails(movieDetails => [
           ...movieDetails,
           dataMovieDetail.data
@@ -126,7 +107,6 @@ function LikesDislikes(props) {
         const dataSerieDetail = await axios.get(
           `https://api.themoviedb.org/3/tv/${serie}?api_key=381e8c936f62f2ab614e9f29cad6630f&language=fr`
         );
-        console.log("SerieDetail ", dataSerieDetail.data);
         setSeriesDislikedDetails(serieDetails => [
           ...serieDetails,
           dataSerieDetail.data
@@ -142,7 +122,6 @@ function LikesDislikes(props) {
       const dataUser = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
-      console.log("user ", dataUser);
       setMoviesLiked(dataUser.data[0].moviesLiked);
       setSeriesLiked(dataUser.data[0].seriesLiked);
       setMoviesDisliked(dataUser.data[0].moviesDisliked);

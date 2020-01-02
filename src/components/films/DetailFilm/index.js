@@ -84,7 +84,6 @@ function DetailFilm(props) {
       const dataUser = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
-      console.log("user ", dataUser);
       setLiked(dataUser.data[0].moviesLiked.includes(props.match.params.id));
       setDisliked(
         dataUser.data[0].moviesDisliked.includes(props.match.params.id)
@@ -104,24 +103,20 @@ function DetailFilm(props) {
     setErrorMessage(false);
 
     if (favorited) {
-      console.log("je retire le film de mes favoris");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/moviesFavorites/${props.match.params.id}`
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
       }
     } else {
-      console.log("j'ajoute le film à mes favoris");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/moviesFavorites/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
@@ -141,24 +136,20 @@ function DetailFilm(props) {
     setErrorMessage(false);
 
     if (liked) {
-      console.log("je retire le film de mes likes");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/moviesLiked/${props.match.params.id}`
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
       }
     } else {
-      console.log("j'ajoute le film à mes likes");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/moviesLiked/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
@@ -178,24 +169,20 @@ function DetailFilm(props) {
     setErrorMessage(false);
 
     if (disliked) {
-      console.log("je retire le film de mes dislikes");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/remove/moviesDisliked/${props.match.params.id}`
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
       }
     } else {
-      console.log("j'ajoute le film à mes dislikes");
       try {
         const dataUser = await axios.post(
           `${process.env.REACT_APP_API_URL}/api/users/user/${props.auth.user.id}/add/moviesDisliked/${props.match.params.id}`,
           { userId: props.auth.user.id, movieId: props.match.params.id }
         );
-        console.log("user ", dataUser);
         forceUpdate();
       } catch (error) {
         console.log(error);
@@ -206,10 +193,8 @@ function DetailFilm(props) {
   async function loadFilmDetail() {
     try {
       const dataFilmDetail = await axios.get(filmDetailUrl);
-      console.log("filmDetail ", dataFilmDetail);
       setFilmDetail(dataFilmDetail.data);
       setPending(false);
-      console.log("poster ", dataFilmDetail.data.poster_path);
       document.title = `O'Films | ${dataFilmDetail.data.title}`;
       convertRuntime(dataFilmDetail.data.runtime);
       forceUpdate();
@@ -222,8 +207,6 @@ function DetailFilm(props) {
   async function loadCreditsFilm() {
     try {
       const dataCreditsFilm = await axios.get(creditsFilmUrl);
-      console.log("castFilm ", dataCreditsFilm.data.cast);
-      console.log("crewFilm ", dataCreditsFilm.data.crew);
       setCastFilm(dataCreditsFilm.data.cast);
       setCrewFilm(dataCreditsFilm.data.crew);
       setPending(false);
@@ -236,7 +219,6 @@ function DetailFilm(props) {
   async function loadSimilarFilms() {
     try {
       const dataSimilarFilms = await axios.get(similarFilmsUrl);
-      console.log("similarFilms ", dataSimilarFilms);
       setSimilarFilms(dataSimilarFilms.data.results);
       setPending(false);
       document.getElementsByClassName("sc-bdVaJa")[0].style.width = "100%";
@@ -254,7 +236,6 @@ function DetailFilm(props) {
   async function loadVideosFilm() {
     try {
       const dataVideosFilm = await axios.get(videosFilmUrl);
-      console.log("videosFilm ", dataVideosFilm);
       setVideosFilm(dataVideosFilm.data.results);
       // setPending(false);
       forceUpdate();
@@ -266,7 +247,6 @@ function DetailFilm(props) {
   async function loadPhotosFilm() {
     try {
       const dataPhotosFilm = await axios.get(photosFilmUrl);
-      console.log("photosFilm ", dataPhotosFilm);
       setPhotosFilm(dataPhotosFilm.data.posters);
       // setPending(false);
       forceUpdate();
@@ -278,7 +258,6 @@ function DetailFilm(props) {
   async function loadKeywordsFilm() {
     try {
       const dataKeywordsFilm = await axios.get(keywordsFilmUrl);
-      console.log("keywordsFilm ", dataKeywordsFilm);
       setKeywordsFilm(dataKeywordsFilm.data.keywords);
       setPending(false);
       forceUpdate();

@@ -55,7 +55,6 @@ function MonCompte(props) {
   async function loadCities() {
     try {
       const dataCities = await axios.get(citiesUrl);
-      console.log("citiesList ", dataCities.data);
       setCitiesList(dataCities.data);
       forceUpdate();
     } catch (error) {
@@ -66,7 +65,6 @@ function MonCompte(props) {
   async function loadDepartements() {
     try {
       const dataDepartements = await axios.get(departementsUrl);
-      console.log("departementsList ", dataDepartements.data);
       setDepartementsList(dataDepartements.data);
       forceUpdate();
     } catch (error) {
@@ -79,9 +77,7 @@ function MonCompte(props) {
       const dataUser = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
-      console.log("data ", dataUser);
       setUser(dataUser.data);
-      console.log("user ", user);
       fields.email = user.email;
       fields.username = user.username;
       fields.firstname = user.firstname;
@@ -103,13 +99,11 @@ function MonCompte(props) {
   function handleChange(e) {}
 
   function validateChanges() {
-    console.log("function validate");
     setEditable(false);
     M.toast({ html: "Vos changements ont bien été effectués" });
   }
 
   function cancelChanges() {
-    console.log("function cancel");
     setEditable(false);
   }
 

@@ -35,7 +35,6 @@ function BestRatedSeries() {
   async function loadBestRatedSeries() {
     try {
       const dataBestRatedSeries = await axios.get(bestRatedSeriesUrl);
-      console.log("bestRatedSeries ", dataBestRatedSeries);
       setBestRatedSeries(dataBestRatedSeries.data.results);
       setTotalPages(dataBestRatedSeries.data.total_pages);
       setPending(false);
@@ -48,7 +47,6 @@ function BestRatedSeries() {
   async function loadAllGenres() {
     try {
       const dataAllGenres = await axios.get(allGenresUrl);
-      console.log("allgenres ", dataAllGenres);
       setAllGenres(dataAllGenres.data.genres);
       setPending(false);
       forceUpdate();

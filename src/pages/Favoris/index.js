@@ -37,13 +37,6 @@ function Likes(props) {
     loadSeriesFavoritesDetails();
   }, [seriesFavorites]);
 
-  useEffect(() => {
-    console.log("movieFavorites ", moviesFavorites);
-    console.log("serieFavorites ", seriesFavorites);
-    console.log("movieFavoritesDetails ", moviesFavoritesDetails);
-    console.log("serieFavoritesDetails ", seriesFavoritesDetails);
-  }, [moviesFavoritesDetails, seriesFavoritesDetails]);
-
   async function loadMoviesFavoritesDetails() {
     setMoviesFavoritesDetails([]);
     moviesFavorites.forEach(async movie => {
@@ -51,7 +44,6 @@ function Likes(props) {
         const dataMovieDetail = await axios.get(
           `https://api.themoviedb.org/3/movie/${movie}?api_key=381e8c936f62f2ab614e9f29cad6630f&language=fr`
         );
-        console.log("MovieDetail ", dataMovieDetail.data);
         setMoviesFavoritesDetails(movieDetails => [
           ...movieDetails,
           dataMovieDetail.data
@@ -69,7 +61,6 @@ function Likes(props) {
         const dataSerieDetail = await axios.get(
           `https://api.themoviedb.org/3/tv/${serie}?api_key=381e8c936f62f2ab614e9f29cad6630f&language=fr`
         );
-        console.log("SerieDetail ", dataSerieDetail.data);
         setSeriesFavoritesDetails(serieDetails => [
           ...serieDetails,
           dataSerieDetail.data
@@ -85,7 +76,6 @@ function Likes(props) {
       const dataUser = await axios.get(
         `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
-      console.log("user ", dataUser);
       setMoviesFavorites(dataUser.data[0].moviesFavorites);
       setSeriesFavorites(dataUser.data[0].seriesFavorites);
       setPending(false);

@@ -54,7 +54,6 @@ function DetailCompany({ match }) {
   async function loadCompanyDetail() {
     try {
       const dataCompanyDetail = await axios.get(companyDetailUrl);
-      console.log("CompanyDetail ", dataCompanyDetail);
       setCompanyDetail(dataCompanyDetail.data);
       setPending(false);
       document.title = `O'Films | ${dataCompanyDetail.data.name}`;

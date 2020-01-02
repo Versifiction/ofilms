@@ -32,15 +32,9 @@ function AfficheFilms() {
     };
   }, [activePage]);
 
-  useEffect(() => {
-    console.log("allGenres ", allGenres);
-  }, [allGenres]);
-
   async function loadAfficheFilms() {
     try {
       const dataAfficheFilms = await axios.get(afficheFilmsUrl);
-      // console.log("afficheFilms ", dataAfficheFilms);
-      console.log("afficheFilmsUrl ", afficheFilmsUrl);
       setAfficheFilms(dataAfficheFilms.data.results);
       setTotalPages(dataAfficheFilms.data.total_pages);
       setPending(false);
@@ -53,7 +47,6 @@ function AfficheFilms() {
   async function loadAllGenres() {
     try {
       const dataAllGenres = await axios.get(allGenresUrl);
-      console.log("allGenres ", dataAllGenres.data.genres);
       setAllGenres(dataAllGenres.data.genres);
       setPending(false);
       forceUpdate();

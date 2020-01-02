@@ -62,7 +62,6 @@ function DetailPerson({ match }) {
   async function loadPersonDetail() {
     try {
       const dataPersonDetail = await axios.get(personDetailUrl);
-      console.log("personDetail ", dataPersonDetail);
       setPersonDetail(dataPersonDetail.data);
       setPending(false);
       document.title = `O'Films | ${dataPersonDetail.data.name}`;
@@ -75,7 +74,6 @@ function DetailPerson({ match }) {
   async function loadCastCreditsPerson() {
     try {
       const dataCastCreditsPerson = await axios.get(castCreditsPersonUrl);
-      console.log("castCreditsPerson ", dataCastCreditsPerson);
       setCastCreditsPerson(dataCastCreditsPerson.data.cast);
       setPending(false);
       forceUpdate();
@@ -87,7 +85,6 @@ function DetailPerson({ match }) {
   async function loadCrewCreditsPerson() {
     try {
       const dataCrewCreditsPerson = await axios.get(castCreditsPersonUrl);
-      console.log("crewCreditsPerson ", dataCrewCreditsPerson);
       setCrewCreditsPerson(dataCrewCreditsPerson.data.crew);
       setPending(false);
       forceUpdate();
@@ -99,7 +96,6 @@ function DetailPerson({ match }) {
   async function loadPhotosPerson() {
     try {
       const dataPhotosPerson = await axios.get(photosPersonUrl);
-      console.log("photosPerson ", dataPhotosPerson);
       setPhotosPerson(dataPhotosPerson.data.profiles);
       setPending(false);
       forceUpdate();

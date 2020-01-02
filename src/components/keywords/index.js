@@ -35,7 +35,6 @@ function Keyword({ match }) {
   async function loadKeyword() {
     try {
       const dataKeyword = await axios.get(keywordUrl);
-      console.log("keyword ", dataKeyword);
       setKeyword(dataKeyword.data.results);
       setTotalPages(dataKeyword.data.total_pages);
       setPending(false);
@@ -48,9 +47,7 @@ function Keyword({ match }) {
   async function loadAllGenres() {
     try {
       const dataAllGenres = await axios.get(allGenresUrl);
-      console.log("data ", dataAllGenres);
       setAllGenres(dataAllGenres.data.genres);
-      console.log("allgenres ", allGenres);
       setPending(false);
       forceUpdate();
     } catch (error) {
@@ -61,7 +58,6 @@ function Keyword({ match }) {
   async function loadKeywordName() {
     try {
       const dataKeywordName = await axios.get(keywordNameUrl);
-      console.log("keywordName ", dataKeywordName);
       setKeywordName(dataKeywordName.data.name);
       document.title = `O'Films | ${dataKeywordName.data.name}`;
       setPending(false);

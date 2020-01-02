@@ -7,12 +7,6 @@ import ItemsCarousel from "react-items-carousel";
 function Photos({ photosFilm }) {
   const [activeItemIndex, setActiveItemIndex] = useState(0);
 
-  useEffect(() => {
-    console.log(document.getElementsByClassName("sc-bwzfXH")[0]);
-    // document.getElementsByClassName("sc-bwzfXH")[0].style.height = "400px";
-    // document.getElementsByClassName("sc-htpNat")[0].style.height = "400px";
-  }, []);
-
   return (
     <>
       <div id="test3" className="col s12">
