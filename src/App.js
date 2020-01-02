@@ -12,6 +12,8 @@ function App() {
     if (sidenav) {
       document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     }
+
+    console.log("API URL ", process.env.REACT_APP_API_URL);
   }, []);
   return (
     <Provider store={store}>
