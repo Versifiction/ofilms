@@ -160,7 +160,7 @@ function FloatingChat(props) {
                   Chat
                 </h3>
               </div>
-              <div className="row">
+              <div className="row" style={{ paddingBottom: "70px" }}>
                 <div className="col s12">
                   <ul className="tabs">
                     <li className="tab col s6">
