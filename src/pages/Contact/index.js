@@ -6,9 +6,6 @@ import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Contact() {
-  useEffect(() => {
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
-  });
   return (
     <>
       <Nav />

@@ -23,7 +23,6 @@ function Films() {
 
   useEffect(() => {
     document.title = "O'Films | Films";
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     loadAfficheFilms();
     loadTendancesFilms();
     loadBestRatedFilms();

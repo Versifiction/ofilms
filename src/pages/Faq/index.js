@@ -6,18 +6,6 @@ import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
 
 function Faq() {
-  useEffect(() => {
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
-    for (
-      let i = 0;
-      i < document.getElementsByClassName("collapsible-body").length;
-      i++
-    ) {
-      document.getElementsByClassName("collapsible-body")[i].style.color =
-        "white";
-    }
-  });
-
   return (
     <>
       <Nav />

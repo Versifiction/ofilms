@@ -7,7 +7,6 @@ import BandeauCookie from "../../components/BandeauCookie";
 
 function MentionsLegales() {
   useEffect(() => {
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     document.title = "O'Films | Mentions légales";
   }, []);
   return (

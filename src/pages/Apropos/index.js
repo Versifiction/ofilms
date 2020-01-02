@@ -7,7 +7,6 @@ import BandeauCookie from "../../components/BandeauCookie";
 
 function Apropos() {
   useEffect(() => {
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     document.title = "O'Films | A propos";
   });
   return (

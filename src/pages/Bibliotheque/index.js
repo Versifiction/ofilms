@@ -29,7 +29,6 @@ function Bibliotheque() {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     window.scroll(0, 0);
     M.AutoInit();
 

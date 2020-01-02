@@ -31,7 +31,6 @@ function Chat(props) {
   const socket = io(process.env.REACT_APP_API_URL, { secure: true });
 
   useEffect(() => {
-    document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     document.title = "O'Films | Chat";
   });
 

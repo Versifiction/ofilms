@@ -22,7 +22,6 @@ function Nav(props) {
 
   useEffect(() => {
     const elementPosition = $(".navbar").offset();
-    // document.getElementsByClassName("sidenav-overlay")[0].style.opacity = "0";
     M.AutoInit();
 
     //   $(window).scroll(function() {

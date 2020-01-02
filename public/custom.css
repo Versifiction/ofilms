@@ -4,6 +4,10 @@ body {
   background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
 }
 
+.sidenav-overlay {
+  opacity: 0 !important;
+}
+
 .select-wrapper.disabled + label,
 .select-wrapper input.select-dropdown:disabled {
   color: #95878b;
@@ -234,10 +238,6 @@ input[type="submit"] {
 .btn-floating.disabled {
   background-color: #95878b;
   cursor: not-allowed;
-}
-
-.sidenav-overlay {
-  opacity: 0;
 }
 
 .typing-indicator {
