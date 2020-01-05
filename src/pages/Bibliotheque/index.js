@@ -11,20 +11,21 @@ import "../../App.css";
 import Nav from "../../components/Nav";
 import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
+import PlaceholderTwo from "../../components/Molecules/Placeholders/PlaceholderTwo";
 
 function Bibliotheque() {
   const [moviesGenres, setMoviesGenres] = useState(false);
   const [tvGenres, setTvGenres] = useState(false);
+  const [genres, setGenres] = useState(false);
   const [result, setResult] = useState(false);
   const [mediaType, setMediaType] = useState("movie");
   const [nameGenreChosen, setNameGenreChosen] = useState("Action");
   const [idGenreChosen, setIdGenreChosen] = useState(28);
-  const [pending, setPending] = useState(false);
+  const [pending, setPending] = useState(true);
   const [activePage, setActivePage] = useState(1);
   const forceUpdate = useForceUpdate();
   const moviesGenresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const tvGenresUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const searchUrl = `https://api.themoviedb.org/3/discover/${mediaType}?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`;
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -42,13 +43,31 @@ function Bibliotheque() {
   });
 
   useEffect(() => {
+    console.log("mediaType ", mediaType);
+    console.log("idGenreChosen ", idGenreChosen);
     loadMoviesGenres();
     loadTvGenres();
-  }, []);
+    search();
+  }, [mediaType]);
 
   useEffect(() => {
-    search();
-  }, [mediaType, idGenreChosen, searchUrl]);
+    console.log("---");
+    console.log("genres ", genres);
+  }, [genres]);
+
+  useEffect(() => {
+    loadGenres();
+  }, []);
+
+  async function loadGenres() {
+    try {
+      const dataMoviesGenres = await axios.get(moviesGenresUrl);
+      setGenres(dataMoviesGenres.data.genres);
+      setPending(false);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   async function loadMoviesGenres() {
     try {
@@ -72,18 +91,36 @@ function Bibliotheque() {
 
   async function search() {
     try {
-      const dataMovies = await axios.get(searchUrl);
-      setResult(dataMovies.data.results);
-      setTotalPages(dataMovies.data.total_pages);
+      setPending(true);
+      const dataGenres = await axios.get(
+        `https://api.themoviedb.org/3/discover/${mediaType}?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`
+      );
+      console.log(
+        "searchUrl ",
+        `https://api.themoviedb.org/3/discover/${mediaType}?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`
+      );
+      setResult(dataGenres.data.results);
+      setTotalPages(dataGenres.data.total_pages);
       setPending(false);
     } catch (error) {
       console.error(error);
     }
   }
 
-  function handleMediaTypeChange(e) {
+  async function handleMediaTypeChange(e) {
     setMediaType(e.target.value);
-    forceUpdate();
+    setIdGenreChosen(e.target.value === "movie" ? 28 : 10759);
+
+    try {
+      setPending(true);
+      const dataGenres = await axios.get(
+        e.target.value === "movie" ? tvGenresUrl : moviesGenresUrl
+      );
+      setGenres(dataGenres.data.genres);
+      setPending(false);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function handleGenreChange(e) {
@@ -92,19 +129,11 @@ function Bibliotheque() {
         .children("span")
         .text()
     );
-    setIdGenreChosen(
-      mediaType === "movie"
-        ? moviesGenres.find(genre => genre.name === e.target.value).id
-        : tvGenres.find(genre => genre.name === e.target.value).id
-    );
-    forceUpdate();
+    setIdGenreChosen(genres.find(genre => genre.name === e.target.value).id);
   }
 
   function handlePageChange() {
-    setInterval(() => {
-      setActivePage($("li.active").text());
-      forceUpdate();
-    }, 500);
+    setActivePage($("li.active").text());
   }
 
   return (
@@ -112,6 +141,7 @@ function Bibliotheque() {
       <Nav />
       <div className="container">
         <h2>Bibliothèque</h2>
+
         <div className="row">
           <div className="col s12">
             <h5 style={{ color: "#95878b" }}>
@@ -131,34 +161,19 @@ function Bibliotheque() {
               <option value="tv">Séries</option>
             </select>
           </div>
-
           <div className="input-field col s12 m6">
             <p>Choisissez un genre</p>
-            {mediaType === "movie" ? (
-              <select onChange={handleGenreChange}>
-                <option value="" disabled defaultValue>
-                  Choisissez un genre
-                </option>
-                {moviesGenres &&
-                  moviesGenres.map(genre => (
-                    <option value={genre.name} key={genre.id} id={genre.id}>
-                      {genre.name}
-                    </option>
-                  ))}
-              </select>
-            ) : (
-              <select onChange={handleGenreChange}>
-                <option value="" disabled defaultValue>
-                  Choisissez un genre
-                </option>
-                {tvGenres &&
-                  tvGenres.map(genre => (
-                    <option value={genre.name} key={genre.id} id={genre.id}>
-                      {genre.name}
-                    </option>
-                  ))}
-              </select>
-            )}
+            <select onChange={handleGenreChange}>
+              <option value="" disabled defaultValue>
+                Choisissez un genre
+              </option>
+              {genres &&
+                genres.map(genre => (
+                  <option value={genre.name} key={genre.id} id={genre.id}>
+                    {genre.name}
+                  </option>
+                ))}
+            </select>
           </div>
         </div>
         <br />
@@ -167,92 +182,106 @@ function Bibliotheque() {
             <h4 style={{ color: "white" }}>Résultats</h4>
           </div>
         </div>
+        {pending ? (
+          <PlaceholderTwo />
+        ) : (
+          <>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                marginTop: "inherit"
+              }}
+              className="row film-types-datas"
+            >
+              {result &&
+                result.map((media, index) => (
+                  <Link
+                    href={`/${mediaType === "movie" ? "film" : "serie"}/${
+                      media.id
+                    }`}
+                    to={`/${mediaType === "movie" ? "film" : "serie"}/${
+                      media.id
+                    }`}
+                    key={media.id}
+                    className="col s6 m3"
+                    style={{
+                      textDecoration: "none",
+                      height: "300px",
+                      paddingRight: "10px",
+                      marginTop: "20px",
+                      marginBottom: "20px"
+                    }}
+                  >
+                    <div className="film-encart">
+                      <img
+                        src={
+                          media.poster_path !== null
+                            ? `http://image.tmdb.org/t/p/w500${media.poster_path}`
+                            : "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
+                        }
+                        className="card-img-top"
+                        alt={`Poster de ${
+                          mediaType === "movie"
+                            ? media.title
+                            : media.original_name
+                        }`}
+                        title={
+                          mediaType === "movie"
+                            ? media.title
+                            : media.original_name
+                        }
+                        style={{ width: "100%", height: "100%" }}
+                      />
+                      <br />
+                      <div className="card-body">
+                        <p
+                          className="film-types-title"
+                          // style={{
+                          //   fontSize: "1.25rem",
+                          //   textTransform: "uppercase",
+                          //   textOverflow: "ellipsis",
+                          //   overflow: "hidden",
+                          //   whiteSpace: "nowrap"
+                          // }}
+                        >
+                          {mediaType === "movie"
+                            ? media && media.title
+                            : media && media.original_name}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+            </div>
+          </>
+        )}
+      </div>
+      {totalPages !== 0 && (
         <div
+          className="container"
           style={{
             display: "flex",
-            flexWrap: "wrap",
-            marginTop: "inherit"
+            justifyContent: "center",
+            cursor: "pointer",
+            marginTop: "50px"
           }}
-          className="row film-types-datas"
         >
-          {result &&
-            result.map((media, index) => (
-              <Link
-                href={`/${mediaType === "movie" ? "film" : "serie"}/${
-                  media.id
-                }`}
-                to={`/${mediaType === "movie" ? "film" : "serie"}/${media.id}`}
-                key={media.id}
-                className="col s6 m4 l3"
-                style={{
-                  textDecoration: "none",
-                  height: "300px",
-                  paddingRight: "10px",
-                  marginTop: "20px",
-                  marginBottom: "20px"
-                }}
-              >
-                <div className="film-encart">
-                  <img
-                    src={
-                      media.poster_path !== null
-                        ? `http://image.tmdb.org/t/p/w500${media.poster_path}`
-                        : "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
-                    }
-                    className="card-img-top"
-                    alt={`Poster de ${
-                      mediaType === "movie" ? media.title : media.original_name
-                    }`}
-                    title={
-                      mediaType === "movie" ? media.title : media.original_name
-                    }
-                    style={{ width: "100%", height: "100%" }}
-                  />
-                  <br />
-                  <div className="card-body">
-                    <p
-                      className="film-types-title"
-                      // style={{
-                      //   fontSize: "1.25rem",
-                      //   textTransform: "uppercase",
-                      //   textOverflow: "ellipsis",
-                      //   overflow: "hidden",
-                      //   whiteSpace: "nowrap"
-                      // }}
-                    >
-                      {mediaType === "movie"
-                        ? media && media.title
-                        : media && media.original_name}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
+          <ReactPaginate
+            previousLabel={<i className="material-icons">chevron_left</i>}
+            nextLabel={<i className="material-icons">chevron_right</i>}
+            breakLabel={"..."}
+            breakClassName={"break-me"}
+            pageCount={totalPages}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination"}
+            subContainerClassName={"pages pagination"}
+            activeClassName={"active"}
+          />
         </div>
-      </div>
-      <div
-        className="container"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          cursor: "pointer",
-          marginTop: "50px"
-        }}
-      >
-        <ReactPaginate
-          previousLabel={<i className="material-icons">chevron_left</i>}
-          nextLabel={<i className="material-icons">chevron_right</i>}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
-          pageCount={totalPages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName={"pagination"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"active"}
-        />
-      </div>
+      )}
       <FloatingChat />
       <BandeauCookie />
     </>

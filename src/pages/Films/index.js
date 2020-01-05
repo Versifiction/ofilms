@@ -2,12 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import useForceUpdate from "use-force-update";
+import ReactPlaceholder from "react-placeholder";
+import "react-placeholder/lib/reactPlaceholder.css";
+import {
+  TextBlock,
+  MediaBlock,
+  TextRow,
+  RectShape,
+  RoundShape
+} from "react-placeholder/lib/placeholders";
 
 import "../../App.css";
 import Nav from "../../components/Nav";
 import Spinner from "../../components/Molecules/Spinner";
 import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
+import PlaceholderOne from "../../components/Molecules/Placeholders/PlaceholderOne";
 
 function Films() {
   const [afficheFilms, setAfficheFilms] = useState([]);
@@ -24,9 +34,6 @@ function Films() {
   useEffect(() => {
     document.title = "O'Films | Films";
     loadAfficheFilms();
-    loadTendancesFilms();
-    loadBestRatedFilms();
-
     return () => {
       document.body.style.backgroundImage = `url("https://www.transparenttextures.com/patterns/black-linen.png")`;
     };
@@ -37,7 +44,6 @@ function Films() {
       const dataAfficheFilms = await axios.get(afficheFilmsUrl);
       setAfficheFilms(dataAfficheFilms.data.results);
       setPending(false);
-      forceUpdate();
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +86,7 @@ function Films() {
             </p>
           </h4>
           {pending ? (
-            <Spinner />
+            <PlaceholderOne />
           ) : (
             <>
               <div className="film-types-datas scrolling-wrapper">
@@ -122,7 +128,7 @@ function Films() {
             </p>
           </h4>
           {pending ? (
-            <Spinner />
+            <PlaceholderOne />
           ) : (
             <>
               <div className="film-types-datas scrolling-wrapper">
@@ -166,7 +172,7 @@ function Films() {
             </p>
           </h4>
           {pending ? (
-            <Spinner />
+            <PlaceholderOne />
           ) : (
             <>
               <div className="film-types-datas scrolling-wrapper">

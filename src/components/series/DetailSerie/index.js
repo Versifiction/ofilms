@@ -317,7 +317,7 @@ function DetailSerie(props) {
                     >
                       {!favorited ? (
                         <i
-                          className="material-icons tooltipped"
+                          className="material-iconstooltipped"
                           data-position="bottom"
                           data-tooltip="Ajouter cette série à mes favoris"
                           data-micron="bounce"
@@ -328,7 +328,7 @@ function DetailSerie(props) {
                         </i>
                       ) : (
                         <i
-                          className="material-icons tooltipped"
+                          className="material-iconstooltipped"
                           data-position="bottom"
                           data-tooltip="Retirer cette série de mes favoris"
                           data-micron="bounce"
@@ -348,7 +348,7 @@ function DetailSerie(props) {
                     >
                       {!liked ? (
                         <i
-                          className="material-icons tooltipped"
+                          className="material-iconstooltipped"
                           data-position="bottom"
                           data-tooltip="Ajouter cette série à mes likes"
                           data-micron="bounce"
@@ -359,7 +359,7 @@ function DetailSerie(props) {
                         </i>
                       ) : (
                         <i
-                          className="material-icons tooltipped"
+                          className="material-iconstooltipped"
                           data-position="bottom"
                           data-tooltip="Retirer cette série de mes likes"
                           data-micron="bounce"
@@ -379,7 +379,7 @@ function DetailSerie(props) {
                     >
                       {!disliked ? (
                         <i
-                          className="material-icons tooltipped"
+                          className="material-iconstooltipped"
                           data-position="bottom"
                           data-tooltip="Ajouter cette série à mes dislikes"
                           data-micron="bounce"
@@ -390,7 +390,7 @@ function DetailSerie(props) {
                         </i>
                       ) : (
                         <i
-                          className="material-icons tooltipped"
+                          className="material-iconstooltipped"
                           data-position="bottom"
                           data-tooltip="Retirer cette série de mes dislikes"
                           data-micron="bounce"
@@ -410,7 +410,7 @@ function DetailSerie(props) {
                     >
                       <p>Ajouter</p>
                       <i
-                        className="material-icons tooltipped"
+                        className="material-iconstooltipped"
                         data-position="bottom"
                         data-tooltip="Ajouter cette série à une liste"
                         style={{ cursor: "pointer", color: "#95878B" }}

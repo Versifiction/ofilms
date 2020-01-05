@@ -9,6 +9,7 @@ import Nav from "../../components/Nav";
 import Spinner from "../../components/Molecules/Spinner";
 import FloatingChat from "../../components/FloatingChat";
 import BandeauCookie from "../../components/BandeauCookie";
+import PlaceholderOne from "../../components/Molecules/Placeholders/PlaceholderOne";
 
 function Series() {
   const [tendancesSeries, setTendancesSeries] = useState([]);
@@ -61,7 +62,7 @@ function Series() {
             </p>
           </h4>
           {pending ? (
-            <Spinner />
+            <PlaceholderOne />
           ) : (
             <>
               <div className="film-types-datas scrolling-wrapper">
@@ -105,7 +106,7 @@ function Series() {
             </p>
           </h4>
           {pending ? (
-            <Spinner />
+            <PlaceholderOne />
           ) : (
             <>
               <div className="film-types-datas scrolling-wrapper">

@@ -107,7 +107,7 @@ function Connexion(props) {
                 />
 
                 <i
-                  className="tiny material-icons right tooltipped"
+                  className="tiny material-icons righttooltipped"
                   data-position="bottom"
                   data-tooltip={
                     passwordVisible

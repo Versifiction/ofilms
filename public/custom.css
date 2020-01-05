@@ -4,6 +4,23 @@ body {
   background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
 }
 
+nav .sidenav-trigger i {
+  height: 64px;
+  line-height: 64px;
+}
+
+nav .nav-wrapper {
+  height: none;
+}
+
+nav i,
+nav [class^="mdi-"],
+nav [class*="mdi-"],
+nav i.material-icons {
+  height: 64px;
+  line-height: 64px;
+}
+
 .sidenav .divider {
   margin: 8px 10%;
 }

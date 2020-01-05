@@ -865,6 +865,11 @@ p {
   color: white;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
 @media only screen and (max-width: 600px) {
   nav form {
     /*     left: calc(90vw - 100%); */
@@ -933,6 +938,10 @@ p {
   input:-webkit-autofill,
   input:focus:-webkit-autofill {
     background-color: transparent !important;
+  }
+
+  .account-text {
+    display: none;
   }
 }
 

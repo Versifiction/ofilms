@@ -11,7 +11,7 @@ import $ from "jquery";
 import moment from "moment";
 
 import Nav from "../../Nav";
-import Spinner from "../../Molecules/Spinner";
+import PlaceholderThree from "../../Molecules/Placeholders/PlaceholderThree";
 import Cast from "./Cast";
 import Crew from "./Crew";
 import BandesAnnonces from "./BandesAnnonces";
@@ -57,6 +57,7 @@ function DetailFilm(props) {
     loadVideosFilm();
     loadPhotosFilm();
     loadKeywordsFilm();
+
     $(".sc-bxivhb").hover(function() {
       $(this).css("box-shadow", "grey 0 0 10px 2px");
     });
@@ -270,11 +271,11 @@ function DetailFilm(props) {
     <>
       <Nav />
       <div className="container">
-        <div className="movies">
-          {pending ? (
-            <Spinner />
-          ) : (
-            <>
+        {pending ? (
+          <PlaceholderThree />
+        ) : (
+          <>
+            <div className="movies">
               <div
                 className="row detail-film"
                 key={filmDetail && filmDetail.id}
@@ -315,7 +316,7 @@ function DetailFilm(props) {
                           <>
                             <p>Favoriser</p>
                             <i
-                              className="material-icons tooltipped"
+                              className="material-iconstooltipped"
                               data-position="bottom"
                               data-tooltip="Ajouter ce film à mes favoris"
                               data-micron="bounce"
@@ -334,7 +335,7 @@ function DetailFilm(props) {
                           <div style={{ color: "yellow" }}>
                             <p style={{ color: "inherit" }}>Favorisé</p>
                             <i
-                              className="material-icons tooltipped"
+                              className="material-iconstooltipped"
                               data-position="bottom"
                               data-tooltip="Retirer ce film de mes favoris"
                               data-micron="bounce"
@@ -355,7 +356,7 @@ function DetailFilm(props) {
                           <>
                             <p>Liker</p>
                             <i
-                              className="material-icons tooltipped"
+                              className="material-iconstooltipped"
                               data-position="bottom"
                               data-tooltip="Ajouter ce film à mes likes"
                               data-micron="bounce"
@@ -374,7 +375,7 @@ function DetailFilm(props) {
                           <div style={{ color: "green" }}>
                             <p style={{ color: "inherit" }}>Liké</p>
                             <i
-                              className="material-icons tooltipped"
+                              className="material-iconstooltipped"
                               data-position="bottom"
                               data-tooltip="Retirer ce film de mes likes"
                               data-micron="bounce"
@@ -396,7 +397,7 @@ function DetailFilm(props) {
                           <>
                             <p>Disliker</p>
                             <i
-                              className="material-icons tooltipped"
+                              className="material-iconstooltipped"
                               data-position="bottom"
                               data-tooltip="Ajouter ce film à mes dislikes"
                               data-micron="bounce"
@@ -415,7 +416,7 @@ function DetailFilm(props) {
                           <div style={{ color: "red" }}>
                             <p style={{ color: "inherit" }}>Disliké</p>
                             <i
-                              className="material-icons tooltipped"
+                              className="material-iconstooltipped"
                               data-position="bottom"
                               data-tooltip="Retirer ce film de mes dislikes"
                               data-micron="bounce"
@@ -435,7 +436,7 @@ function DetailFilm(props) {
                       <div className="col s12 m3">
                         <p>Ajouter</p>
                         <i
-                          className="material-icons tooltipped"
+                          className="material-iconstooltipped"
                           data-position="bottom"
                           data-tooltip="Ajouter ce film à une liste"
                           style={{
@@ -656,10 +657,10 @@ function DetailFilm(props) {
                   )}
                 </div>
               </div>
-            </>
-          )}
-        </div>
-        <SimilarFilms similarFilms={similarFilms} />
+            </div>
+            <SimilarFilms similarFilms={similarFilms} />
+          </>
+        )}
       </div>
     </>
   );

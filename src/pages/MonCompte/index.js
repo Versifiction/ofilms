@@ -20,28 +20,28 @@ function MonCompte(props) {
   const [departementsList, setDepartementsList] = useState(false);
   const [user, setUser] = useState(false);
   const forceUpdate = useForceUpdate();
-  const [fields, setFields] = useState({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    username: "",
-    firstname: "",
-    lastname: "",
-    sexe: "",
-    localisation: true,
-    mobilePhone: "",
-    departement: "",
-    city: "",
-    creationDate: null,
-    errors: {}
-  });
-  const citiesUrl = `https://geo.api.gouv.fr/departements/${fields.departement}/communes`;
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [sexe, setSexe] = useState("");
+  const [localisation, setLocalisation] = useState(true);
+  const [mobilePhone, setMobilePhone] = useState("");
+  const [departement, setDepartement] = useState("");
+  const [city, setCity] = useState("");
+  const [creationDate, setCreationDate] = useState(null);
+  const [lastConnection, setLastConnection] = useState(null);
+  const [errors, setErrors] = useState({});
+  const citiesUrl = `https://geo.api.gouv.fr/departements/${departement}/communes`;
   const departementsUrl = `https://geo.api.gouv.fr/departements/`;
 
   useEffect(() => {
     document.title = "O'Films | Mon compte";
     loadUser();
     loadDepartements();
+    console.log(process.env.REACT_APP_API_URL);
   }, []);
 
   useEffect(() => {
@@ -49,8 +49,11 @@ function MonCompte(props) {
   });
 
   useEffect(() => {
+    console.log("departement changé");
+    console.log("departement ", departement);
+    console.log("user ", user);
     loadCities();
-  }, [fields.departement]);
+  }, [departement, user]);
 
   async function loadCities() {
     try {
@@ -78,16 +81,16 @@ function MonCompte(props) {
         `${process.env.REACT_APP_API_URL}/api/users/my-account/${props.auth.user.id}`
       );
       setUser(dataUser.data);
-      fields.email = user.email;
-      fields.username = user.username;
-      fields.firstname = user.firstname;
-      fields.lastname = user.lastname;
-      fields.sexe = user.sexe;
-      fields.mobilePhone = user.mobilePhone;
-      fields.city = user.city;
-      fields.departement = user.departement;
-      fields.creationDate = user.creationDate;
-      fields.lastConnection = user.lastConnection;
+      setEmail(user.email);
+      setUsername(user.username);
+      setFirstname(user.firstname);
+      setLastname(user.lastname);
+      setSexe(user.sexe);
+      setMobilePhone(user.mobilePhone);
+      setCity(user.city);
+      setDepartement(user.departement);
+      setCreationDate(user.creationDate);
+      setLastConnection(user.lastConnection);
       M.AutoInit();
       setPending(false);
       forceUpdate();
@@ -148,12 +151,12 @@ function MonCompte(props) {
                           backgroundColor: "transparent !important"
                         }}
                         className={classnames("validate", {
-                          invalid: fields.errors.email
+                          invalid: errors.email
                         })}
                         required
                       />
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
-                        {fields.errors.email}
+                        {errors.email}
                       </span>
                     </div>
                     <div className="input-field col s6">
@@ -173,12 +176,12 @@ function MonCompte(props) {
                         style={{ backgroundColor: "transparent" }}
                         placeholder="Entrez votre pseudo"
                         className={classnames("validate", {
-                          invalid: fields.errors.username
+                          invalid: errors.username
                         })}
                         required
                       />
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
-                        {fields.errors.username}
+                        {errors.username}
                       </span>
                     </div>
                   </div>
@@ -195,12 +198,12 @@ function MonCompte(props) {
                         onChange={e => handleChange(e)}
                         style={{ backgroundColor: "transparent" }}
                         className={classnames("validate", {
-                          invalid: fields.errors.firstname
+                          invalid: errors.firstname
                         })}
                         required
                       />
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
-                        {fields.errors.firstname}
+                        {errors.firstname}
                       </span>
                     </div>
                     <div className="input-field col s6">
@@ -215,12 +218,12 @@ function MonCompte(props) {
                         onChange={e => handleChange(e)}
                         style={{ backgroundColor: "transparent" }}
                         className={classnames("validate", {
-                          invalid: fields.errors.lastname
+                          invalid: errors.lastname
                         })}
                         required
                       />
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
-                        {fields.errors.lastname}
+                        {errors.lastname}
                       </span>
                     </div>
                   </div>
@@ -234,7 +237,7 @@ function MonCompte(props) {
                         onChange={e => handleChange(e)}
                         value={data.sexe}
                         className={classnames("validate", {
-                          invalid: fields.errors.sexe
+                          invalid: errors.sexe
                         })}
                         required
                       >
@@ -245,7 +248,7 @@ function MonCompte(props) {
                         <option value="F">Femme</option>
                       </select>
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
-                        {fields.errors.sexe}
+                        {errors.sexe}
                       </span>
                     </div>
                     <div className="input-field col s6">
@@ -259,17 +262,17 @@ function MonCompte(props) {
                         value={data.mobilePhone}
                         onChange={e => handleChange(e)}
                         className={classnames("validate", {
-                          invalid: fields.errors.sexe
+                          invalid: errors.sexe
                         })}
                       />
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
-                        {fields.errors.mobilePhone}
+                        {errors.mobilePhone}
                       </span>
                     </div>
                   </div>
                   <div className="row" style={{ position: "relative" }}>
                     <i
-                      className="material-icons tooltipped"
+                      className="material-iconstooltipped"
                       data-position="bottom"
                       data-tooltip="Vous devez renseigner votre département avant de sélectionner la ville"
                       style={{
@@ -293,7 +296,7 @@ function MonCompte(props) {
                         onChange={e => handleChange(e)}
                         value={data.departement}
                         className={classnames("validate", {
-                          invalid: fields.errors.departement
+                          invalid: errors.departement
                         })}
                         style={{ overflowY: "auto" }}
                       >
@@ -311,7 +314,7 @@ function MonCompte(props) {
                           ))}
                       </select>
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
-                        {fields.errors.departement}
+                        {errors.departement}
                       </span>
                     </div>
                     <div className="input-field col s6">
@@ -325,7 +328,7 @@ function MonCompte(props) {
                         onChange={e => handleChange(e)}
                         value={data.city}
                         className={classnames("validate", {
-                          invalid: fields.errors.city
+                          invalid: errors.city
                         })}
                       >
                         <option value="" disabled selectedvalue="true">
@@ -339,7 +342,7 @@ function MonCompte(props) {
                           ))}
                       </select>
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
-                        {fields.errors.city}
+                        {errors.city}
                       </span>
                     </div>
                   </div>

@@ -5,11 +5,13 @@ import M from "materialize-css";
 import useForceUpdate from "use-force-update";
 import io from "socket.io-client";
 
+import PlaceholderFour from "../../components/Molecules/Placeholders/PlaceholderFour";
 import IconsUserChat from "../IconsUserChat";
 import "../../App.css";
 
 function FloatingChat(props) {
   const forceUpdate = useForceUpdate();
+  const [pending, setPending] = useState(true);
   const [chatOpen, setChatOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [username, setUsername] = useState("");
@@ -75,6 +77,8 @@ function FloatingChat(props) {
         `${process.env.REACT_APP_API_URL}/api/chat/messages`
       );
       setMessages(dataMessages.data);
+      setPending(false);
+
       forceUpdate();
     } catch (error) {
       console.log(error);
@@ -179,45 +183,51 @@ function FloatingChat(props) {
                     style={{ position: "relative" }}
                   >
                     <ul className="messages">
-                      {messages &&
-                        messages.map(message => (
-                          <li
-                            className="message"
-                            key={message._id}
-                            style={{ position: "relative" }}
-                          >
-                            <p style={{ paddingRight: "30px" }}>
-                              <IconsUserChat
-                                isFounder={message.isFounder}
-                                isVerified={message.isVerified}
-                                isModerator={message.isModerator}
-                                isAdmin={message.isAdmin}
-                              />
-                              <span>
-                                <a href={`/user/${message.writer}`}>
-                                  {message.writer}
-                                </a>
-                              </span>
-                              : {message.content}
-                            </p>
-                            {isModerator && (
-                              <i
-                                className="material-icons colored right chat-messages-trash"
-                                style={{
-                                  cursor: "pointer",
-                                  position: "absolute",
-                                  top: "4px",
-                                  right: "4px"
-                                }}
-                                onClick={() => {
-                                  deleteMessage(message._id);
-                                }}
+                      {pending ? (
+                        <PlaceholderFour />
+                      ) : (
+                        <>
+                          {messages &&
+                            messages.map(message => (
+                              <li
+                                className="message"
+                                key={message._id}
+                                style={{ position: "relative" }}
                               >
-                                delete_forever
-                              </i>
-                            )}
-                          </li>
-                        ))}
+                                <p style={{ paddingRight: "30px" }}>
+                                  <IconsUserChat
+                                    isFounder={message.isFounder}
+                                    isVerified={message.isVerified}
+                                    isModerator={message.isModerator}
+                                    isAdmin={message.isAdmin}
+                                  />
+                                  <span>
+                                    <a href={`/user/${message.writer}`}>
+                                      {message.writer}
+                                    </a>
+                                  </span>
+                                  : {message.content}
+                                </p>
+                                {isModerator && (
+                                  <i
+                                    className="material-icons colored right chat-messages-trash"
+                                    style={{
+                                      cursor: "pointer",
+                                      position: "absolute",
+                                      top: "4px",
+                                      right: "4px"
+                                    }}
+                                    onClick={() => {
+                                      deleteMessage(message._id);
+                                    }}
+                                  >
+                                    delete_forever
+                                  </i>
+                                )}
+                              </li>
+                            ))}
+                        </>
+                      )}
                     </ul>
                   </div>
                 </div>

@@ -272,7 +272,7 @@ function Inscription(props) {
             </div>
             <div className="row" style={{ position: "relative" }}>
               <i
-                className="material-icons tooltipped"
+                className="material-iconstooltipped"
                 data-position="bottom"
                 data-tooltip="Vous devez renseigner votre département avant de sélectionner la ville"
                 style={{
@@ -362,7 +362,7 @@ function Inscription(props) {
                   required
                 />
                 <i
-                  className="tiny material-icons right tooltipped"
+                  className="tiny material-icons righttooltipped"
                   id="password"
                   data-position="bottom"
                   data-tooltip={
@@ -405,7 +405,7 @@ function Inscription(props) {
                   required
                 />
                 <i
-                  className="tiny material-icons right tooltipped"
+                  className="tiny material-icons righttooltipped"
                   id="confirmPassword"
                   data-position="bottom"
                   data-tooltip={

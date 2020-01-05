@@ -82,7 +82,11 @@ function Nav(props) {
               <a
                 href="/"
                 className="brand-logo center"
-                style={{ color: "#0CD0FC", textTransform: "uppercase" }}
+                style={{
+                  color: "#0CD0FC",
+                  textTransform: "uppercase",
+                  lineHeight: "64px"
+                }}
               >
                 O'Films
               </a>
@@ -122,7 +126,7 @@ function Nav(props) {
                     >
                       {searchInputValue.length === 0 ? (
                         <i
-                          className="material-icons search-icon tooltipped"
+                          className="material-icons colored search-icontooltipped"
                           data-position="bottom"
                           data-tooltip="Rechercher un film, une série, un acteur..."
                           style={{ cursor: "pointer" }}
@@ -136,7 +140,7 @@ function Nav(props) {
                         </i>
                       ) : (
                         <i
-                          className="material-icons search-close-icon tooltipped"
+                          className="material-icons colored search-close-icontooltipped"
                           data-position="bottom"
                           data-tooltip="Vider la valeur du champ"
                           style={{ cursor: "pointer" }}
@@ -263,18 +267,18 @@ function Nav(props) {
                   <>
                     <li>
                       <a
-                        className="waves-effect waves-light tooltipped"
+                        className="tooltipped"
                         data-position="bottom"
                         data-tooltip="Accéder à mon profil"
                         href="/mon-compte"
                       >
                         <i className="material-icons colored">person</i>
-                        Mon compte
+                        <span className="account-text">Mon compte</span>
                       </a>
                     </li>
                     <li>
                       <a
-                        className="waves-effect waves-light tooltipped"
+                        className="tooltipped"
                         data-position="bottom"
                         data-tooltip="Me déconnecter"
                         href="/"
@@ -287,7 +291,7 @@ function Nav(props) {
                 ) : (
                   <li>
                     <a
-                      className="waves-effect waves-light tooltipped"
+                      className="tooltipped"
                       data-position="bottom"
                       data-tooltip="Se connecter / S'inscrire"
                       href="/connexion"
@@ -320,7 +324,7 @@ function Nav(props) {
           </li>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/films"
               to="/films"
@@ -330,7 +334,7 @@ function Nav(props) {
           </li>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/series"
               to="/series"
@@ -340,7 +344,7 @@ function Nav(props) {
           </li>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/bibliotheque"
               to="/bibliotheque"
@@ -354,7 +358,7 @@ function Nav(props) {
               <div className="divider"></div>
               <li>
                 <NavLink
-                  className="waves-effect waves-light"
+                  className=""
                   activeClassName="active"
                   href="/favoris"
                   to="/favoris"
@@ -365,7 +369,7 @@ function Nav(props) {
               </li>
               <li>
                 <NavLink
-                  className="waves-effect waves-light"
+                  className=""
                   activeClassName="active"
                   href="/likes-dislikes"
                   to="/likes-dislikes"
@@ -376,7 +380,7 @@ function Nav(props) {
               </li>
               <li>
                 <NavLink
-                  className="waves-effect waves-light"
+                  className=""
                   activeClassName="active"
                   href="/listes"
                   to="/listes"
@@ -390,7 +394,7 @@ function Nav(props) {
           <div className="divider"></div>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/forum"
               to="/forum"
@@ -401,7 +405,7 @@ function Nav(props) {
           </li>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/chat"
               to="/chat"
@@ -413,7 +417,7 @@ function Nav(props) {
           <div className="divider"></div>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/a-propos"
               to="/a-propos"
@@ -424,7 +428,7 @@ function Nav(props) {
           </li>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/faq"
               to="/faq"
@@ -435,7 +439,7 @@ function Nav(props) {
           </li>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/contact"
               to="/contact"
@@ -446,7 +450,7 @@ function Nav(props) {
           </li>
           <li>
             <NavLink
-              className="waves-effect waves-light"
+              className=""
               activeClassName="active"
               href="/mentions-legales"
               to="/mentions-legales"
@@ -455,10 +459,7 @@ function Nav(props) {
               <span id="txt1">Mentions légales</span>
             </NavLink>
           </li>
-          <div
-            className="row"
-            style={{ position: "absolute", bottom: "0", width: "100%" }}
-          >
+          <div className="row" style={{ marginTop: "40px", width: "100%" }}>
             <div
               className="col s4"
               style={{
