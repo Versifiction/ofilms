@@ -4,6 +4,10 @@ body {
   background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
 }
 
+.sidenav .divider {
+  margin: 8px 10%;
+}
+
 .sidenav-overlay {
   opacity: 0 !important;
 }
@@ -280,6 +284,14 @@ input[type="submit"] {
 }
 
 h2 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-size: 2.5rem;
+}
+
+h4 {
   font-size: 2rem;
 }
 

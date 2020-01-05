@@ -62,7 +62,7 @@ function AccueilActions() {
                 textAlign: "center"
               }}
             >
-              Ecrire dans le chat et échanger sur le forum
+              Écrire dans le chat et échanger sur le forum
             </p>
           </div>
         </div>

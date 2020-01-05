@@ -7,12 +7,12 @@ import BandeauCookie from "../../components/BandeauCookie";
 
 function Apropos() {
   useEffect(() => {
-    document.title = "O'Films | A propos";
+    document.title = "O'Films | À propos";
   });
   return (
     <>
       <Nav />
-      <h2>A propos</h2>
+      <h2>À propos</h2>
       <FloatingChat />
       <BandeauCookie />
     </>

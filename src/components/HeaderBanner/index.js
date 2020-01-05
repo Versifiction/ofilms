@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import $ from "jquery";
+import { connect } from "react-redux";
 
 import "../../App.css";
 import AccueilBanner from "../../images/bg-header.jpg";
 
-function HeaderBanner() {
+function HeaderBanner(props) {
   const style = {
     backgroundImage: "url(" + AccueilBanner + ")",
     width: "100%",
@@ -51,12 +52,14 @@ function HeaderBanner() {
         <p className="accueil-text">
           Les meilleurs films. Les meilleures séries.
         </p>
-        <a href="/inscription" style={{ color: "#0cd0fc" }}>
-          <button className="btn-large">
-            S'inscrire
-            <i className="material-icons right">send</i>
-          </button>
-        </a>
+        {!props.auth.isAuthenticated && (
+          <a href="/inscription" style={{ color: "#0cd0fc" }}>
+            <button className="btn-large">
+              S'inscrire
+              {/* <i className="material-icons right">send</i> */}
+            </button>
+          </a>
+        )}
       </div>
       <div className="bounce">
         <a href="#accueil-intro">
@@ -70,4 +73,9 @@ function HeaderBanner() {
   );
 }
 
-export default HeaderBanner;
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps)(HeaderBanner);

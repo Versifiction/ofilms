@@ -295,6 +295,7 @@ function DetailSerie(props) {
                   style={{ width: "100%" }}
                   className="card-img-top"
                   alt={`Poster de la série ${serieDetail && serieDetail.title}`}
+                  title={serieDetail.title}
                 />
                 <StarRatingComponent
                   name="rate1"

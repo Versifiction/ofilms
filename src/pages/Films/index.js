@@ -97,6 +97,7 @@ function Films() {
                       <img
                         src={`http://image.tmdb.org/t/p/w500${film.poster_path}`}
                         alt={`Poster du film ${film.title}`}
+                        title={film.title}
                         className={`${
                           index !== 0
                             ? "film-types-img"
@@ -138,6 +139,7 @@ function Films() {
                       <img
                         src={`http://image.tmdb.org/t/p/w500${film.poster_path}`}
                         alt={`Poster du film ${film.title}`}
+                        title={film.title}
                         className={`${
                           index !== 0
                             ? "film-types-img"

@@ -224,6 +224,7 @@ function Nav(props) {
                                                 : `http://image.tmdb.org/t/p/w500${result.poster_path}`
                                             }
                                             style={{ width: "50px" }}
+                                            title={result.title}
                                           />
                                         </span>
                                         <p
@@ -418,7 +419,7 @@ function Nav(props) {
               to="/a-propos"
             >
               <i className="material-icons colored">info</i>
-              <span id="txt1">A propos</span>
+              <span id="txt1">À propos</span>
             </NavLink>
           </li>
           <li>

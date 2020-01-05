@@ -293,6 +293,7 @@ function DetailFilm(props) {
                     }
                     style={{ width: "100%" }}
                     className="card-img-top"
+                    title={filmDetail.title}
                     alt={`Poster du film ${filmDetail && filmDetail.title}`}
                   />
                   <StarRatingComponent

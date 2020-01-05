@@ -111,6 +111,7 @@ function TendancesSeries() {
                       }
                       className="card-img-top"
                       alt={`Poster de la série ${serie.original_name}`}
+                      title={serie.original_name}
                       style={{ width: "100%" }}
                     />
                   </div>

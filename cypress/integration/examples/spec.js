@@ -86,7 +86,7 @@ describe("Un autre test", function() {
   //     cy.readFile("cypress/hi.txt").should("eq", "Hello");
   //   });
 
-  //   it("Ecrire dans un fichier", function() {
+  //   it("Écrire dans un fichier", function() {
 
   //     cy.writeFile("cypress/hi.txt", "Hello")
 

@@ -156,6 +156,10 @@ ul.right li a {
   width: 350px;
 }
 
+.pagination li a {
+  color: #95878b;
+}
+
 .select-wrapper .caret {
   fill: white;
 }
@@ -276,7 +280,6 @@ ul li {
   filter: brightness(100%);
   text-transform: uppercase;
   text-shadow: 1px 1px 2px #232d32;
-  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .accueil-text {
@@ -355,6 +358,10 @@ ul li {
   text-transform: uppercase;
   font-weight: bold;
   margin-right: 10px;
+}
+
+.bibliotheque-film {
+  width: 20%;
 }
 
 .film-production-flag {
@@ -495,18 +502,18 @@ ul li {
 
 .film-types-suite {
   font-size: 1rem;
-  padding-top: 10px;
-  text-decoration: underline;
   position: absolute;
   top: 0;
   right: 0;
   text-transform: initial;
   color: #ecebee;
+  text-transform: uppercase;
 }
 
 .card {
   background-color: inherit;
   box-shadow: inherit;
+  width: 200px;
 }
 
 .film-types-suite:hover {
@@ -518,12 +525,7 @@ ul li {
 }
 
 .film-types-datas a {
-  width: 200px;
   height: 100%;
-}
-
-.film-types-datas a:hover {
-  width: 205px;
 }
 
 .film-types-datas img:hover,
@@ -632,8 +634,9 @@ p.film-types-title {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
+  cursor: pointer;
 }
 
 /* Track */
@@ -681,7 +684,6 @@ p.film-encart:hover {
 
 .film-encart {
   margin-bottom: 10px;
-  padding: 20px;
   width: 100%;
   height: 100%;
 }
@@ -859,6 +861,10 @@ p {
   margin-top: 8px;
 }
 
+.collapsible-body {
+  color: white;
+}
+
 @media only screen and (max-width: 600px) {
   nav form {
     /*     left: calc(90vw - 100%); */
@@ -913,10 +919,6 @@ p {
 
   .material-tooltip {
     background-color: #232d32;
-  }
-
-  .collapsible-body {
-    color: white;
   }
 
   .App {

@@ -78,6 +78,7 @@ function Series() {
                       <img
                         src={`http://image.tmdb.org/t/p/w500${serie.poster_path}`}
                         alt={`Poster du film ${serie.title}`}
+                        title={serie.title}
                         className={`${
                           index !== 0
                             ? "film-types-img"
@@ -121,6 +122,7 @@ function Series() {
                       <img
                         src={`http://image.tmdb.org/t/p/w500${serie.poster_path}`}
                         alt={`Poster du film ${serie.title}`}
+                        title={serie.title}
                         className={`${
                           index !== 0
                             ? "film-types-img"

@@ -21,6 +21,7 @@ function DetailPerson({ match }) {
   const personDetailUrl = `https://api.themoviedb.org/3/person/${match.params.id}?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const castCreditsPersonUrl = `https://api.themoviedb.org/3/person/${match.params.id}/combined_credits?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const photosPersonUrl = `https://api.themoviedb.org/3/person/${match.params.id}/images?api_key=${process.env.REACT_APP_API_KEY}`;
+  const [activeItemIndex, setActiveItemIndex] = useState(0);
   const forceUpdate = useForceUpdate();
 
   useEffect(() => {
@@ -28,28 +29,7 @@ function DetailPerson({ match }) {
     loadCastCreditsPerson();
     loadCrewCreditsPerson();
     loadPhotosPerson();
-    $("#nav-photos").hide();
-    $(".nav-link").click(function(event) {
-      $(this)
-        .addClass("active")
-        .siblings()
-        .removeClass("active");
-      $(this)
-        .attr("aria-selected", true)
-        .siblings()
-        .attr("aria-selected", false);
-      event.target.id === "nav-photos-tab"
-        ? $("#nav-bandesannonces").show()
-        : $("#nav-bandesannonces").hide();
-      event.target.id === "nav-photos-tab"
-        ? $("#nav-photos").show()
-        : $("#nav-photos").hide();
-      $("body")
-        .find(`[aria-labelledby="${event.target.id}"`)
-        .addClass("show active")
-        .siblings()
-        .removeClass("show active");
-    });
+
     $(".sc-bxivhb").hover(function() {
       $(this).css("box-shadow", "grey 0 0 10px 2px");
     });
@@ -104,23 +84,6 @@ function DetailPerson({ match }) {
     }
   }
 
-  function toggleTabs(event) {
-    $(".active").removeClass("active");
-    $(event.target).addClass("active");
-    $(event.target)
-      .attr("aria-selected", true)
-      .siblings()
-      .attr("aria-selected", false);
-    event.target.id === "nav-photos-tab"
-      ? $("#nav-photos").show()
-      : $("#nav-photos").hide();
-    $("body")
-      .find(`[aria-labelledby="${event.target.id}"`)
-      .addClass("show active")
-      .siblings()
-      .removeClass("show active");
-  }
-
   return (
     <>
       <Nav />
@@ -148,6 +111,7 @@ function DetailPerson({ match }) {
                   }
                   style={{ width: "100%" }}
                   className="card-img-top"
+                  title={personDetail.name}
                   alt={`Poster de ${personDetail && personDetail.name}`}
                 />
 
@@ -216,38 +180,6 @@ function DetailPerson({ match }) {
                 )}
               </div>
               <div className="col s12 m8">
-                <ul
-                  className="nav nav-tabs detail-film-videos"
-                  id="nav-tab"
-                  role="tablist"
-                >
-                  <a
-                    className="nav-item nav-link active"
-                    onClick={toggleTabs}
-                    id="nav-credits-tab"
-                    data-toggle="tab"
-                    href="#nav-credits"
-                    role="tab"
-                    aria-controls="nav-credits"
-                    aria-selected="true"
-                  >
-                    Crédits
-                  </a>
-                  {photosPerson && photosPerson.length > 0 && (
-                    <a
-                      className="nav-item nav-link"
-                      onClick={toggleTabs}
-                      id="nav-photos-tab"
-                      data-toggle="tab"
-                      href="#nav-photos"
-                      role="tab"
-                      aria-controls="nav-photos"
-                      aria-selected="false"
-                    >
-                      Photos
-                    </a>
-                  )}
-                </ul>
                 <div className="tab-content" id="nav-tabContent">
                   <div
                     className="tab-pane fade show active"
@@ -274,6 +206,7 @@ function DetailPerson({ match }) {
                                           : `http://image.tmdb.org/t/p/w500${credit.poster_path}`
                                       }
                                       className="card-img-top"
+                                      title={credit.name}
                                       alt={credit.name}
                                     />
                                   </Link>
@@ -326,24 +259,46 @@ function DetailPerson({ match }) {
                       </p>
                     </div>
                   </div>
-                  {photosPerson && photosPerson.length > 0 && (
-                    <div
-                      className="tab-pane fade"
-                      id="nav-photos"
-                      role="tabpanel"
-                      aria-labelledby="nav-photos-tab"
-                    >
-                      <div className="film-detail-photos">
-                        {photosPerson &&
-                          photosPerson.map((photo, index) => (
-                            <img
-                              key={index}
-                              src={`http://image.tmdb.org/t/p/w500${photo.file_path}`}
-                            />
-                          ))}
-                      </div>
-                    </div>
-                  )}
+                  <p className="film-detail">
+                    Photos
+                    <p className="card-text">
+                      <ItemsCarousel
+                        gutter={10}
+                        activePosition={"center"}
+                        chevronWidth={10}
+                        numberOfCards={4}
+                        slidesToScroll={1}
+                        outsideChevron={true}
+                        showSlither={false}
+                        firstAndLastGutter={false}
+                        activeItemIndex={activeItemIndex}
+                        requestToChangeActive={value =>
+                          setActiveItemIndex(value)
+                        }
+                        rightChevron={<i className="fas fa-chevron-right"></i>}
+                        leftChevron={<i className="fas fa-chevron-left"></i>}
+                      >
+                        {photosPerson && photosPerson.length > 0 && (
+                          <div
+                            className="tab-pane fade"
+                            id="nav-photos"
+                            role="tabpanel"
+                            aria-labelledby="nav-photos-tab"
+                          >
+                            <div className="film-detail-photos">
+                              {photosPerson &&
+                                photosPerson.map((photo, index) => (
+                                  <img
+                                    key={index}
+                                    src={`http://image.tmdb.org/t/p/w500${photo.file_path}`}
+                                  />
+                                ))}
+                            </div>
+                          </div>
+                        )}
+                      </ItemsCarousel>
+                    </p>
+                  </p>
                 </div>
               </div>
             </div>

@@ -121,6 +121,7 @@ function Keyword({ match }) {
                       src={`http://image.tmdb.org/t/p/w500${film.poster_path}`}
                       className="card-img-top"
                       alt={`Poster du film ${film.title}`}
+                      title={film.title}
                       style={{ width: "100%" }}
                     />
                   </div>

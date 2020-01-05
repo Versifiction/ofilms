@@ -188,26 +188,6 @@ function Inscription(props) {
               <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">contacts</i>
                 <input
-                  placeholder="Entrez votre prénom"
-                  id="firstname"
-                  name="firstname"
-                  type="text"
-                  value={fields.firstname}
-                  onChange={e => handleChange(e)}
-                  style={{ backgroundColor: "transparent" }}
-                  className={classnames("validate", {
-                    invalid: fields.errors.firstname
-                  })}
-                  required
-                />
-                <label htmlFor="firstname">Prénom *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.firstname}
-                </span>
-              </div>
-              <div className="input-field col s12 m6">
-                <i className="material-icons colored prefix">contacts</i>
-                <input
                   id="lastname"
                   type="text"
                   name="lastname"
@@ -223,6 +203,26 @@ function Inscription(props) {
                 <label htmlFor="lastname">Nom *</label>
                 <span className="red-text" style={{ marginLeft: "3rem" }}>
                   {fields.errors.lastname}
+                </span>
+              </div>
+              <div className="input-field col s12 m6">
+                <i className="material-icons colored prefix">contacts</i>
+                <input
+                  placeholder="Entrez votre prénom"
+                  id="firstname"
+                  name="firstname"
+                  type="text"
+                  value={fields.firstname}
+                  onChange={e => handleChange(e)}
+                  style={{ backgroundColor: "transparent" }}
+                  className={classnames("validate", {
+                    invalid: fields.errors.firstname
+                  })}
+                  required
+                />
+                <label htmlFor="firstname">Prénom *</label>
+                <span className="red-text" style={{ marginLeft: "3rem" }}>
+                  {fields.errors.firstname}
                 </span>
               </div>
             </div>

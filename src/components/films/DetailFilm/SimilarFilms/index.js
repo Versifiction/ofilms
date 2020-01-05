@@ -40,6 +40,7 @@ function SimilarFilms({ similarFilms }) {
                       <img
                         src={`http://image.tmdb.org/t/p/w500${film.poster_path}`}
                         alt={`Poster du film ${film.title}`}
+                        title={film.title}
                       />
                       <br />
                       <p>{film.title}</p>

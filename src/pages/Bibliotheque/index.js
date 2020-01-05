@@ -162,32 +162,37 @@ function Bibliotheque() {
           </div>
         </div>
         <br />
-        <h4 style={{ color: "white" }}>Résultats</h4>
+        <div className="row">
+          <div className="col s12">
+            <h4 style={{ color: "white" }}>Résultats</h4>
+          </div>
+        </div>
         <div
           style={{
             display: "flex",
             flexWrap: "wrap",
             marginTop: "inherit"
           }}
-          className="film-types-datas"
+          className="row film-types-datas"
         >
           {result &&
-            result.map(media => (
+            result.map((media, index) => (
               <Link
                 href={`/${mediaType === "movie" ? "film" : "serie"}/${
                   media.id
                 }`}
                 to={`/${mediaType === "movie" ? "film" : "serie"}/${media.id}`}
                 key={media.id}
+                className="col s6 m4 l3"
                 style={{
                   textDecoration: "none",
-
-                  padding: "10px",
-                  marginBottom: "50px",
-                  height: "300px"
+                  height: "300px",
+                  paddingRight: "10px",
+                  marginTop: "20px",
+                  marginBottom: "20px"
                 }}
               >
-                <div className="row film-encart">
+                <div className="film-encart">
                   <img
                     src={
                       media.poster_path !== null
@@ -198,19 +203,22 @@ function Bibliotheque() {
                     alt={`Poster de ${
                       mediaType === "movie" ? media.title : media.original_name
                     }`}
+                    title={
+                      mediaType === "movie" ? media.title : media.original_name
+                    }
                     style={{ width: "100%", height: "100%" }}
                   />
                   <br />
                   <div className="card-body">
                     <p
-                      className="card-title"
-                      style={{
-                        fontSize: "1.25rem",
-                        textTransform: "uppercase",
-                        textOverflow: "ellipsis",
-                        overflow: "hidden",
-                        whiteSpace: "nowrap"
-                      }}
+                      className="film-types-title"
+                      // style={{
+                      //   fontSize: "1.25rem",
+                      //   textTransform: "uppercase",
+                      //   textOverflow: "ellipsis",
+                      //   overflow: "hidden",
+                      //   whiteSpace: "nowrap"
+                      // }}
                     >
                       {mediaType === "movie"
                         ? media && media.title
@@ -224,7 +232,12 @@ function Bibliotheque() {
       </div>
       <div
         className="container"
-        style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          cursor: "pointer",
+          marginTop: "50px"
+        }}
       >
         <ReactPaginate
           previousLabel={<i className="material-icons">chevron_left</i>}

@@ -125,6 +125,7 @@ function Likes(props) {
                       }
                       className="card-img-top"
                       alt={`Poster du film ${film.title}`}
+                      title={film.title}
                       style={{ width: "100px" }}
                     />
                     <p>{film.title}</p>

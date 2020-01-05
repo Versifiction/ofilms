@@ -184,6 +184,7 @@ function LikesDislikes(props) {
                                 : "film-types-img"
                             }`}
                             alt={`Poster du film ${film.title}`}
+                            title={film.title}
                           />
                           <p className="film-types-title">{film.title}</p>
                         </a>
@@ -232,6 +233,7 @@ function LikesDislikes(props) {
                                 : "film-types-img"
                             }`}
                             alt={`Poster du film ${film.title}`}
+                            title={film.title}
                           />
                           <p className="film-types-title">{film.title}</p>
                         </a>
@@ -280,6 +282,7 @@ function LikesDislikes(props) {
                                 : "film-types-img"
                             }`}
                             alt={`Poster de la série ${serie.original_name}`}
+                            title={serie.original_name}
                           />
                           <p className="film-types-title">
                             {serie.original_name}
@@ -330,6 +333,7 @@ function LikesDislikes(props) {
                                 : "film-types-img"
                             }`}
                             alt={`Poster de la série ${serie.original_name}`}
+                            title={serie.original_name}
                           />
                           <p className="film-types-title">
                             {serie.original_name}
