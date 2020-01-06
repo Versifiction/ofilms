@@ -34,6 +34,8 @@ function Films() {
   useEffect(() => {
     document.title = "O'Films | Films";
     loadAfficheFilms();
+    loadTendancesFilms();
+    loadBestRatedFilms();
     return () => {
       document.body.style.backgroundImage = `url("https://www.transparenttextures.com/patterns/black-linen.png")`;
     };

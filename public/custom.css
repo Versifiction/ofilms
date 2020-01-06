@@ -4,6 +4,32 @@ body {
   background-image: url("https://www.transparenttextures.com/patterns/black-linen.png");
 }
 
+.container {
+  width: 60%;
+}
+
+.popup-list-element:hover {
+  background-color: #bbb;
+}
+
+nav .input-field label i {
+  color: white;
+  -webkit-transition: color 0.3s;
+  transition: color 0.3s;
+}
+
+.input-field input[type="search"] ~ .mdi-navigation-close,
+.input-field input[type="search"] ~ .material-icons {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  color: white;
+  cursor: pointer;
+  font-size: 2rem;
+  -webkit-transition: 0.3s color;
+  transition: 0.3s color;
+}
+
 nav .sidenav-trigger i {
   height: 64px;
   line-height: 64px;

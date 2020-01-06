@@ -16,10 +16,6 @@ footer {
   padding-left: 240px;
 }
 
-.container {
-  width: 60%;
-}
-
 .App {
   position: relative;
 }
@@ -539,7 +535,7 @@ ul li {
   color: white;
 }
 
-.film-types-title {
+.film-types {
   position: relative;
 }
 
@@ -871,6 +867,10 @@ p {
 }
 
 @media only screen and (max-width: 600px) {
+  .film-types-title {
+    width: 75%;
+  }
+
   nav form {
     /*     left: calc(90vw - 100%); */
   }

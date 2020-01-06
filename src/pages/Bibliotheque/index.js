@@ -14,18 +14,18 @@ import BandeauCookie from "../../components/BandeauCookie";
 import PlaceholderTwo from "../../components/Molecules/Placeholders/PlaceholderTwo";
 
 function Bibliotheque() {
-  const [moviesGenres, setMoviesGenres] = useState(false);
-  const [tvGenres, setTvGenres] = useState(false);
+  // const [moviesGenres, setMoviesGenres] = useState(false);
+  // const [tvGenres, setTvGenres] = useState(false);
   const [genres, setGenres] = useState(false);
   const [result, setResult] = useState(false);
-  const [mediaType, setMediaType] = useState("movie");
+  // const [mediaType, setMediaType] = useState("movie");
   const [nameGenreChosen, setNameGenreChosen] = useState("Action");
   const [idGenreChosen, setIdGenreChosen] = useState(28);
   const [pending, setPending] = useState(true);
   const [activePage, setActivePage] = useState(1);
   const forceUpdate = useForceUpdate();
   const moviesGenresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
-  const tvGenresUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
+  // const tvGenresUrl = `https://api.themoviedb.org/3/genre/tv/list?api_key=${process.env.REACT_APP_API_KEY}&language=fr`;
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -43,16 +43,16 @@ function Bibliotheque() {
   });
 
   useEffect(() => {
-    console.log("mediaType ", mediaType);
-    console.log("idGenreChosen ", idGenreChosen);
-    loadMoviesGenres();
-    loadTvGenres();
+    // console.log("mediaType ", mediaType);
+    // console.log("idGenreChosen ", idGenreChosen);
+    // loadMoviesGenres();
+    // loadTvGenres();
     search();
-  }, [mediaType]);
+  }, [idGenreChosen]);
 
   useEffect(() => {
-    console.log("---");
-    console.log("genres ", genres);
+    // console.log("---");
+    // console.log("genres ", genres);
   }, [genres]);
 
   useEffect(() => {
@@ -69,35 +69,36 @@ function Bibliotheque() {
     }
   }
 
-  async function loadMoviesGenres() {
-    try {
-      const dataMoviesGenres = await axios.get(moviesGenresUrl);
-      setMoviesGenres(dataMoviesGenres.data.genres);
-      setPending(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // async function loadMoviesGenres() {
+  //   try {
+  //     const dataMoviesGenres = await axios.get(moviesGenresUrl);
+  //     setMoviesGenres(dataMoviesGenres.data.genres);
+  //     setPending(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
-  async function loadTvGenres() {
-    try {
-      const dataTvGenres = await axios.get(tvGenresUrl);
-      setTvGenres(dataTvGenres.data.genres);
-      setPending(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  // async function loadTvGenres() {
+  //   try {
+  //     const dataTvGenres = await axios.get(tvGenresUrl);
+  //     setTvGenres(dataTvGenres.data.genres);
+  //     setPending(false);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   async function search() {
+    console.log("search---");
     try {
       setPending(true);
       const dataGenres = await axios.get(
-        `https://api.themoviedb.org/3/discover/${mediaType}?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`
       );
       console.log(
         "searchUrl ",
-        `https://api.themoviedb.org/3/discover/${mediaType}?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`
       );
       setResult(dataGenres.data.results);
       setTotalPages(dataGenres.data.total_pages);
@@ -107,29 +108,24 @@ function Bibliotheque() {
     }
   }
 
-  async function handleMediaTypeChange(e) {
-    setMediaType(e.target.value);
-    setIdGenreChosen(e.target.value === "movie" ? 28 : 10759);
-
-    try {
-      setPending(true);
-      const dataGenres = await axios.get(
-        e.target.value === "movie" ? tvGenresUrl : moviesGenresUrl
-      );
-      setGenres(dataGenres.data.genres);
-      setPending(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  function handleGenreChange(e) {
+  async function handleGenreChange(e) {
+    setPending(true);
     setNameGenreChosen(
       $(".selected:eq(1)")
         .children("span")
         .text()
     );
     setIdGenreChosen(genres.find(genre => genre.name === e.target.value).id);
+
+    try {
+      const dataGenres = await axios.get(moviesGenresUrl);
+      setGenres(dataGenres.data.genres);
+      setPending(false);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // search();
   }
 
   function handlePageChange() {
@@ -145,23 +141,12 @@ function Bibliotheque() {
         <div className="row">
           <div className="col s12">
             <h5 style={{ color: "#95878b" }}>
-              Trouvez vos films et vos séries préférées grâce à un filtrage par
-              catégories
+              Trouvez vos films préférées grâce à un filtrage par catégories
             </h5>
           </div>
         </div>
         <div className="row">
-          <div className="input-field col s12 m6">
-            <p>Choisissez un type de fiction</p>
-            <select style={{ zIndex: "999" }} onChange={handleMediaTypeChange}>
-              <option value="" disabled defaultValue>
-                Choisissez votre type de fiction
-              </option>
-              <option value="movie">Films</option>
-              <option value="tv">Séries</option>
-            </select>
-          </div>
-          <div className="input-field col s12 m6">
+          <div className="input-field col s12">
             <p>Choisissez un genre</p>
             <select onChange={handleGenreChange}>
               <option value="" disabled defaultValue>
@@ -197,12 +182,8 @@ function Bibliotheque() {
               {result &&
                 result.map((media, index) => (
                   <Link
-                    href={`/${mediaType === "movie" ? "film" : "serie"}/${
-                      media.id
-                    }`}
-                    to={`/${mediaType === "movie" ? "film" : "serie"}/${
-                      media.id
-                    }`}
+                    href={`/${"film"}/${media.id}`}
+                    to={`/${"film"}/${media.id}`}
                     key={media.id}
                     className="col s6 m3"
                     style={{
@@ -221,16 +202,8 @@ function Bibliotheque() {
                             : "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
                         }
                         className="card-img-top"
-                        alt={`Poster de ${
-                          mediaType === "movie"
-                            ? media.title
-                            : media.original_name
-                        }`}
-                        title={
-                          mediaType === "movie"
-                            ? media.title
-                            : media.original_name
-                        }
+                        alt={`Poster de ${media.title}`}
+                        title={media.title}
                         style={{ width: "100%", height: "100%" }}
                       />
                       <br />
@@ -245,9 +218,7 @@ function Bibliotheque() {
                           //   whiteSpace: "nowrap"
                           // }}
                         >
-                          {mediaType === "movie"
-                            ? media && media.title
-                            : media && media.original_name}
+                          {media && media.title}
                         </p>
                       </div>
                     </div>

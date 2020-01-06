@@ -13,7 +13,8 @@ function HeaderBanner(props) {
     position: "relative",
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    zIndex: "-1"
   };
 
   useEffect(() => {
