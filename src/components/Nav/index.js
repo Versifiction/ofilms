@@ -172,6 +172,7 @@ function Nav(props) {
                   onBlur={() => {
                     setIsSearching(false);
                   }}
+                  style={{ position: "relative" }}
                 >
                   <div class="nav-wrapper">
                     <form>
@@ -207,7 +208,11 @@ function Nav(props) {
                         width: "100%",
                         height: "500px",
                         backgroundColor: "#232d32",
-                        overflow: "scroll"
+                        overflowY: "scroll",
+                        position: "absolute",
+                        top: "75px",
+                        left: "0",
+                        zIndex: "99"
                       }}
                     >
                       <ul className="popup-list">
