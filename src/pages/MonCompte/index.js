@@ -187,7 +187,12 @@ function MonCompte(props) {
                   </div>
                   <div className="row">
                     <div className="input-field col s6">
-                      <i className="material-icons colored prefix">contacts</i>
+                      <i
+                        className="material-icons colored prefix"
+                        title="Prénom"
+                      >
+                        contacts
+                      </i>
                       <input
                         placeholder="Entrez votre prénom"
                         id="firstname"
@@ -207,7 +212,9 @@ function MonCompte(props) {
                       </span>
                     </div>
                     <div className="input-field col s6">
-                      <i className="material-icons colored prefix">contacts</i>
+                      <i className="material-icons colored prefix" title="Nom">
+                        contacts
+                      </i>
                       <input
                         id="lastname"
                         type="text"
@@ -229,7 +236,9 @@ function MonCompte(props) {
                   </div>
                   <div className="row">
                     <div className="input-field col s6">
-                      <i className="material-icons colored prefix">wc</i>
+                      <i className="material-icons colored prefix" title="Sexe">
+                        wc
+                      </i>
                       <select
                         name="sexe"
                         id="sexe"
@@ -252,7 +261,12 @@ function MonCompte(props) {
                       </span>
                     </div>
                     <div className="input-field col s6">
-                      <i className="material-icons colored prefix">phone</i>
+                      <i
+                        className="material-icons colored prefix"
+                        title="Numéro de téléphone mobile"
+                      >
+                        phone
+                      </i>
                       <input
                         id="mobilePhone"
                         type="text"
@@ -260,9 +274,10 @@ function MonCompte(props) {
                         disabled={!editable}
                         placeholder="Entrez votre numéro de téléphone mobile"
                         value={data.mobilePhone}
+                        required
                         onChange={e => handleChange(e)}
                         className={classnames("validate", {
-                          invalid: errors.sexe
+                          invalid: errors.mobilePhone
                         })}
                       />
                       <span className="red-text" style={{ marginLeft: "3rem" }}>
@@ -272,7 +287,7 @@ function MonCompte(props) {
                   </div>
                   <div className="row" style={{ position: "relative" }}>
                     <i
-                      className="material-iconstooltipped"
+                      className="material-icons tooltipped"
                       data-position="bottom"
                       data-tooltip="Vous devez renseigner votre département avant de sélectionner la ville"
                       style={{
@@ -288,7 +303,12 @@ function MonCompte(props) {
                       error
                     </i>
                     <div className="input-field col s6">
-                      <i className="material-icons colored prefix">place</i>
+                      <i
+                        className="material-icons colored prefix"
+                        title="Département"
+                      >
+                        place
+                      </i>
                       <select
                         name="departement"
                         id="departement"
@@ -318,7 +338,10 @@ function MonCompte(props) {
                       </span>
                     </div>
                     <div className="input-field col s6">
-                      <i className="material-icons colored prefix">
+                      <i
+                        className="material-icons colored prefix"
+                        title="Ville"
+                      >
                         location_city
                       </i>
                       <select

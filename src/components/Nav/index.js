@@ -96,20 +96,19 @@ function Nav(props) {
                   <ul className="right">
                     {props.auth.isAuthenticated ? (
                       <>
-                        <i
-                          className="material-icons colored search-icontooltipped"
-                          data-position="bottom"
-                          data-tooltip="Rechercher un film, une série, un acteur..."
-                          style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            // setSearchActive(true);
-                            // setSearchInputValue("");
-                            // setSearchResult();
-                            setIsSearching(true);
-                          }}
-                        >
-                          search
-                        </i>
+                        <li>
+                          <i
+                            className="material-icons colored search-icontooltipped"
+                            data-position="bottom"
+                            data-tooltip="Rechercher un film, une série, un acteur..."
+                            style={{ cursor: "pointer" }}
+                            onClick={() => {
+                              setIsSearching(true);
+                            }}
+                          >
+                            search
+                          </i>
+                        </li>
                         <li>
                           <a
                             className="tooltipped"
@@ -144,9 +143,6 @@ function Nav(props) {
                             data-tooltip="Rechercher un film, une série, un acteur..."
                             style={{ cursor: "pointer" }}
                             onClick={() => {
-                              // setSearchActive(true);
-                              // setSearchInputValue("");
-                              // setSearchResult();
                               setIsSearching(true);
                             }}
                           >
@@ -210,7 +206,6 @@ function Nav(props) {
                         backgroundColor: "#232d32",
                         overflowY: "scroll",
                         position: "absolute",
-                        top: "75px",
                         left: "0",
                         zIndex: "99"
                       }}
