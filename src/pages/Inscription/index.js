@@ -158,9 +158,7 @@ function Inscription(props) {
                   required
                 />
                 <label htmlFor="email">Adresse e-mail *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.email}
-                </span>
+                <span className="red-text">{fields.errors.email}</span>
               </div>
               <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">message</i>
@@ -179,9 +177,7 @@ function Inscription(props) {
                   required
                 />
                 <label htmlFor="username">Pseudo *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.username}
-                </span>
+                <span className="red-text">{fields.errors.username}</span>
               </div>
             </div>
             <div className="row">
@@ -201,9 +197,7 @@ function Inscription(props) {
                   required
                 />
                 <label htmlFor="lastname">Nom *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.lastname}
-                </span>
+                <span className="red-text">{fields.errors.lastname}</span>
               </div>
               <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">contacts</i>
@@ -221,9 +215,7 @@ function Inscription(props) {
                   required
                 />
                 <label htmlFor="firstname">Prénom *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.firstname}
-                </span>
+                <span className="red-text">{fields.errors.firstname}</span>
               </div>
             </div>
             <div className="row">
@@ -246,9 +238,7 @@ function Inscription(props) {
                   <option value="F">Femme</option>
                 </select>
                 <label htmlFor="sexe">Sexe *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.sexe}
-                </span>
+                <span className="red-text">{fields.errors.sexe}</span>
               </div>
               <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">phone</i>
@@ -265,9 +255,7 @@ function Inscription(props) {
                   })}
                 />
                 <label htmlFor="mobilePhone">Téléphone mobile</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.mobilePhone}
-                </span>
+                <span className="red-text">{fields.errors.mobilePhone}</span>
               </div>
             </div>
             <div className="row" style={{ position: "relative" }}>
@@ -309,10 +297,8 @@ function Inscription(props) {
                       </option>
                     ))}
                 </select>
-                <label htmlFor="departement">Département</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.departement}
-                </span>
+                <label htmlFor="departement">Département *</label>
+                <span className="red-text">{fields.errors.departement}</span>
               </div>
               <div className="input-field col s12 m6">
                 <i className="material-icons colored prefix">location_city</i>
@@ -327,7 +313,7 @@ function Inscription(props) {
                   })}
                 >
                   <option value="" disabled selectedvalue="true">
-                    Sélectionnez votre ville
+                    Sélectionnez votre ville *
                   </option>
                   {citiesList &&
                     citiesList.map(city => (
@@ -337,9 +323,7 @@ function Inscription(props) {
                     ))}
                 </select>
                 <label htmlFor="city">Ville</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.city}
-                </span>
+                <span className="red-text">{fields.errors.city}</span>
               </div>
             </div>
             <div className="row">
@@ -382,9 +366,7 @@ function Inscription(props) {
                   {passwordVisible ? "visibility_off" : "visibility"}
                 </i>
                 <label htmlFor="password">Mot de passe *</label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
-                  {fields.errors.password}
-                </span>
+                <span className="red-text">{fields.errors.password}</span>
               </div>
               <div
                 className="input-field col s12 m6"
@@ -427,7 +409,7 @@ function Inscription(props) {
                 <label htmlFor="confirmPassword">
                   Confirmation du mot de passe *
                 </label>
-                <span className="red-text" style={{ marginLeft: "3rem" }}>
+                <span className="red-text">
                   {fields.errors.confirmPassword}
                 </span>
               </div>

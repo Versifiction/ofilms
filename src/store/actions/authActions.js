@@ -17,6 +17,7 @@ export const registerUser = userData => dispatch => {
 };
 
 export const loginUser = userData => dispatch => {
+  console.log("userData ", userData);
   axios
     .post(`${process.env.REACT_APP_API_URL}/api/users/login`, userData)
     .then(res => {
@@ -28,6 +29,7 @@ export const loginUser = userData => dispatch => {
       window.location.href = "/";
     })
     .catch(err => {
+      console.log("err ", err);
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
