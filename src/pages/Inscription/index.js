@@ -229,7 +229,6 @@ function Inscription(props) {
                   className={classnames("validate", {
                     invalid: fields.errors.sexe
                   })}
-                  required
                 >
                   <option value="" disabled selectedvalue="true">
                     Sélectionnez votre sexe
@@ -251,7 +250,7 @@ function Inscription(props) {
                   onChange={e => handleChange(e)}
                   style={{ backgroundColor: "transparent" }}
                   className={classnames("validate", {
-                    invalid: fields.errors.sexe
+                    invalid: fields.errors.mobilePhone
                   })}
                 />
                 <label htmlFor="mobilePhone">Téléphone mobile</label>
