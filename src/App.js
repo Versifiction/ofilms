@@ -9,7 +9,7 @@ import Router from "./Router";
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <BrowserRouter basename={process.env.REACT_APP_CLIENT_PORT}>
         <Router />
       </BrowserRouter>
     </Provider>

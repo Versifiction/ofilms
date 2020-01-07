@@ -66,251 +66,257 @@ function Nav(props) {
     <>
       <nav>
         <div className="nav-wrapper">
-          <div className="row container">
-            <div className="col s12">
-              {!isSearching ? (
-                <>
-                  <div
-                    data-target="slide-out"
-                    className="sidenav-trigger show-on-large"
-                    style={{ height: "64px" }}
-                  >
-                    <i
-                      className="material-icons colored"
-                      style={{ cursor: "pointer" }}
-                    >
-                      menu
-                    </i>
-                  </div>
-                  <a
-                    href="/"
-                    className="brand-logo center"
-                    style={{
-                      color: "#0CD0FC",
-                      textTransform: "uppercase",
-                      lineHeight: "64px"
-                    }}
-                  >
-                    O'Films
-                  </a>
-                  <ul className="right">
-                    {props.auth.isAuthenticated ? (
-                      <>
-                        <li>
-                          <i
-                            className="material-icons colored search-icontooltipped"
-                            data-position="bottom"
-                            data-tooltip="Rechercher un film, une série, un acteur..."
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              setIsSearching(true);
-                            }}
-                          >
-                            search
-                          </i>
-                        </li>
-                        <li>
-                          <a
-                            className="tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Accéder à mon profil"
-                            href="/mon-compte"
-                          >
-                            <i className="material-icons colored">person</i>
-                            <span className="account-text">Mon compte</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            className="tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Me déconnecter"
-                            href="/"
-                            onClick={logout}
-                          >
-                            <i className="material-icons colored">
-                              exit_to_app
-                            </i>
-                          </a>
-                        </li>
-                      </>
-                    ) : (
-                      <>
-                        <li>
-                          <i
-                            className="material-icons colored search-icontooltipped"
-                            data-position="bottom"
-                            data-tooltip="Rechercher un film, une série, un acteur..."
-                            style={{ cursor: "pointer" }}
-                            onClick={() => {
-                              setIsSearching(true);
-                            }}
-                          >
-                            search
-                          </i>
-                        </li>
-                        <li>
-                          <a
-                            className="tooltipped"
-                            data-position="bottom"
-                            data-tooltip="Se connecter / S'inscrire"
-                            href="/connexion"
-                          >
-                            <i className="material-icons colored">person</i>
-                          </a>
-                        </li>
-                      </>
-                    )}
-                  </ul>
-                </>
-              ) : (
-                <nav
-                  onBlur={() => {
-                    setIsSearching(false);
-                  }}
-                  style={{ position: "relative" }}
-                >
-                  <div class="nav-wrapper">
-                    <form>
-                      <div class="input-field">
-                        <input
-                          id="search"
-                          type="search"
-                          placeholder="Rechercher un film, une série, un acteur..."
-                          value={searchInputValue}
-                          required
-                          autoComplete="off"
-                          onChange={e => handleChange(e)}
-                        />
-                        <label class="label-icon" for="search">
-                          <i class="material-icons">search</i>
-                        </label>
-                        <i
-                          class="material-icons"
-                          onClick={() => {
-                            setIsSearching(false);
-                            setSearchInputValue("");
-                          }}
-                        >
-                          close
-                        </i>
-                      </div>
-                    </form>
-                  </div>
-                  {searchInputValue.length !== 0 && (
+          <div className="container">
+            <div className="row">
+              {" "}
+              <div className="col s12">
+                {!isSearching ? (
+                  <>
                     <div
-                      className="search-results"
+                      data-target="slide-out"
+                      className="sidenav-trigger show-on-large"
+                      style={{ height: "64px" }}
+                    >
+                      <i
+                        className="material-icons colored"
+                        style={{ cursor: "pointer" }}
+                      >
+                        menu
+                      </i>
+                    </div>
+                    <a
+                      href="/"
+                      className="brand-logo center"
                       style={{
-                        width: "100%",
-                        height: "500px",
-                        backgroundColor: "#232d32",
-                        overflowY: "scroll",
-                        position: "absolute",
-                        left: "0",
-                        zIndex: "99"
+                        color: "#0CD0FC",
+                        textTransform: "uppercase",
+                        lineHeight: "64px"
                       }}
                     >
-                      <ul className="popup-list">
-                        {searchResult &&
-                          searchResult.map(result => (
-                            <li key={result.id} className="popup-list-element">
-                              <a
-                                className="grey-text"
-                                href={`/${(result.media_type === "movie" &&
-                                  "film") ||
-                                  (result.media_type === "tv" && "serie") ||
-                                  (result.media_type === "person" &&
-                                    "person")}/${result.id}`}
-                                style={{
-                                  height: "75px",
-                                  display: "flex",
-                                  alignItems: "center"
-                                }}
-                                onClick={() => {
-                                  setSearchActive(false);
-                                }}
-                              >
-                                {result.media_type === "person" ||
-                                result.media_type === "tv" ? (
-                                  <>
-                                    <span style={{ height: "75px" }}>
-                                      <img
-                                        src={
-                                          result.profile_path == null
-                                            ? "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
-                                            : `http://image.tmdb.org/t/p/w500${result.profile_path}`
-                                        }
-                                        style={{ height: "75px" }}
-                                      />
-                                    </span>
-                                    <p
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        marginLeft: "10px"
-                                      }}
-                                    >
-                                      {result.name}
-                                      <span
-                                        style={{
-                                          fontSize: "0.625rem",
-                                          textTransform: "uppercase",
-                                          marginLeft: "6px",
-                                          backgroundColor: "#95878b",
-                                          color: "white",
-                                          padding: "0px 10px"
-                                        }}
-                                      >
-                                        {result.media_type === "person"
-                                          ? "Personne"
-                                          : "Série"}
-                                      </span>
-                                    </p>
-                                  </>
-                                ) : (
-                                  <>
-                                    <span style={{ height: "75px" }}>
-                                      <img
-                                        src={
-                                          result.poster_path == null
-                                            ? "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
-                                            : `http://image.tmdb.org/t/p/w500${result.poster_path}`
-                                        }
-                                        style={{ width: "50px" }}
-                                        title={result.title}
-                                      />
-                                    </span>
-                                    <p
-                                      style={{
-                                        display: "flex",
-                                        alignItems: "center",
-                                        marginLeft: "10px"
-                                      }}
-                                    >
-                                      {result.title}
-                                      <span
-                                        style={{
-                                          fontSize: "0.625rem",
-                                          textTransform: "uppercase",
-                                          marginLeft: "6px",
-                                          backgroundColor: "#95878b",
-                                          color: "white",
-                                          padding: "0px 10px"
-                                        }}
-                                      >
-                                        Film
-                                      </span>
-                                    </p>
-                                  </>
-                                )}
-                              </a>
-                            </li>
-                          ))}
-                      </ul>
+                      O'Films
+                    </a>
+                    <ul className="right">
+                      {props.auth.isAuthenticated ? (
+                        <>
+                          <li>
+                            <i
+                              className="material-icons colored search-icontooltipped"
+                              data-position="bottom"
+                              data-tooltip="Rechercher un film, une série, un acteur..."
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                setIsSearching(true);
+                              }}
+                            >
+                              search
+                            </i>
+                          </li>
+                          <li>
+                            <a
+                              className="tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Accéder à mon profil"
+                              href="/mon-compte"
+                            >
+                              <i className="material-icons colored">person</i>
+                              <span className="account-text">Mon compte</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              className="tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Me déconnecter"
+                              href="/"
+                              onClick={logout}
+                            >
+                              <i className="material-icons colored">
+                                exit_to_app
+                              </i>
+                            </a>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li>
+                            <i
+                              className="material-icons colored search-icontooltipped"
+                              data-position="bottom"
+                              data-tooltip="Rechercher un film, une série, un acteur..."
+                              style={{ cursor: "pointer" }}
+                              onClick={() => {
+                                setIsSearching(true);
+                              }}
+                            >
+                              search
+                            </i>
+                          </li>
+                          <li>
+                            <a
+                              className="tooltipped"
+                              data-position="bottom"
+                              data-tooltip="Se connecter / S'inscrire"
+                              href="/connexion"
+                            >
+                              <i className="material-icons colored">person</i>
+                            </a>
+                          </li>
+                        </>
+                      )}
+                    </ul>
+                  </>
+                ) : (
+                  <nav
+                    onBlur={() => {
+                      setIsSearching(false);
+                    }}
+                    style={{ position: "relative" }}
+                  >
+                    <div class="nav-wrapper">
+                      <form>
+                        <div class="input-field">
+                          <input
+                            id="search"
+                            type="search"
+                            placeholder="Rechercher un film, une série, un acteur..."
+                            value={searchInputValue}
+                            required
+                            autoComplete="off"
+                            onChange={e => handleChange(e)}
+                          />
+                          <label class="label-icon" for="search">
+                            <i class="material-icons">search</i>
+                          </label>
+                          <i
+                            class="material-icons"
+                            onClick={() => {
+                              setIsSearching(false);
+                              setSearchInputValue("");
+                            }}
+                          >
+                            close
+                          </i>
+                        </div>
+                      </form>
                     </div>
-                  )}
-                </nav>
-              )}
+                    {searchInputValue.length !== 0 && (
+                      <div
+                        className="search-results"
+                        style={{
+                          width: "100%",
+                          height: "500px",
+                          backgroundColor: "#232d32",
+                          overflowY: "scroll",
+                          position: "absolute",
+                          left: "0",
+                          zIndex: "99"
+                        }}
+                      >
+                        <ul className="popup-list">
+                          {searchResult &&
+                            searchResult.map(result => (
+                              <li
+                                key={result.id}
+                                className="popup-list-element"
+                              >
+                                <a
+                                  className="grey-text"
+                                  href={`/${(result.media_type === "movie" &&
+                                    "film") ||
+                                    (result.media_type === "tv" && "serie") ||
+                                    (result.media_type === "person" &&
+                                      "person")}/${result.id}`}
+                                  style={{
+                                    height: "75px",
+                                    display: "flex",
+                                    alignItems: "center"
+                                  }}
+                                  onClick={() => {
+                                    setSearchActive(false);
+                                  }}
+                                >
+                                  {result.media_type === "person" ||
+                                  result.media_type === "tv" ? (
+                                    <>
+                                      <span style={{ height: "75px" }}>
+                                        <img
+                                          src={
+                                            result.profile_path == null
+                                              ? "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
+                                              : `http://image.tmdb.org/t/p/w500${result.profile_path}`
+                                          }
+                                          style={{ height: "75px" }}
+                                        />
+                                      </span>
+                                      <p
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          marginLeft: "10px"
+                                        }}
+                                      >
+                                        {result.name}
+                                        <span
+                                          style={{
+                                            fontSize: "0.625rem",
+                                            textTransform: "uppercase",
+                                            marginLeft: "6px",
+                                            backgroundColor: "#95878b",
+                                            color: "white",
+                                            padding: "0px 10px"
+                                          }}
+                                        >
+                                          {result.media_type === "person"
+                                            ? "Personne"
+                                            : "Série"}
+                                        </span>
+                                      </p>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <span style={{ height: "75px" }}>
+                                        <img
+                                          src={
+                                            result.poster_path == null
+                                              ? "https://via.placeholder.com/200x300/2C2F33/FFFFFF/png?text=Image+non+disponible"
+                                              : `http://image.tmdb.org/t/p/w500${result.poster_path}`
+                                          }
+                                          style={{ width: "50px" }}
+                                          title={result.title}
+                                        />
+                                      </span>
+                                      <p
+                                        style={{
+                                          display: "flex",
+                                          alignItems: "center",
+                                          marginLeft: "10px"
+                                        }}
+                                      >
+                                        {result.title}
+                                        <span
+                                          style={{
+                                            fontSize: "0.625rem",
+                                            textTransform: "uppercase",
+                                            marginLeft: "6px",
+                                            backgroundColor: "#95878b",
+                                            color: "white",
+                                            padding: "0px 10px"
+                                          }}
+                                        >
+                                          Film
+                                        </span>
+                                      </p>
+                                    </>
+                                  )}
+                                </a>
+                              </li>
+                            ))}
+                        </ul>
+                      </div>
+                    )}
+                  </nav>
+                )}
+              </div>
             </div>
           </div>
         </div>

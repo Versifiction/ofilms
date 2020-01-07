@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useForceUpdate from "use-force-update";
 import axios from "axios";
 import classnames from "classnames";
+import moment from "moment";
 import M from "materialize-css";
 
 import "../../App.css";
@@ -70,10 +71,6 @@ function User({ match }) {
     }
   }
 
-  function handleChange(e) {}
-
-  function update() {}
-
   return (
     <>
       <Nav />
@@ -85,8 +82,163 @@ function User({ match }) {
           user.map(data => (
             <>
               <h2 className="media-type">{data.username}</h2>
-              <h4 style={{ color: "white" }}>Informations du profil</h4>
               <div className="row">
+                <div className="col s12">
+                  <h4 style={{ color: "white" }}>Informations du profil</h4>
+                </div>
+              </div>
+
+              <div className="row" style={{ marginTop: "50px" }}>
+                <div className="col s12 m6">
+                  {user &&
+                    user.map(data => (
+                      <>
+                        {/* <p>
+                          Adresse e-mail :{" "}
+                          <span style={{ color: "white" }}>{data.email}</span>
+                        </p> */}
+                        <p>
+                          Pseudo :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.username}
+                          </span>
+                        </p>
+                        {/* <p>
+                          Nom :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.lastname}
+                          </span>
+                        </p>
+                        <p>
+                          {" "}
+                          Prénom :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.firstname}
+                          </span>
+                        </p> */}
+                        <p>
+                          Sexe :{" "}
+                          <span style={{ color: "white" }}>{data.sexe}</span>
+                        </p>
+                        {/* <p>
+                          Téléphone mobile :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.mobilePhone}
+                          </span>
+                        </p>
+                        <p>
+                          Département :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.departement}
+                          </span>
+                        </p>
+                        <p>
+                          Ville :{" "}
+                          <span style={{ color: "white" }}>{data.city}</span>
+                        </p> */}
+                        <p>
+                          Date d'inscription :{" "}
+                          <span style={{ color: "white" }}>
+                            {moment(data.creationDate)
+                              .locale("fr")
+                              .calendar()}
+                          </span>
+                        </p>
+                        <p>
+                          Date de dernière connexion :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.lastConnection !== null
+                              ? moment(data.lastConnection)
+                                  .locale("fr")
+                                  .calendar()
+                              : "-"}
+                          </span>
+                        </p>
+                        <p>
+                          Vérifié :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.isVerified ? (
+                              <i
+                                className="material-icons"
+                                style={{ color: "green" }}
+                              >
+                                check
+                              </i>
+                            ) : (
+                              <i
+                                className="material-icons"
+                                style={{ color: "red" }}
+                              >
+                                close
+                              </i>
+                            )}
+                          </span>
+                        </p>
+                        <p>
+                          Modérateur :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.isModerator ? (
+                              <i
+                                className="material-icons"
+                                style={{ color: "green" }}
+                              >
+                                check
+                              </i>
+                            ) : (
+                              <i
+                                className="material-icons"
+                                style={{ color: "red" }}
+                              >
+                                close
+                              </i>
+                            )}
+                          </span>
+                        </p>
+                        <p>
+                          Admin :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.isAdmin ? (
+                              <i
+                                className="material-icons"
+                                style={{ color: "green" }}
+                              >
+                                check
+                              </i>
+                            ) : (
+                              <i
+                                className="material-icons"
+                                style={{ color: "red" }}
+                              >
+                                close
+                              </i>
+                            )}
+                          </span>
+                        </p>
+                        <p>
+                          Fondateur :{" "}
+                          <span style={{ color: "white" }}>
+                            {data.isFounder ? (
+                              <i
+                                className="material-icons"
+                                style={{ color: "green" }}
+                              >
+                                check
+                              </i>
+                            ) : (
+                              <i
+                                className="material-icons"
+                                style={{ color: "red" }}
+                              >
+                                close
+                              </i>
+                            )}
+                          </span>
+                        </p>
+                      </>
+                    ))}
+                </div>
+              </div>
+              {/* <div className="row">
                 <form
                   className="col s12"
                   autoComplete="off"
@@ -309,7 +461,7 @@ function User({ match }) {
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> */}
             </>
           ))
         )}
