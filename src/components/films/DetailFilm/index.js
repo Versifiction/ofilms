@@ -316,7 +316,7 @@ function DetailFilm(props) {
                           <>
                             <p>Favoriser</p>
                             <i
-                              className="material-iconstooltipped"
+                              className="material-icons tooltipped"
                               data-position="bottom"
                               data-tooltip="Ajouter ce film à mes favoris"
                               data-micron="bounce"
@@ -335,7 +335,7 @@ function DetailFilm(props) {
                           <div style={{ color: "yellow" }}>
                             <p style={{ color: "inherit" }}>Favorisé</p>
                             <i
-                              className="material-iconstooltipped"
+                              className="material-icons tooltipped"
                               data-position="bottom"
                               data-tooltip="Retirer ce film de mes favoris"
                               data-micron="bounce"
@@ -356,7 +356,7 @@ function DetailFilm(props) {
                           <>
                             <p>Liker</p>
                             <i
-                              className="material-iconstooltipped"
+                              className="material-icons tooltipped"
                               data-position="bottom"
                               data-tooltip="Ajouter ce film à mes likes"
                               data-micron="bounce"
@@ -375,7 +375,7 @@ function DetailFilm(props) {
                           <div style={{ color: "green" }}>
                             <p style={{ color: "inherit" }}>Liké</p>
                             <i
-                              className="material-iconstooltipped"
+                              className="material-icons tooltipped"
                               data-position="bottom"
                               data-tooltip="Retirer ce film de mes likes"
                               data-micron="bounce"
@@ -397,7 +397,7 @@ function DetailFilm(props) {
                           <>
                             <p>Disliker</p>
                             <i
-                              className="material-iconstooltipped"
+                              className="material-icons tooltipped"
                               data-position="bottom"
                               data-tooltip="Ajouter ce film à mes dislikes"
                               data-micron="bounce"
@@ -416,7 +416,7 @@ function DetailFilm(props) {
                           <div style={{ color: "red" }}>
                             <p style={{ color: "inherit" }}>Disliké</p>
                             <i
-                              className="material-iconstooltipped"
+                              className="material-icons tooltipped"
                               data-position="bottom"
                               data-tooltip="Retirer ce film de mes dislikes"
                               data-micron="bounce"
@@ -436,7 +436,7 @@ function DetailFilm(props) {
                       <div className="col s12 m3">
                         <p>Ajouter</p>
                         <i
-                          className="material-iconstooltipped"
+                          className="material-icons tooltipped"
                           data-position="bottom"
                           data-tooltip="Ajouter ce film à une liste"
                           style={{

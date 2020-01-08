@@ -311,106 +311,112 @@ function DetailSerie(props) {
                       textAlign: "center"
                     }}
                   >
-                    <div
-                      className="col s12 m3"
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
+                    <div className="col s12 m3">
                       {!favorited ? (
-                        <i
-                          className="material-iconstooltipped"
-                          data-position="bottom"
-                          data-tooltip="Ajouter cette série à mes favoris"
-                          data-micron="bounce"
-                          style={{ cursor: "pointer", color: "#95878B" }}
-                          onClick={toggleFavorited}
-                        >
-                          star
-                        </i>
+                        <>
+                          <p>Favoriser</p>
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Ajouter cette série à mes favoris"
+                            data-micron="bounce"
+                            style={{ cursor: "pointer", color: "#95878B" }}
+                            onClick={toggleFavorited}
+                          >
+                            star
+                          </i>
+                        </>
                       ) : (
-                        <i
-                          className="material-iconstooltipped"
-                          data-position="bottom"
-                          data-tooltip="Retirer cette série de mes favoris"
-                          data-micron="bounce"
-                          style={{
-                            cursor: "pointer",
-                            color: "yellow"
-                          }}
-                          onClick={toggleFavorited}
-                        >
-                          star
-                        </i>
+                        <div style={{ color: "yellow" }}>
+                          <p style={{ color: "inherit" }}>Favorisé</p>
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Retirer cette série de mes favoris"
+                            data-micron="bounce"
+                            style={{
+                              cursor: "pointer",
+                              color: "yellow"
+                            }}
+                            onClick={toggleFavorited}
+                          >
+                            star
+                          </i>
+                        </div>
                       )}
                     </div>
-                    <div
-                      className="col s12 m3"
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
+                    <div className="col s12 m3">
                       {!liked ? (
-                        <i
-                          className="material-iconstooltipped"
-                          data-position="bottom"
-                          data-tooltip="Ajouter cette série à mes likes"
-                          data-micron="bounce"
-                          style={{ cursor: "pointer", color: "#95878B" }}
-                          onClick={toggleLike}
-                        >
-                          thumb_up
-                        </i>
+                        <>
+                          <p>Liker</p>
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Ajouter cette série à mes likes"
+                            data-micron="bounce"
+                            style={{ cursor: "pointer", color: "#95878B" }}
+                            onClick={toggleLike}
+                          >
+                            thumb_up
+                          </i>
+                        </>
                       ) : (
-                        <i
-                          className="material-iconstooltipped"
-                          data-position="bottom"
-                          data-tooltip="Retirer cette série de mes likes"
-                          data-micron="bounce"
-                          style={{
-                            cursor: "pointer",
-                            color: "green"
-                          }}
-                          onClick={toggleLike}
-                        >
-                          thumb_up
-                        </i>
+                        <div style={{ color: "green" }}>
+                          <p style={{ color: "inherit" }}>Liké</p>
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Retirer cette série de mes likes"
+                            data-micron="bounce"
+                            style={{
+                              cursor: "pointer",
+                              color: "green"
+                            }}
+                            onClick={toggleLike}
+                          >
+                            thumb_up
+                          </i>
+                        </div>
                       )}
                     </div>
-                    <div
-                      className="col s12 m3"
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
+                    <div className="col s12 m3">
                       {!disliked ? (
-                        <i
-                          className="material-iconstooltipped"
-                          data-position="bottom"
-                          data-tooltip="Ajouter cette série à mes dislikes"
-                          data-micron="bounce"
-                          style={{ cursor: "pointer", color: "#95878B" }}
-                          onClick={toggleDislike}
-                        >
-                          thumb_down
-                        </i>
+                        <>
+                          <p>Disliker</p>
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Ajouter cette série à mes dislikes"
+                            data-micron="bounce"
+                            style={{ cursor: "pointer", color: "#95878B" }}
+                            onClick={toggleDislike}
+                          >
+                            thumb_down
+                          </i>
+                        </>
                       ) : (
-                        <i
-                          className="material-iconstooltipped"
-                          data-position="bottom"
-                          data-tooltip="Retirer cette série de mes dislikes"
-                          data-micron="bounce"
-                          style={{
-                            cursor: "pointer",
-                            color: "red"
-                          }}
-                          onClick={toggleDislike}
-                        >
-                          thumb_down
-                        </i>
+                        <div style={{ color: "red" }}>
+                          <p style={{ color: "inherit" }}>Disliké</p>
+                          <i
+                            className="material-icons tooltipped"
+                            data-position="bottom"
+                            data-tooltip="Retirer cette série de mes dislikes"
+                            data-micron="bounce"
+                            style={{
+                              cursor: "pointer",
+                              color: "red"
+                            }}
+                            onClick={toggleDislike}
+                          >
+                            thumb_down
+                          </i>
+                        </div>
                       )}
                     </div>
-                    <div
-                      className="col s12 m3"
-                      style={{ display: "flex", justifyContent: "center" }}
-                    >
+                    <div className="col s12 m3">
                       <p>Ajouter</p>
                       <i
-                        className="material-iconstooltipped"
+                        className="material-icons tooltipped"
                         data-position="bottom"
                         data-tooltip="Ajouter cette série à une liste"
                         style={{ cursor: "pointer", color: "#95878B" }}

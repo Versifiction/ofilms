@@ -386,7 +386,7 @@ function User({ match }) {
                   </div>
                   <div className="row" style={{ position: "relative" }}>
                     <i
-                      className="material-iconstooltipped"
+                      className="material-icons tooltipped"
                       data-position="bottom"
                       data-tooltip="Vous devez renseigner votre département avant de sélectionner la ville"
                       style={{
