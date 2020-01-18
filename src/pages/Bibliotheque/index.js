@@ -208,16 +208,7 @@ function Bibliotheque() {
                       />
                       <br />
                       <div className="card-body">
-                        <p
-                          className="film-types-title"
-                          // style={{
-                          //   fontSize: "1.25rem",
-                          //   textTransform: "uppercase",
-                          //   textOverflow: "ellipsis",
-                          //   overflow: "hidden",
-                          //   whiteSpace: "nowrap"
-                          // }}
-                        >
+                        <p className="film-types-title">
                           {media && media.title}
                         </p>
                       </div>
