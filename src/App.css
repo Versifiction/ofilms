@@ -662,7 +662,7 @@ ul.pagination a {
   padding: 6px;
 }
 
-.pagination li.active {
+.pagination li.active-page {
   background-color: #0cd0fc;
 }
 

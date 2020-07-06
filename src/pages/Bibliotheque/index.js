@@ -47,7 +47,7 @@ function Bibliotheque() {
     // console.log("idGenreChosen ", idGenreChosen);
     // loadMoviesGenres();
     // loadTvGenres();
-    search();
+    search(1);
   }, [idGenreChosen]);
 
   useEffect(() => {
@@ -89,16 +89,16 @@ function Bibliotheque() {
   //   }
   // }
 
-  async function search() {
+  async function search(page) {
     console.log("search---");
     try {
       setPending(true);
       const dataGenres = await axios.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${page}`
       );
       console.log(
         "searchUrl ",
-        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${activePage}`
+        `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_API_KEY}&language=fr-FR&include_adult=false&with_genres=${idGenreChosen}&page=${page}`
       );
       setResult(dataGenres.data.results);
       setTotalPages(dataGenres.data.total_pages);
@@ -129,7 +129,11 @@ function Bibliotheque() {
   }
 
   function handlePageChange() {
-    setActivePage($("li.active").text());
+    console.log(document.getElementsByClassName("active-page")[0].textContent);
+    search(document.getElementsByClassName("active-page")[0].textContent);
+    setActivePage(
+      document.getElementsByClassName("active-page")[0].textContent
+    );
   }
 
   return (
@@ -240,7 +244,7 @@ function Bibliotheque() {
             onPageChange={handlePageChange}
             containerClassName={"pagination"}
             subContainerClassName={"pages pagination"}
-            activeClassName={"active"}
+            activeClassName={"active-page"}
           />
         </div>
       )}

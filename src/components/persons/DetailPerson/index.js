@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import useForceUpdate from "use-force-update";
-import StarRatingComponent from "react-star-rating-component";
-import Flag from "react-world-flags";
 import ItemsCarousel from "react-items-carousel";
 import $ from "jquery";
 import moment from "moment";
